@@ -99,10 +99,8 @@ export default function AIChatPage() {
     }
   }
 
-  async function handleSend(e: FormEvent) {
-    e.preventDefault();
-    const text = input.trim();
-    if (!text || loading) return;
+  async function sendMessage(text: string) {
+    if (!text.trim() || loading) return;
 
     const userMsg: Message = {
       id: crypto.randomUUID(),
@@ -113,7 +111,6 @@ export default function AIChatPage() {
     setInput("");
     setLoading(true);
 
-    // Build history for API (exclude the current message, it's sent separately)
     const history = messages.map((m) => ({
       role: m.role,
       content: m.content,
@@ -144,7 +141,6 @@ export default function AIChatPage() {
         return;
       }
 
-      // Get conversation ID and title from header (for new conversations)
       const convId = response.headers.get("X-Conversation-Id");
       if (convId && !activeConvId) {
         setActiveConvId(convId);
@@ -162,7 +158,6 @@ export default function AIChatPage() {
         ]);
       }
 
-      // Stream response
       const assistantMsg: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
@@ -200,6 +195,11 @@ export default function AIChatPage() {
     }
 
     setLoading(false);
+  }
+
+  async function handleSend(e: FormEvent) {
+    e.preventDefault();
+    sendMessage(input.trim());
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -282,6 +282,23 @@ export default function AIChatPage() {
                 Zastavite vprašanje, prosite za pomoč pri pisanju ali se
                 pogovarjajte o marketinških idejah — vse v slovenščini.
               </p>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                {[
+                  "Napiši mi rojstnodnevno voščilo za prijatelja",
+                  "Predlagaj 5 naslovov za blog o zdravi prehrani",
+                  "Napiši kratek opis podjetja za spletno stran",
+                ].map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    onClick={() => sendMessage(suggestion)}
+                    disabled={loading}
+                    className="px-4 py-3 rounded-xl text-sm text-left text-[#E1E1E1]/60 hover:text-white bg-white/[0.03] border border-white/[0.06] hover:border-[#FEB089]/30 hover:bg-white/[0.06] transition-all duration-200 disabled:opacity-50"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
