@@ -328,7 +328,7 @@ export default function AIChatPage() {
                 placeholder="Napišite sporočilo..."
                 rows={1}
                 disabled={loading}
-                className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors duration-200 resize-none pr-12"
+                className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors duration-200 resize-none pr-12 overflow-hidden"
               />
             </div>
             <button
