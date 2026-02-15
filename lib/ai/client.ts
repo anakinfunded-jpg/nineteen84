@@ -7,6 +7,32 @@ const MODELS: Record<ModelTier, string> = {
   premium: "claude-sonnet-4-5-20250929",
 };
 
+// Auto-routing: analyze prompt complexity to pick the right model for premium users
+const COMPLEX_KEYWORDS = [
+  "analiziraj", "analiza", "primerjaj", "primerjava",
+  "razloži", "pojasni", "ovrednoti", "oceni",
+  "napiši esej", "napiši članek", "napiši poročilo",
+  "ustvari strategijo", "načrtuj", "predlagaj",
+  "kreativno", "zgodba", "pesem", "scenarij",
+  "prevedi", "povzemi dolgo", "podrobno",
+];
+
+export function autoRoute(input: string, tier: ModelTier): ModelTier {
+  if (tier === "free") return "free";
+
+  const wordCount = input.trim().split(/\s+/).length;
+  const lower = input.toLowerCase();
+  const hasComplexKeyword = COMPLEX_KEYWORDS.some((kw) => lower.includes(kw));
+  const hasMultipleQuestions = (input.match(/\?/g) || []).length >= 2;
+  const isLong = wordCount > 80;
+
+  if (hasComplexKeyword || hasMultipleQuestions || isLong) {
+    return "premium";
+  }
+
+  return "free";
+}
+
 // Lazy-init to avoid throwing at module load if key is missing
 let _client: Anthropic | null = null;
 function getClient() {
@@ -19,18 +45,24 @@ export async function generateStream(options: {
   userPrompt: string;
   tier?: ModelTier;
   maxTokens?: number;
+  useAutoRoute?: boolean;
 }) {
   const {
     systemPrompt,
     userPrompt,
     tier = "free",
     maxTokens = 2048,
+    useAutoRoute = false,
   } = options;
+
+  const effectiveTier = useAutoRoute
+    ? autoRoute(userPrompt, tier)
+    : tier;
 
   const client = getClient();
 
   return client.messages.create({
-    model: MODELS[tier],
+    model: MODELS[effectiveTier],
     max_tokens: maxTokens,
     system: systemPrompt,
     messages: [{ role: "user", content: userPrompt }],
@@ -48,18 +80,25 @@ export async function chatStream(options: {
   messages: ChatMessage[];
   tier?: ModelTier;
   maxTokens?: number;
+  useAutoRoute?: boolean;
 }) {
   const {
     systemPrompt,
     messages,
     tier = "free",
     maxTokens = 4096,
+    useAutoRoute = false,
   } = options;
+
+  const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
+  const effectiveTier = useAutoRoute && lastUserMsg
+    ? autoRoute(lastUserMsg.content, tier)
+    : tier;
 
   const client = getClient();
 
   return client.messages.create({
-    model: MODELS[tier],
+    model: MODELS[effectiveTier],
     max_tokens: maxTokens,
     system: systemPrompt,
     messages,

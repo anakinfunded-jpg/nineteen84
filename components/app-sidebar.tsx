@@ -12,17 +12,63 @@ import {
   Languages,
   CreditCard,
   LogOut,
+  Eye,
+  Volume2,
+  Paintbrush,
+  Replace,
+  Brain,
+  ArrowRightLeft,
+  type LucideIcon,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 
-const navItems = [
-  { label: "Nadzorna plošča", href: "/dashboard", icon: LayoutDashboard },
-  { label: "AI Chat", href: "/ai-chat", icon: MessageSquare },
-  { label: "AI Besedila", href: "/ai-besedila", icon: FileText },
-  { label: "AI Grafika", href: "/ai-grafika", icon: ImageIcon },
-  { label: "AI Dokumenti", href: "/ai-dokumenti", icon: FilePenLine },
-  { label: "AI Prevajalnik", href: "/ai-prevajalnik", icon: Languages },
-  { label: "Naročnina", href: "/narocnina", icon: CreditCard },
+type NavItem = { label: string; href: string; icon: LucideIcon };
+type NavGroup = { title: string; items: NavItem[] };
+
+const navGroups: NavGroup[] = [
+  {
+    title: "Besedila",
+    items: [
+      { label: "AI Chat", href: "/ai-chat", icon: MessageSquare },
+      { label: "AI Besedila", href: "/ai-besedila", icon: FileText },
+      { label: "AI Dokumenti", href: "/ai-dokumenti", icon: FilePenLine },
+      { label: "AI Prevajalnik", href: "/ai-prevajalnik", icon: Languages },
+    ],
+  },
+  {
+    title: "Grafika",
+    items: [
+      { label: "AI Grafika", href: "/ai-grafika", icon: ImageIcon },
+      { label: "AI Inpainting", href: "/ai-inpainting", icon: Paintbrush },
+      { label: "Najdi in spremeni", href: "/ai-zamenjava", icon: Replace },
+    ],
+  },
+  {
+    title: "Zvok",
+    items: [
+      { label: "AI Zvok", href: "/ai-zvok", icon: Volume2 },
+    ],
+  },
+  {
+    title: "Analiza",
+    items: [
+      { label: "Računalniški vid", href: "/ai-vid", icon: Eye },
+      { label: "AI Spomin", href: "/ai-spomin", icon: Brain },
+    ],
+  },
+  {
+    title: "Orodja",
+    items: [
+      { label: "Pretvorniki", href: "/pretvorniki", icon: ArrowRightLeft },
+    ],
+  },
+  {
+    title: "Račun",
+    items: [
+      { label: "Nadzorna plošča", href: "/dashboard", icon: LayoutDashboard },
+      { label: "Naročnina", href: "/narocnina", icon: CreditCard },
+    ],
+  },
 ];
 
 export function AppSidebar({ user }: { user: User }) {
@@ -61,31 +107,38 @@ export function AppSidebar({ user }: { user: User }) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-4 px-3 overflow-y-auto">
-        <ul className="space-y-1">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors duration-200 ${
-                    isActive
-                      ? "bg-white/[0.06] text-white"
-                      : "text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.03]"
-                  }`}
-                >
-                  <item.icon
-                    className={`w-[18px] h-[18px] shrink-0 ${
-                      isActive ? "text-[#FEB089]" : ""
-                    }`}
-                  />
-                  {item.label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+      <nav className="flex-1 py-3 px-3 overflow-y-auto">
+        {navGroups.map((group) => (
+          <div key={group.title} className="mb-3">
+            <p className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#E1E1E1]/25">
+              {group.title}
+            </p>
+            <ul className="space-y-0.5">
+              {group.items.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-colors duration-200 ${
+                        isActive
+                          ? "bg-white/[0.06] text-white"
+                          : "text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.03]"
+                      }`}
+                    >
+                      <item.icon
+                        className={`w-[18px] h-[18px] shrink-0 ${
+                          isActive ? "text-[#FEB089]" : ""
+                        }`}
+                      />
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </nav>
 
       {/* User section */}

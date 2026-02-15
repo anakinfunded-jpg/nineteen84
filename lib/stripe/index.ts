@@ -10,6 +10,11 @@ export interface PlanConfig {
   priceEur: string;
   words: number;
   images: number;
+  tts: number;
+  stt: number;
+  ocr: number;
+  inpainting: number;
+  documents: number;
   tier: "free" | "premium";
   features: string[];
 }
@@ -21,6 +26,11 @@ export const PLANS: Record<PlanId, PlanConfig> = {
     priceEur: "0",
     words: 1_000,
     images: 5,
+    tts: 5,
+    stt: 5,
+    ocr: 10,
+    inpainting: 3,
+    documents: 5,
     tier: "free",
     features: [
       "1.000 besed",
@@ -35,6 +45,11 @@ export const PLANS: Record<PlanId, PlanConfig> = {
     priceEur: "14,90",
     words: 20_000,
     images: 200,
+    tts: 50,
+    stt: 30,
+    ocr: 100,
+    inpainting: 20,
+    documents: 25,
     tier: "free",
     features: [
       "20.000 besed",
@@ -50,6 +65,11 @@ export const PLANS: Record<PlanId, PlanConfig> = {
     priceEur: "24,90",
     words: 50_000,
     images: 500,
+    tts: 200,
+    stt: 120,
+    ocr: 500,
+    inpainting: 100,
+    documents: 100,
     tier: "premium",
     features: [
       "50.000 besed",
@@ -65,6 +85,11 @@ export const PLANS: Record<PlanId, PlanConfig> = {
     priceEur: "39,90",
     words: 100_000,
     images: 1_000,
+    tts: 999_999,
+    stt: 999_999,
+    ocr: 999_999,
+    inpainting: 999_999,
+    documents: 999_999,
     tier: "premium",
     features: [
       "100.000 besed",

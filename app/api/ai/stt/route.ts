@@ -1,0 +1,61 @@
+import { createClient } from "@/lib/supabase/server";
+import { checkSttLimit, incrementStt } from "@/lib/credits";
+import OpenAI from "openai";
+import { NextRequest, NextResponse } from "next/server";
+
+const openai = new OpenAI();
+
+export async function POST(request: NextRequest) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
+  }
+
+  const withinLimit = await checkSttLimit(user.id);
+  if (!withinLimit) {
+    return NextResponse.json(
+      { error: "Dosegli ste mesečno omejitev prepisovanja zvoka. Nadgradite paket za več." },
+      { status: 403 }
+    );
+  }
+
+  const formData = await request.formData();
+  const file = formData.get("audio") as File | null;
+  const language = (formData.get("language") as string) || "sl";
+
+  if (!file) {
+    return NextResponse.json(
+      { error: "Zvočna datoteka je obvezna" },
+      { status: 400 }
+    );
+  }
+
+  // Max 25 MB (OpenAI Whisper limit)
+  if (file.size > 25 * 1024 * 1024) {
+    return NextResponse.json(
+      { error: "Datoteka je prevelika. Največja velikost je 25 MB." },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const transcription = await openai.audio.transcriptions.create({
+      model: "whisper-1",
+      file: file,
+      language,
+      response_format: "text",
+    });
+
+    await incrementStt(user.id);
+
+    return NextResponse.json({ text: transcription });
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Napaka pri prepisovanju zvoka";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
