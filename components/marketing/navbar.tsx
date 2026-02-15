@@ -86,33 +86,35 @@ export function MarketingNavbar() {
               <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${featuresOpen ? "rotate-180" : ""}`} />
             </Link>
 
-            {/* Mega menu */}
+            {/* Mega menu — outer wrapper is invisible bridge so hover doesn't break */}
             {featuresOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[560px] p-4 bg-[#1a1a1a] border border-white/[0.06] rounded-2xl shadow-2xl">
-                <div className="grid grid-cols-2 gap-1">
-                  {featureLinks.map((item) => (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 w-[560px] pt-2">
+                <div className="p-4 bg-[#1a1a1a] border border-white/[0.06] rounded-2xl shadow-2xl">
+                  <div className="grid grid-cols-2 gap-1">
+                    {featureLinks.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors group"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-white/[0.08] transition-colors">
+                          <item.icon className="w-4 h-4 text-[#FEB089]" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-white">{item.label}</p>
+                          <p className="text-xs text-[#E1E1E1]/40 mt-0.5">{item.desc}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-white/[0.06]">
                     <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors group"
+                      href="/funkcije"
+                      className="text-xs text-[#FEB089] hover:text-[#FEB089]/80 transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-white/[0.08] transition-colors">
-                        <item.icon className="w-4 h-4 text-[#FEB089]" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">{item.label}</p>
-                        <p className="text-xs text-[#E1E1E1]/40 mt-0.5">{item.desc}</p>
-                      </div>
+                      Poglej vse funkcije →
                     </Link>
-                  ))}
-                </div>
-                <div className="mt-3 pt-3 border-t border-white/[0.06]">
-                  <Link
-                    href="/funkcije"
-                    className="text-xs text-[#FEB089] hover:text-[#FEB089]/80 transition-colors"
-                  >
-                    Poglej vse funkcije →
-                  </Link>
+                  </div>
                 </div>
               </div>
             )}
