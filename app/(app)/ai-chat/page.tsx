@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, type FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
+import ReactMarkdown from "react-markdown";
 import {
   Send,
   Loader2,
@@ -295,7 +296,13 @@ export default function AIChatPage() {
                         : "bg-white/[0.04] text-[#E1E1E1]/80"
                     }`}
                   >
-                    <div className="whitespace-pre-wrap">{msg.content}</div>
+                    {msg.role === "assistant" ? (
+                      <div className="prose-chat">
+                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                      </div>
+                    ) : (
+                      <div className="whitespace-pre-wrap">{msg.content}</div>
+                    )}
                   </div>
                 </div>
               ))}
