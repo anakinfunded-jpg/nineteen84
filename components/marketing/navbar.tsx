@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   MessageSquare,
   FileText,
@@ -48,6 +48,18 @@ export function MarketingNavbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openFeatures = useCallback(() => {
+    if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; }
+    setFeaturesOpen(true);
+  }, []);
+
+  const closeFeatures = useCallback(() => {
+    closeTimer.current = setTimeout(() => setFeaturesOpen(false), 150);
+  }, []);
+
+  useEffect(() => { return () => { if (closeTimer.current) clearTimeout(closeTimer.current); }; }, []);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -71,8 +83,8 @@ export function MarketingNavbar() {
           {/* Features dropdown */}
           <div
             className="relative"
-            onMouseEnter={() => setFeaturesOpen(true)}
-            onMouseLeave={() => setFeaturesOpen(false)}
+            onMouseEnter={openFeatures}
+            onMouseLeave={closeFeatures}
           >
             <Link
               href="/funkcije"
