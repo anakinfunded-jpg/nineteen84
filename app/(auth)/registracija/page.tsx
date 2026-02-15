@@ -34,7 +34,7 @@ export default function RegistracijaPage() {
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/auth/callback`,
       },
     });
 
@@ -51,10 +51,12 @@ export default function RegistracijaPage() {
   async function handleGoogleLogin() {
     setGoogleLoading(true);
     const supabase = createClient();
+    const redirectBase =
+      process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${redirectBase}/auth/callback`,
       },
     });
   }

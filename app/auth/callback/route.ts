@@ -1,9 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 function getBaseUrl(request: Request): string {
-  // On Vercel, request.url may use internal hostname — prefer forwarded host
   const forwardedHost = request.headers.get("x-forwarded-host");
   const forwardedProto = request.headers.get("x-forwarded-proto") ?? "https";
   if (forwardedHost) {
@@ -12,7 +12,7 @@ function getBaseUrl(request: Request): string {
   return new URL(request.url).origin;
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/dashboard";
@@ -20,6 +20,10 @@ export async function GET(request: Request) {
 
   if (code) {
     const cookieStore = await cookies();
+
+    // Buffer cookies so we can set them on the redirect response
+    const responseCookies: { name: string; value: string; options: Record<string, unknown> }[] = [];
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -29,9 +33,10 @@ export async function GET(request: Request) {
             return cookieStore.getAll();
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options);
+              responseCookies.push({ name, value, options });
+            });
           },
         },
       }
@@ -39,7 +44,12 @@ export async function GET(request: Request) {
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${baseUrl}${next}`);
+      const response = NextResponse.redirect(`${baseUrl}${next}`);
+      // Ensure auth cookies are on the redirect response
+      responseCookies.forEach(({ name, value, options }) => {
+        response.cookies.set(name, value, options as any);
+      });
+      return response;
     }
   }
 

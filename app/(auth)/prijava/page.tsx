@@ -33,16 +33,17 @@ export default function PrijavaPage() {
     }
 
     router.push("/dashboard");
-    router.refresh();
   }
 
   async function handleGoogleLogin() {
     setGoogleLoading(true);
     const supabase = createClient();
+    const redirectBase =
+      process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${redirectBase}/auth/callback`,
       },
     });
   }
