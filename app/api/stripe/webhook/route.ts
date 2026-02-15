@@ -1,5 +1,6 @@
 import { stripe, getPlanByPriceId } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getAffiliateByCode, recordConversion, getPlanPrice } from "@/lib/affiliate";
 import { NextRequest } from "next/server";
 import type Stripe from "stripe";
 
@@ -67,6 +68,24 @@ export async function POST(request: NextRequest) {
           },
           { onConflict: "user_id" }
         );
+
+        // Record affiliate conversion if referred
+        const affiliateCode = session.metadata?.affiliate_code;
+        if (affiliateCode && userId) {
+          const affiliate = await getAffiliateByCode(affiliateCode);
+          if (affiliate) {
+            const planPrice = getPlanPrice(planId);
+            if (planPrice > 0) {
+              await recordConversion(
+                affiliate.id,
+                userId,
+                subscriptionId,
+                planId,
+                planPrice
+              );
+            }
+          }
+        }
       }
       break;
     }
@@ -105,6 +124,12 @@ export async function POST(request: NextRequest) {
           cancel_at_period_end: false,
           updated_at: new Date().toISOString(),
         })
+        .eq("stripe_subscription_id", subscription.id);
+
+      // Mark affiliate conversion as canceled if applicable
+      await supabase
+        .from("affiliate_conversions")
+        .update({ status: "canceled" })
         .eq("stripe_subscription_id", subscription.id);
       break;
     }

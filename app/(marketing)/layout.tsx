@@ -1,6 +1,7 @@
 import { MarketingNavbar } from "@/components/marketing/navbar";
 import { MarketingFooter } from "@/components/marketing/footer";
 import { AuthListener } from "@/components/auth-listener";
+import { ReferralTracker } from "@/components/referral-tracker";
 
 export default function MarketingLayout({
   children,
@@ -20,6 +21,7 @@ export default function MarketingLayout({
         </defs>
       </svg>
       <AuthListener />
+      <ReferralTracker />
       <MarketingNavbar />
       <main className="pt-16">{children}</main>
       <MarketingFooter />

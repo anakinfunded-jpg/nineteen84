@@ -185,10 +185,14 @@ export default function NarocninaPage() {
   async function handleCheckout(planId: string) {
     setCheckoutLoading(planId);
     try {
+      // Read affiliate referral cookie
+      const refMatch = document.cookie.match(/(?:^|; )__1984_ref=([^;]*)/);
+      const ref = refMatch?.[1] || undefined;
+
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId }),
+        body: JSON.stringify({ planId, ref }),
       });
       const data = await res.json();
       if (data.url) {

@@ -18,6 +18,7 @@ import {
   Replace,
   Brain,
   ArrowRightLeft,
+  Handshake,
   type LucideIcon,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
@@ -71,9 +72,23 @@ const navGroups: NavGroup[] = [
   },
 ];
 
-export function AppSidebar({ user }: { user: User }) {
+export function AppSidebar({ user, isAffiliate = false }: { user: User; isAffiliate?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
+
+  // Conditionally add Partnerji group for affiliates
+  const allGroups = isAffiliate
+    ? [
+        ...navGroups.slice(0, -1), // all except Račun
+        {
+          title: "Partnerji",
+          items: [
+            { label: "Partnerska plošča", href: "/partnerji", icon: Handshake },
+          ],
+        },
+        navGroups[navGroups.length - 1], // Račun
+      ]
+    : navGroups;
 
   async function handleLogout() {
     const supabase = createClient();
@@ -108,7 +123,7 @@ export function AppSidebar({ user }: { user: User }) {
 
       {/* Navigation */}
       <nav className="flex-1 py-3 px-3 overflow-y-auto">
-        {navGroups.map((group) => (
+        {allGroups.map((group) => (
           <div key={group.title} className="mb-3">
             <p className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#E1E1E1]/25">
               {group.title}

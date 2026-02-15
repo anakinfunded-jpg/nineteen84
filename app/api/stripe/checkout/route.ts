@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { stripe, PLANS, type PlanId } from "@/lib/stripe";
+import { getAffiliateByCode } from "@/lib/affiliate";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -13,7 +14,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
   }
 
-  const { planId } = (await request.json()) as { planId: PlanId };
+  const { planId, ref } = (await request.json()) as { planId: PlanId; ref?: string };
   const plan = PLANS[planId];
 
   if (!plan || !plan.priceId) {
@@ -38,16 +39,34 @@ export async function POST(request: NextRequest) {
     customerId = customer.id;
   }
 
+  // Check for affiliate referral
+  let affiliateId: string | undefined;
+  let affiliateCode: string | undefined;
+  const discounts: { coupon: string }[] = [];
+
+  if (ref) {
+    const affiliate = await getAffiliateByCode(ref);
+    if (affiliate && affiliate.status === "active" && process.env.STRIPE_AFFILIATE_COUPON_ID) {
+      affiliateId = affiliate.id;
+      affiliateCode = affiliate.code;
+      discounts.push({ coupon: process.env.STRIPE_AFFILIATE_COUPON_ID });
+    }
+  }
+
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     mode: "subscription",
     payment_method_types: ["card"],
     line_items: [{ price: plan.priceId, quantity: 1 }],
+    ...(discounts.length > 0 ? { discounts } : {}),
     subscription_data: {
       trial_period_days: 5,
       metadata: { user_id: user.id },
     },
-    metadata: { user_id: user.id },
+    metadata: {
+      user_id: user.id,
+      ...(affiliateId ? { affiliate_id: affiliateId, affiliate_code: affiliateCode } : {}),
+    },
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina?success=true`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina?canceled=true`,
   });
