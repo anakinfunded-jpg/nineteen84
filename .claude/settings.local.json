@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(yes:*)",
+      "Bash(npx shadcn@latest init:*)",
+      "Bash(node -e:*)",
+      "Bash(curl:*)",
+      "WebSearch",
+      "Bash(ls:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm ls:*)",
+      "Bash(openssl rand:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
