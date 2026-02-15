@@ -56,7 +56,7 @@ export default async function FeatureDetailPage({
         <div className="relative max-w-4xl mx-auto text-center">
           <AnimateOnScroll>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] mb-6">
-              <feature.icon className="w-4 h-4 text-[#FEB089]" />
+              <feature.icon className="w-4 h-4 accent-icon" />
               <span className="text-sm text-[#E1E1E1]/60">{feature.category}</span>
             </div>
           </AnimateOnScroll>
@@ -122,7 +122,7 @@ export default async function FeatureDetailPage({
                         key={point}
                         className="flex items-start gap-3 text-sm text-[#E1E1E1]/70"
                       >
-                        <Check className="w-4 h-4 text-[#FEB089] shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 accent-icon shrink-0 mt-0.5" />
                         {point}
                       </li>
                     ))}
@@ -138,7 +138,7 @@ export default async function FeatureDetailPage({
                       <DashboardMockup screenshotKey={section.screenshotKey} />
                     ) : (
                       <div className="w-full h-full glass-card rounded-2xl bg-gradient-to-br from-white/[0.02] to-white/[0.04] flex items-center justify-center">
-                        <feature.icon className="w-16 h-16 text-[#FEB089]/10" />
+                        <feature.icon className="w-16 h-16 accent-icon opacity-10" />
                       </div>
                     )}
                   </div>
@@ -197,14 +197,14 @@ export default async function FeatureDetailPage({
                     href={`/funkcije/${f.slug}`}
                     className="glass-card group rounded-2xl p-6 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col"
                   >
-                    <f.icon className="w-6 h-6 text-[#FEB089] mb-3" />
+                    <f.icon className="w-6 h-6 accent-icon mb-3" />
                     <h3 className="text-base font-semibold text-white">
                       {f.title}
                     </h3>
                     <p className="mt-1.5 text-sm text-[#E1E1E1]/40 flex-1">
                       {f.shortDesc}
                     </p>
-                    <div className="mt-3 flex items-center gap-1 text-xs text-[#FEB089]">
+                    <div className="mt-3 flex items-center gap-1 text-xs accent-gradient">
                       Več <ArrowRight className="w-3 h-3" />
                     </div>
                   </Link>

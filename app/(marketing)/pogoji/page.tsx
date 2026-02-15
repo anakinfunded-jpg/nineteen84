@@ -117,7 +117,7 @@ export default function PogojiPage() {
                 Za vprašanja glede teh pogojev nas kontaktirajte na{" "}
                 <a
                   href="mailto:info@1984.si"
-                  className="text-[#FEB089] hover:underline"
+                  className="accent-gradient hover:opacity-80 transition-opacity"
                 >
                   info@1984.si
                 </a>

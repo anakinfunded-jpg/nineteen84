@@ -17,7 +17,7 @@ export default function FunkcijePage() {
       <section className="pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <AnimateOnScroll>
-            <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+            <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
               Vse funkcije
             </span>
           </AnimateOnScroll>
@@ -63,7 +63,7 @@ export default function FunkcijePage() {
                       className="glass-card group rounded-2xl p-6 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(254,176,137,0.06)] transition-all duration-300 h-full flex flex-col"
                     >
                       <div className="w-12 h-12 rounded-xl bg-white/[0.04] flex items-center justify-center mb-5 group-hover:bg-white/[0.06] transition-colors duration-300">
-                        <feature.icon className="w-6 h-6 text-[#FEB089]" />
+                        <feature.icon className="w-6 h-6 accent-icon" />
                       </div>
                       <h3 className="text-lg font-semibold text-white">
                         {feature.title}
@@ -71,7 +71,7 @@ export default function FunkcijePage() {
                       <p className="mt-2 text-sm text-[#E1E1E1]/50 leading-relaxed flex-1">
                         {feature.shortDesc}
                       </p>
-                      <div className="mt-4 flex items-center gap-1.5 text-sm text-[#FEB089] font-medium">
+                      <div className="mt-4 flex items-center gap-1.5 text-sm accent-gradient font-medium">
                         Več o {feature.title}
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>

@@ -26,7 +26,7 @@ export default function BlogPage() {
       <section className="pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <AnimateOnScroll>
-            <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+            <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
               Blog
             </span>
           </AnimateOnScroll>
@@ -70,12 +70,12 @@ export default function BlogPage() {
 
                     <div className="p-6 flex flex-col flex-1">
                       <div className="flex items-center gap-3 mb-3">
-                        <span className="text-xs text-[#FEB089] font-medium bg-[#FEB089]/10 px-2.5 py-1 rounded-full">
+                        <span className="text-xs accent-gradient font-medium bg-[#FEB089]/10 px-2.5 py-1 rounded-full">
                           {post.category}
                         </span>
                       </div>
 
-                      <h2 className="text-base font-semibold text-white leading-snug group-hover:text-[#FEB089] transition-colors">
+                      <h2 className="text-base font-semibold text-white leading-snug group-hover:text-[#FEB089]/90 transition-colors">
                         {post.title}
                       </h2>
                       <p className="mt-2 text-sm text-[#E1E1E1]/40 leading-relaxed flex-1">

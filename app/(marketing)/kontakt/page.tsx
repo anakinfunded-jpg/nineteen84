@@ -28,7 +28,7 @@ export default function KontaktPage() {
       <section className="pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <AnimateOnScroll>
-            <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+            <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
               Kontakt
             </span>
           </AnimateOnScroll>
@@ -53,11 +53,11 @@ export default function KontaktPage() {
           <div className="space-y-6">
             <AnimateOnScroll>
               <div className="glass-card rounded-2xl p-6">
-                <Mail className="w-6 h-6 text-[#FEB089] mb-3" />
+                <Mail className="w-6 h-6 accent-icon mb-3" />
                 <h3 className="text-base font-semibold text-white">E-pošta</h3>
                 <a
                   href="mailto:info@1984.si"
-                  className="text-sm text-[#FEB089] hover:underline mt-1 inline-block"
+                  className="text-sm accent-gradient hover:opacity-80 transition-opacity mt-1 inline-block"
                 >
                   info@1984.si
                 </a>
@@ -66,7 +66,7 @@ export default function KontaktPage() {
 
             <AnimateOnScroll delay={100}>
               <div className="glass-card rounded-2xl p-6">
-                <Clock className="w-6 h-6 text-[#FEB089] mb-3" />
+                <Clock className="w-6 h-6 accent-icon mb-3" />
                 <h3 className="text-base font-semibold text-white">
                   Odzivni čas
                 </h3>
@@ -78,7 +78,7 @@ export default function KontaktPage() {
 
             <AnimateOnScroll delay={200}>
               <div className="glass-card rounded-2xl p-6">
-                <MapPin className="w-6 h-6 text-[#FEB089] mb-3" />
+                <MapPin className="w-6 h-6 accent-icon mb-3" />
                 <h3 className="text-base font-semibold text-white">Naslov</h3>
                 <p className="text-sm text-[#E1E1E1]/50 mt-1">
                   Grobelno del 151
@@ -113,7 +113,7 @@ export default function KontaktPage() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
                     <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
-                      Ime in priimek <span className="text-[#FEB089]">*</span>
+                      Ime in priimek <span className="accent-gradient">*</span>
                     </label>
                     <input
                       type="text"
@@ -128,7 +128,7 @@ export default function KontaktPage() {
                   <div>
                     <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
                       E-poštni naslov{" "}
-                      <span className="text-[#FEB089]">*</span>
+                      <span className="accent-gradient">*</span>
                     </label>
                     <input
                       type="email"
@@ -142,7 +142,7 @@ export default function KontaktPage() {
 
                   <div>
                     <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
-                      Sporočilo <span className="text-[#FEB089]">*</span>
+                      Sporočilo <span className="accent-gradient">*</span>
                     </label>
                     <textarea
                       value={message}

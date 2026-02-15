@@ -136,7 +136,7 @@ export default function CenikPage() {
       <section className="pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <AnimateOnScroll>
-            <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+            <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
               Cenik
             </span>
           </AnimateOnScroll>
@@ -205,7 +205,7 @@ export default function CenikPage() {
                         key={feat}
                         className="flex items-start gap-2.5 text-sm text-[#E1E1E1]/70"
                       >
-                        <Check className="w-4 h-4 text-[#FEB089] shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 accent-icon shrink-0 mt-0.5" />
                         {feat}
                       </li>
                     ))}
@@ -229,7 +229,7 @@ export default function CenikPage() {
         <div className="max-w-3xl mx-auto">
           <AnimateOnScroll>
             <div className="glass-card rounded-2xl p-8 text-center">
-              <HelpCircle className="w-8 h-8 text-[#FEB089] mx-auto mb-4" />
+              <HelpCircle className="w-8 h-8 accent-icon mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white">
                 Ne veste, kateri paket izbrati?
               </h3>

@@ -125,7 +125,7 @@ export default function HomePage() {
 
         <div className="relative max-w-4xl mx-auto text-center">
           <AnimateOnScroll>
-            <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+            <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
               Prva slovenska AI platforma
             </span>
           </AnimateOnScroll>
@@ -176,7 +176,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
             <AnimateOnScroll>
-              <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+              <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
                 11 AI orodij
               </span>
             </AnimateOnScroll>
@@ -197,7 +197,7 @@ export default function HomePage() {
                   className="glass-card group p-5 rounded-2xl hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(254,176,137,0.06)] transition-all duration-300 h-full flex flex-col"
                 >
                   <div className="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center mb-4 group-hover:bg-white/[0.06] transition-colors duration-300">
-                    <feature.icon className="w-5 h-5 text-[#FEB089]" />
+                    <feature.icon className="w-5 h-5 accent-icon" />
                   </div>
                   <h3 className="text-base font-semibold text-white">
                     {feature.title}
@@ -205,7 +205,7 @@ export default function HomePage() {
                   <p className="mt-1.5 text-sm text-[#E1E1E1]/40 leading-relaxed flex-1">
                     {feature.shortDesc}
                   </p>
-                  <div className="mt-3 flex items-center gap-1 text-xs text-[#FEB089] opacity-60 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="mt-3 flex items-center gap-1 text-xs accent-gradient opacity-60 lg:opacity-0 group-hover:opacity-100 transition-opacity">
                     Več o tem <ArrowRight className="w-3 h-3" />
                   </div>
                 </Link>
@@ -220,7 +220,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center">
             <AnimateOnScroll>
-              <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+              <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
                 Kako deluje
               </span>
             </AnimateOnScroll>
@@ -256,7 +256,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center">
             <AnimateOnScroll>
-              <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+              <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
                 Prednosti
               </span>
             </AnimateOnScroll>
@@ -271,7 +271,7 @@ export default function HomePage() {
             {valueProps.map((item, i) => (
               <AnimateOnScroll key={item.title} delay={i * 80}>
                 <div className="glass-card p-6 rounded-2xl h-full">
-                  <item.icon className="w-8 h-8 text-[#FEB089] mb-4" />
+                  <item.icon className="w-8 h-8 accent-icon mb-4" />
                   <h3 className="text-lg font-semibold text-white">
                     {item.title}
                   </h3>
@@ -290,7 +290,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center">
             <AnimateOnScroll>
-              <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+              <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
                 Za koga
               </span>
             </AnimateOnScroll>
@@ -323,7 +323,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center">
             <AnimateOnScroll>
-              <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+              <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
                 Cenik
               </span>
             </AnimateOnScroll>
@@ -371,7 +371,7 @@ export default function HomePage() {
                         key={feat}
                         className="flex items-start gap-3 text-sm text-[#E1E1E1]/70"
                       >
-                        <Check className="w-4 h-4 text-[#FEB089] shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 accent-icon shrink-0 mt-0.5" />
                         {feat}
                       </li>
                     ))}

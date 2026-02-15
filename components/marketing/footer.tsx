@@ -105,7 +105,7 @@ export function MarketingFooter() {
             <div className="space-y-1.5">
               <a
                 href="mailto:info@1984.si"
-                className="text-sm text-[#FEB089] hover:text-[#FEB089]/80 transition-colors block"
+                className="text-sm accent-gradient hover:opacity-80 transition-opacity block"
               >
                 info@1984.si
               </a>

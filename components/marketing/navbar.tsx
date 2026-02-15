@@ -110,7 +110,7 @@ export function MarketingNavbar() {
                         className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors group"
                       >
                         <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-white/[0.08] transition-colors">
-                          <item.icon className="w-4 h-4 text-[#FEB089]" />
+                          <item.icon className="w-4 h-4 accent-icon" />
                         </div>
                         <div>
                           <p className="text-sm font-medium text-white">{item.label}</p>
@@ -122,7 +122,7 @@ export function MarketingNavbar() {
                   <div className="mt-3 pt-3 border-t border-white/[0.06]">
                     <Link
                       href="/funkcije"
-                      className="text-xs text-[#FEB089] hover:text-[#FEB089]/80 transition-colors"
+                      className="text-xs accent-gradient hover:opacity-80 transition-opacity"
                     >
                       Poglej vse funkcije →
                     </Link>
@@ -190,7 +190,7 @@ export function MarketingNavbar() {
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-3 px-3 py-2 text-sm text-[#E1E1E1]/60 hover:text-white rounded-lg hover:bg-white/[0.04] transition-colors"
               >
-                <item.icon className="w-4 h-4 text-[#FEB089]" />
+                <item.icon className="w-4 h-4 accent-icon" />
                 {item.label}
               </Link>
             ))}

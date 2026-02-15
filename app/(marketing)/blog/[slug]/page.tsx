@@ -58,7 +58,7 @@ export default async function BlogPostPage({
           </AnimateOnScroll>
 
           <AnimateOnScroll delay={50}>
-            <span className="inline-block text-xs text-[#FEB089] font-medium bg-[#FEB089]/10 px-3 py-1 rounded-full mb-4">
+            <span className="inline-block text-xs accent-gradient font-medium bg-[#FEB089]/10 px-3 py-1 rounded-full mb-4">
               {post.category}
             </span>
           </AnimateOnScroll>

@@ -38,7 +38,7 @@ export default function ONasPage() {
       <section className="pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <AnimateOnScroll>
-            <span className="inline-block text-[#FEB089] text-sm font-semibold tracking-widest uppercase">
+            <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
               O nas
             </span>
           </AnimateOnScroll>
@@ -65,7 +65,7 @@ export default function ONasPage() {
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           <AnimateOnScroll>
             <div className="glass-card rounded-2xl p-8 h-full">
-              <Target className="w-8 h-8 text-[#FEB089] mb-4" />
+              <Target className="w-8 h-8 accent-icon mb-4" />
               <h3 className="text-lg font-semibold text-white">Naša misija</h3>
               <p className="mt-3 text-sm text-[#E1E1E1]/50 leading-relaxed">
                 Vsak slovenski podjetnik si zasluži dostop do orodij, ki mu
@@ -76,7 +76,7 @@ export default function ONasPage() {
           </AnimateOnScroll>
           <AnimateOnScroll delay={100}>
             <div className="glass-card rounded-2xl p-8 h-full">
-              <Sparkles className="w-8 h-8 text-[#FEB089] mb-4" />
+              <Sparkles className="w-8 h-8 accent-icon mb-4" />
               <h3 className="text-lg font-semibold text-white">Naša vizija</h3>
               <p className="mt-3 text-sm text-[#E1E1E1]/50 leading-relaxed">
                 Postati vodilna AI platforma za slovensko govoreče trge in
@@ -86,7 +86,7 @@ export default function ONasPage() {
           </AnimateOnScroll>
           <AnimateOnScroll delay={200}>
             <div className="glass-card rounded-2xl p-8 h-full">
-              <Heart className="w-8 h-8 text-[#FEB089] mb-4" />
+              <Heart className="w-8 h-8 accent-icon mb-4" />
               <h3 className="text-lg font-semibold text-white">
                 Naše vrednote
               </h3>
@@ -191,7 +191,7 @@ export default function ONasPage() {
                   <h3 className="text-base font-semibold text-white">
                     {member.name}
                   </h3>
-                  <p className="text-sm text-[#FEB089] mt-1">{member.role}</p>
+                  <p className="text-sm accent-gradient mt-1">{member.role}</p>
                   <p className="text-sm text-[#E1E1E1]/40 mt-3 leading-relaxed">
                     {member.bio}
                   </p>
@@ -220,7 +220,7 @@ export default function ONasPage() {
                 <p className="mt-2">
                   <a
                     href="mailto:info@1984.si"
-                    className="text-[#FEB089] hover:underline"
+                    className="accent-gradient hover:opacity-80 transition-opacity"
                   >
                     info@1984.si
                   </a>

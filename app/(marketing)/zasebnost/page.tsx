@@ -122,7 +122,7 @@ export default function ZasebnostPage() {
                 Za uveljavljanje teh pravic nas kontaktirajte na{" "}
                 <a
                   href="mailto:info@1984.si"
-                  className="text-[#FEB089] hover:underline"
+                  className="accent-gradient hover:opacity-80 transition-opacity"
                 >
                   info@1984.si
                 </a>
@@ -170,7 +170,7 @@ export default function ZasebnostPage() {
                 Za vprašanja glede zasebnosti nas kontaktirajte na{" "}
                 <a
                   href="mailto:info@1984.si"
-                  className="text-[#FEB089] hover:underline"
+                  className="accent-gradient hover:opacity-80 transition-opacity"
                 >
                   info@1984.si
                 </a>

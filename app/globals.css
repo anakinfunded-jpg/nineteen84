@@ -174,6 +174,19 @@
   background: linear-gradient(90deg, #FFB288, #FEB089, #EE94B0);
 }
 
+/* Accent gradient for text (same as CTA) */
+.accent-gradient {
+  background: linear-gradient(90deg, #FFB288, #FEB089, #EE94B0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Accent gradient for Lucide SVG icons */
+svg.accent-icon {
+  stroke: url(#accent-grad) !important;
+}
+
 /* CTA button */
 .cta-button {
   background: linear-gradient(90deg, #FFB288, #FEB089, #EE94B0);
