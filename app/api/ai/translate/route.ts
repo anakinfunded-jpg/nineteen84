@@ -5,12 +5,59 @@ import { checkWordLimit, incrementWords, countWords } from "@/lib/credits";
 import { NextRequest } from "next/server";
 
 const LANGUAGES: Record<string, string> = {
+  // Balkanski in sosednji jeziki
   sl: "slovenščina",
-  en: "angleščina",
-  de: "nemščina",
   hr: "hrvaščina",
   sr: "srbščina",
+  bs: "bosanščina",
+  mk: "makedonščina",
+  bg: "bolgarščina",
+  hu: "madžarščina",
   it: "italijanščina",
+  de: "nemščina",
+  at: "avstrijska nemščina",
+  // Zahodni jeziki
+  en: "angleščina",
+  fr: "francoščina",
+  es: "španščina",
+  pt: "portugalščina",
+  nl: "nizozemščina",
+  // Skandinavski jeziki
+  da: "danščina",
+  sv: "švedščina",
+  no: "norveščina",
+  fi: "finščina",
+  is: "islandščina",
+  // Srednjeevropski jeziki
+  pl: "poljščina",
+  cs: "češčina",
+  sk: "slovaščina",
+  ro: "romunščina",
+  // Drugi evropski jeziki
+  el: "grščina",
+  tr: "turščina",
+  uk: "ukrajinščina",
+  ru: "ruščina",
+  lt: "litovščina",
+  lv: "latvijščina",
+  et: "estonščina",
+  ga: "irščina",
+  // Azijski jeziki
+  zh: "kitajščina",
+  ja: "japonščina",
+  ko: "korejščina",
+  hi: "hindijščina",
+  ar: "arabščina",
+  he: "hebrejščina",
+  th: "tajščina",
+  vi: "vietnamščina",
+  id: "indonezijščina",
+  ms: "malajščina",
+  // Ostalo
+  ka: "gruzijščina",
+  sq: "albanščina",
+  sw: "svahili",
+  la: "latinščina",
 };
 
 const SYSTEM_PROMPT = `Si profesionalni prevajalec. Tvoja naloga je prevajanje besedil med jeziki.

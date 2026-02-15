@@ -10,14 +10,96 @@ import {
   Sparkles,
 } from "lucide-react";
 
-const languages = [
-  { code: "sl", label: "Slovenščina" },
-  { code: "en", label: "Angleščina" },
-  { code: "de", label: "Nemščina" },
-  { code: "hr", label: "Hrvaščina" },
-  { code: "sr", label: "Srbščina" },
-  { code: "it", label: "Italijanščina" },
+const languageGroups = [
+  {
+    label: "Pogosti",
+    languages: [
+      { code: "sl", label: "Slovenščina" },
+      { code: "en", label: "Angleščina" },
+      { code: "de", label: "Nemščina" },
+      { code: "it", label: "Italijanščina" },
+      { code: "hr", label: "Hrvaščina" },
+      { code: "sr", label: "Srbščina" },
+    ],
+  },
+  {
+    label: "Balkanski",
+    languages: [
+      { code: "bs", label: "Bosanščina" },
+      { code: "mk", label: "Makedonščina" },
+      { code: "bg", label: "Bolgarščina" },
+      { code: "sq", label: "Albanščina" },
+      { code: "ro", label: "Romunščina" },
+      { code: "el", label: "Grščina" },
+      { code: "tr", label: "Turščina" },
+    ],
+  },
+  {
+    label: "Zahodni",
+    languages: [
+      { code: "fr", label: "Francoščina" },
+      { code: "es", label: "Španščina" },
+      { code: "pt", label: "Portugalščina" },
+      { code: "nl", label: "Nizozemščina" },
+      { code: "ga", label: "Irščina" },
+    ],
+  },
+  {
+    label: "Srednjeevropski",
+    languages: [
+      { code: "hu", label: "Madžarščina" },
+      { code: "at", label: "Avstrijska nemščina" },
+      { code: "pl", label: "Poljščina" },
+      { code: "cs", label: "Češčina" },
+      { code: "sk", label: "Slovaščina" },
+    ],
+  },
+  {
+    label: "Skandinavski",
+    languages: [
+      { code: "da", label: "Danščina" },
+      { code: "sv", label: "Švedščina" },
+      { code: "no", label: "Norveščina" },
+      { code: "fi", label: "Finščina" },
+      { code: "is", label: "Islandščina" },
+    ],
+  },
+  {
+    label: "Vzhodni",
+    languages: [
+      { code: "uk", label: "Ukrajinščina" },
+      { code: "ru", label: "Ruščina" },
+      { code: "lt", label: "Litovščina" },
+      { code: "lv", label: "Latvijščina" },
+      { code: "et", label: "Estonščina" },
+      { code: "ka", label: "Gruzijščina" },
+    ],
+  },
+  {
+    label: "Azijski",
+    languages: [
+      { code: "zh", label: "Kitajščina" },
+      { code: "ja", label: "Japonščina" },
+      { code: "ko", label: "Korejščina" },
+      { code: "hi", label: "Hindijščina" },
+      { code: "ar", label: "Arabščina" },
+      { code: "he", label: "Hebrejščina" },
+      { code: "th", label: "Tajščina" },
+      { code: "vi", label: "Vietnamščina" },
+      { code: "id", label: "Indonezijščina" },
+      { code: "ms", label: "Malajščina" },
+    ],
+  },
+  {
+    label: "Ostalo",
+    languages: [
+      { code: "sw", label: "Svahili" },
+      { code: "la", label: "Latinščina" },
+    ],
+  },
 ];
+
+const allLanguages = languageGroups.flatMap((g) => g.languages);
 
 export default function PrevajalnikPage() {
   const [text, setText] = useState("");
@@ -95,7 +177,7 @@ export default function PrevajalnikPage() {
     <div className="p-8 max-w-6xl">
       <h1 className="text-2xl font-semibold text-white">AI Prevajalnik</h1>
       <p className="mt-1 text-sm text-[#E1E1E1]/50">
-        Prevajajte besedila med 6 jeziki z umetno inteligenco
+        Prevajajte besedila med 40+ jeziki z umetno inteligenco
       </p>
 
       {/* Language selector */}
@@ -105,14 +187,22 @@ export default function PrevajalnikPage() {
           onChange={(e) => setSourceLang(e.target.value)}
           className="flex-1 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm focus:outline-none focus:border-[#FEB089]/50 transition-colors duration-200 appearance-none"
         >
-          {languages.map((l) => (
-            <option
-              key={l.code}
-              value={l.code}
-              className="bg-[#191919] text-[#E1E1E1]"
+          {languageGroups.map((group) => (
+            <optgroup
+              key={group.label}
+              label={group.label}
+              className="bg-[#191919] text-[#E1E1E1]/50"
             >
-              {l.label}
-            </option>
+              {group.languages.map((l) => (
+                <option
+                  key={l.code}
+                  value={l.code}
+                  className="bg-[#191919] text-[#E1E1E1]"
+                >
+                  {l.label}
+                </option>
+              ))}
+            </optgroup>
           ))}
         </select>
 
@@ -130,14 +220,22 @@ export default function PrevajalnikPage() {
           onChange={(e) => setTargetLang(e.target.value)}
           className="flex-1 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm focus:outline-none focus:border-[#FEB089]/50 transition-colors duration-200 appearance-none"
         >
-          {languages.map((l) => (
-            <option
-              key={l.code}
-              value={l.code}
-              className="bg-[#191919] text-[#E1E1E1]"
+          {languageGroups.map((group) => (
+            <optgroup
+              key={group.label}
+              label={group.label}
+              className="bg-[#191919] text-[#E1E1E1]/50"
             >
-              {l.label}
-            </option>
+              {group.languages.map((l) => (
+                <option
+                  key={l.code}
+                  value={l.code}
+                  className="bg-[#191919] text-[#E1E1E1]"
+                >
+                  {l.label}
+                </option>
+              ))}
+            </optgroup>
           ))}
         </select>
       </div>
@@ -148,7 +246,7 @@ export default function PrevajalnikPage() {
           {/* Source text */}
           <div className="glass-card rounded-xl p-5">
             <label className="block text-sm text-[#E1E1E1]/60 mb-2">
-              {languages.find((l) => l.code === sourceLang)?.label || "Izvorno besedilo"}
+              {allLanguages.find((l) => l.code === sourceLang)?.label || "Izvorno besedilo"}
             </label>
             <textarea
               value={text}
@@ -169,7 +267,7 @@ export default function PrevajalnikPage() {
           <div className="glass-card rounded-xl p-5">
             <div className="flex items-center justify-between mb-2">
               <label className="block text-sm text-[#E1E1E1]/60">
-                {languages.find((l) => l.code === targetLang)?.label || "Prevod"}
+                {allLanguages.find((l) => l.code === targetLang)?.label || "Prevod"}
               </label>
               {result && (
                 <button
