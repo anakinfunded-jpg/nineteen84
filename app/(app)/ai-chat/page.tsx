@@ -144,15 +144,18 @@ export default function AIChatPage() {
         return;
       }
 
-      // Get conversation ID from header (for new conversations)
+      // Get conversation ID and title from header (for new conversations)
       const convId = response.headers.get("X-Conversation-Id");
       if (convId && !activeConvId) {
         setActiveConvId(convId);
-        // Add to sidebar
+        const rawTitle = response.headers.get("X-Conversation-Title");
+        const title = rawTitle
+          ? decodeURIComponent(rawTitle)
+          : text.slice(0, 60) + (text.length > 60 ? "…" : "");
         setConversations((prev) => [
           {
             id: convId,
-            title: text.slice(0, 80) + (text.length > 80 ? "…" : ""),
+            title,
             created_at: new Date().toISOString(),
           },
           ...prev,
@@ -290,10 +293,10 @@ export default function AIChatPage() {
                   }`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                    className={`rounded-2xl text-sm leading-relaxed ${
                       msg.role === "user"
-                        ? "bg-[#FEB089]/15 text-[#E1E1E1]"
-                        : "bg-white/[0.04] text-[#E1E1E1]/80"
+                        ? "max-w-[85%] px-4 py-3 bg-[#FEB089]/15 text-[#E1E1E1]"
+                        : "max-w-[90%] px-5 py-4 bg-white/[0.04] text-[#E1E1E1]/80"
                     }`}
                   >
                     {msg.role === "assistant" ? (

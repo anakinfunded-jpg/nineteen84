@@ -4,6 +4,7 @@ import { CHAT_SYSTEM_PROMPT } from "@/lib/ai/prompts";
 import { getUserTier } from "@/lib/credits";
 import { checkWordLimit, incrementWords, countWords } from "@/lib/credits";
 import { NextRequest } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -35,10 +36,38 @@ export async function POST(request: NextRequest) {
   }
 
   let convId = conversationId;
+  let generatedTitle: string | null = null;
 
   // Create new conversation if none provided
   if (!convId) {
-    const title = message.slice(0, 80) + (message.length > 80 ? "…" : "");
+    // Use a quick AI call to generate a short topic title
+    const fallbackTitle =
+      message.slice(0, 60) + (message.length > 60 ? "…" : "");
+    let title = fallbackTitle;
+
+    try {
+      const client = new Anthropic();
+      const titleRes = await client.messages.create({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 30,
+        messages: [
+          {
+            role: "user",
+            content: `Generiraj kratek naslov (3-6 besed) za ta pogovor. Vrni SAMO naslov, brez narekovajev ali ločil na koncu.\n\nSporočilo: ${message.slice(0, 200)}`,
+          },
+        ],
+      });
+      const aiTitle =
+        titleRes.content[0]?.type === "text"
+          ? titleRes.content[0].text.trim()
+          : "";
+      if (aiTitle && aiTitle.length <= 80) {
+        title = aiTitle;
+      }
+    } catch {
+      // fallback to truncated message
+    }
+
     const { data, error } = await supabase
       .from("conversations")
       .insert({ user_id: user.id, title })
@@ -49,6 +78,7 @@ export async function POST(request: NextRequest) {
       return new Response("Napaka pri ustvarjanju pogovora", { status: 500 });
     }
     convId = data.id;
+    generatedTitle = title;
   }
 
   // Save user message
@@ -111,13 +141,16 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return new Response(readable, {
-      headers: {
-        "Content-Type": "text/plain; charset=utf-8",
-        "Cache-Control": "no-cache",
-        "X-Conversation-Id": convId!,
-      },
-    });
+    const headers: Record<string, string> = {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-cache",
+      "X-Conversation-Id": convId!,
+    };
+    if (generatedTitle) {
+      headers["X-Conversation-Title"] = encodeURIComponent(generatedTitle);
+    }
+
+    return new Response(readable, { headers });
   } catch {
     return new Response("Napaka pri generiranju odgovora.", { status: 500 });
   }
