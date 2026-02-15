@@ -1,5 +1,6 @@
 import { MarketingNavbar } from "@/components/marketing/navbar";
 import { MarketingFooter } from "@/components/marketing/footer";
+import { AuthListener } from "@/components/auth-listener";
 
 export default function MarketingLayout({
   children,
@@ -18,6 +19,7 @@ export default function MarketingLayout({
           </linearGradient>
         </defs>
       </svg>
+      <AuthListener />
       <MarketingNavbar />
       <main className="pt-16">{children}</main>
       <MarketingFooter />

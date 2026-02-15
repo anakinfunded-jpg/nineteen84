@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthListener } from "@/components/auth-listener";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -92,6 +93,7 @@ export default function RegistracijaPage() {
 
   return (
     <div className="min-h-screen bg-[#171717] flex items-center justify-center px-6">
+      <AuthListener />
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
