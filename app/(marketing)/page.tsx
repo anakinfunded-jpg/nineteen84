@@ -205,7 +205,7 @@ export default function HomePage() {
                   <p className="mt-1.5 text-sm text-[#E1E1E1]/40 leading-relaxed flex-1">
                     {feature.shortDesc}
                   </p>
-                  <div className="mt-3 flex items-center gap-1 text-xs text-[#FEB089] opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="mt-3 flex items-center gap-1 text-xs text-[#FEB089] opacity-60 lg:opacity-0 group-hover:opacity-100 transition-opacity">
                     Več o tem <ArrowRight className="w-3 h-3" />
                   </div>
                 </Link>

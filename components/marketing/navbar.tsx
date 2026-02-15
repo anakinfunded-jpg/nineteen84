@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   MessageSquare,
   FileText,
@@ -48,6 +48,12 @@ export function MarketingNavbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#191919]/80 backdrop-blur-xl border-b border-white/[0.06]">

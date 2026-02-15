@@ -15,19 +15,19 @@ const team = [
     name: "Luka Horvat",
     role: "Ustanovitelj in direktor",
     bio: "Vizionar za platformo 1984. Več kot 10 let izkušenj v tehnologiji in digitalnem marketingu. Prepričan, da mora AI služiti ljudem — ne obratno.",
-    image: "/images/team/luka-horvat.png",
+    image: "/images/team/luka-horvat.webp",
   },
   {
     name: "Ana Krajnc",
     role: "Tehnična vodja",
     bio: "Odgovorna za arhitekturo platforme in integracijo AI modelov. Specialistka za strojno učenje in naravno obdelavo jezika. Prej pri Googlu in Outbrainu.",
-    image: "/images/team/ana-krajnc.png",
+    image: "/images/team/ana-krajnc.webp",
   },
   {
     name: "Matej Zupan",
     role: "Produktni vodja",
     bio: "Skrbi za uporabniško izkušnjo in razvoj novih funkcij. 8 let izkušenj v produktnem vodenju pri vodilnih SaaS podjetjih. Perfekcijonist z očesom za detajle.",
-    image: "/images/team/matej-zupan.png",
+    image: "/images/team/matej-zupan.webp",
   },
 ];
 
