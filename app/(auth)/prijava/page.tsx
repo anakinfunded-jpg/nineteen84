@@ -3,12 +3,10 @@
 import { AuthListener } from "@/components/auth-listener";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
 export default function PrijavaPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,7 +30,8 @@ export default function PrijavaPage() {
       return;
     }
 
-    router.push("/dashboard");
+    // Full page navigation ensures auth cookies are sent with the request
+    window.location.href = "/dashboard";
   }
 
   async function handleGoogleLogin() {

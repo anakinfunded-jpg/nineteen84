@@ -29,7 +29,7 @@ function isAuthPage(pathname: string) {
   return pathname === "/prijava" || pathname === "/registracija";
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
   // ── Affiliate referral tracking ──

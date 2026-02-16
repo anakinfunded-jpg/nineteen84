@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 /**
@@ -9,7 +9,6 @@ import { useEffect, useRef } from "react";
  * If a user signs in while on a public page, redirects to /dashboard.
  */
 export function AuthListener() {
-  const router = useRouter();
   const pathname = usePathname();
   const redirected = useRef(false);
 
@@ -36,14 +35,14 @@ export function AuthListener() {
 
         if (!isAppPage) {
           redirected.current = true;
-          router.push("/dashboard");
-          router.refresh();
+          // Full page navigation ensures auth cookies are sent with the request
+          window.location.href = "/dashboard";
         }
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [router, pathname]);
+  }, [pathname]);
 
   return null;
 }

@@ -33,10 +33,14 @@ export async function GET(request: NextRequest) {
             return cookieStore.getAll();
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
+            for (const { name, value, options } of cookiesToSet) {
               responseCookies.push({ name, value, options });
-            });
+              try {
+                cookieStore.set(name, value, options);
+              } catch {
+                // Cookie store may be read-only — response cookies handle it
+              }
+            }
           },
         },
       }
