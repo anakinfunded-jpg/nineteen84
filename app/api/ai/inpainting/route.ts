@@ -37,20 +37,20 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Convert Web File to Buffer for SDK compatibility with gpt-image-1
+    // Convert Web File to Buffer for SDK compatibility
     const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
     const maskBuffer = Buffer.from(await maskFile.arrayBuffer());
     const uploadableImage = await toFile(imageBuffer, "image.png", { type: "image/png" });
     const uploadableMask = await toFile(maskBuffer, "mask.png", { type: "image/png" });
 
     const response = await openai.images.edit({
-      model: "gpt-image-1",
+      model: "dall-e-2",
       image: uploadableImage,
       mask: uploadableMask,
       prompt,
       n: 1,
-      size: "1024x1024" as "1024x1024",
-      quality: "high" as "high",
+      size: "1024x1024",
+      response_format: "b64_json",
     });
 
     const imageData = response.data?.[0];

@@ -42,12 +42,12 @@ export async function POST(request: NextRequest) {
     const uploadableImage = await toFile(imageBuffer, "image.png", { type: "image/png" });
 
     const response = await openai.images.edit({
-      model: "gpt-image-1",
+      model: "dall-e-2",
       image: uploadableImage,
       prompt: `In this image, find "${findText}" and replace it with "${replaceText}". Keep everything else in the image exactly the same.`,
       n: 1,
-      size: "1024x1024" as "1024x1024",
-      quality: "high" as "high",
+      size: "1024x1024",
+      response_format: "b64_json",
     });
 
     const imageData = response.data?.[0];
