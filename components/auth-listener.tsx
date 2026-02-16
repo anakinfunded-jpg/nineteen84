@@ -6,7 +6,8 @@ import { useEffect, useRef } from "react";
 
 /**
  * Listens for Supabase auth state changes (e.g. OAuth tokens in URL hash).
- * If a user signs in while on a public page, redirects to /dashboard.
+ * If a user signs in while on a public page, redirects to /dashboard
+ * or to the ?redirect= param if present.
  */
 export function AuthListener() {
   const pathname = usePathname();
@@ -35,8 +36,14 @@ export function AuthListener() {
 
         if (!isAppPage) {
           redirected.current = true;
+          // Check for redirect param in URL
+          const params = new URLSearchParams(window.location.search);
+          const redirect = params.get("redirect");
+          const destination = redirect && redirect.startsWith("/") && !redirect.startsWith("//")
+            ? redirect
+            : "/dashboard";
           // Full page navigation ensures auth cookies are sent with the request
-          window.location.href = "/dashboard";
+          window.location.href = destination;
         }
       }
     });

@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 function PrijavaForm() {
   const searchParams = useSearchParams();
   const authError = searchParams.get("napaka");
+  const redirect = searchParams.get("redirect");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(authError ? `OAuth napaka: ${authError}` : "");
@@ -43,7 +44,7 @@ function PrijavaForm() {
     }
 
     // Full page navigation ensures auth cookies are sent with the request
-    window.location.href = "/dashboard";
+    window.location.href = redirect && redirect.startsWith("/") ? redirect : "/dashboard";
   }
 
   async function handleGoogleLogin() {
@@ -51,10 +52,13 @@ function PrijavaForm() {
     const supabase = createClient();
     // Always use actual origin to match cookies/PKCE verifier domain
     const redirectBase = window.location.origin;
+    const callbackUrl = redirect
+      ? `${redirectBase}/auth/callback?next=${encodeURIComponent(redirect)}`
+      : `${redirectBase}/auth/callback`;
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${redirectBase}/auth/callback`,
+        redirectTo: callbackUrl,
       },
     });
   }
@@ -160,7 +164,7 @@ function PrijavaForm() {
       <p className="mt-6 text-center text-sm text-[#E1E1E1]/40">
         Nimate računa?{" "}
         <Link
-          href="/registracija"
+          href={redirect ? `/registracija?redirect=${encodeURIComponent(redirect)}` : "/registracija"}
           className="text-[#FEB089] hover:text-[#FFB288] transition-colors duration-200"
         >
           Registrirajte se

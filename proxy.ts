@@ -102,13 +102,17 @@ export async function proxy(request: NextRequest) {
   if (!user && !isPublicPath(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = "/prijava";
+    url.searchParams.set("redirect", pathname);
     return NextResponse.redirect(url);
   }
 
   // Redirect authenticated users away from login/register pages
   if (user && isAuthPage(pathname)) {
+    const redirect = searchParams.get("redirect");
     const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
+    // Use redirect param if it's a safe internal path, otherwise default to dashboard
+    url.pathname = redirect && redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : "/dashboard";
+    url.search = "";
     return NextResponse.redirect(url);
   }
 

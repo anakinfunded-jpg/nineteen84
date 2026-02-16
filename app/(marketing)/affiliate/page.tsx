@@ -131,7 +131,7 @@ export default function AffiliatePage() {
           <AnimateOnScroll delay={300}>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/registracija"
+                href="/registracija?redirect=/partnerji"
                 className="cta-button px-8 py-3.5 rounded-full font-semibold text-sm inline-flex items-center gap-2"
               >
                 Pridružite se brezplačno
@@ -341,7 +341,7 @@ export default function AffiliatePage() {
               Začnete lahko deliti že danes.
             </p>
             <Link
-              href="/registracija"
+              href="/registracija?redirect=/partnerji"
               className="mt-8 cta-button px-10 py-4 rounded-full font-semibold text-sm inline-flex items-center gap-2"
             >
               Začnite zdaj
