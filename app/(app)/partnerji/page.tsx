@@ -656,12 +656,35 @@ export default function PartnerjPage() {
   async function checkAffiliate() {
     const res = await fetch("/api/affiliate/stats");
     if (res.status === 404) {
+      // Check for pending affiliate data from registration form
+      const pending = localStorage.getItem("pending_affiliate");
+      if (pending) {
+        try {
+          const data = JSON.parse(pending);
+          localStorage.removeItem("pending_affiliate");
+          const applyRes = await fetch("/api/affiliate/apply", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          if (applyRes.ok) {
+            const result = await applyRes.json();
+            setCode(result.affiliate?.code || data.code || "");
+            setState("pending");
+            return;
+          }
+        } catch {
+          // Ignore parse errors, show normal form
+        }
+      }
       setState("none");
       return;
     }
     if (res.ok) {
       const data = await res.json();
       setCode(data.code || "");
+      // Clear any stale pending data
+      localStorage.removeItem("pending_affiliate");
       if (data.status === "active") {
         setState("active");
       } else if (data.status === "pending") {
