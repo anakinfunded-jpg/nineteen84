@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 function RegistracijaForm() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
+  const isAffiliate = redirect === "/partnerji";
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -94,6 +95,11 @@ function RegistracijaForm() {
             Na <span className="text-[#FEB089]">{email}</span> smo poslali
             potrditveno povezavo. Kliknite nanjo, da aktivirate svoj račun.
           </p>
+          {isAffiliate && (
+            <p className="mt-3 text-sm text-[#FEB089]/80">
+              Po potrditvi boste preusmerjeni na partnersko prijavo.
+            </p>
+          )}
         </div>
         <p className="mt-6 text-sm text-[#E1E1E1]/40">
           <Link
@@ -117,9 +123,20 @@ function RegistracijaForm() {
         >
           1984
         </Link>
-        <p className="mt-3 text-[#E1E1E1]/50 text-sm">
-          Ustvarite svoj račun
-        </p>
+        {isAffiliate ? (
+          <>
+            <p className="mt-3 text-[#E1E1E1]/50 text-sm">
+              Partnerski program
+            </p>
+            <p className="mt-2 text-xs text-[#FEB089]/70">
+              Ustvarite račun in se prijavite kot partner — zaslužite 30% provizije
+            </p>
+          </>
+        ) : (
+          <p className="mt-3 text-[#E1E1E1]/50 text-sm">
+            Ustvarite svoj račun
+          </p>
+        )}
       </div>
 
       {/* Card */}

@@ -7,10 +7,35 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Loader2 } from "lucide-react";
 
+function PrijavaHeader() {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+  const isAffiliate = redirect === "/partnerji";
+
+  if (isAffiliate) {
+    return (
+      <>
+        <p className="mt-3 text-[#E1E1E1]/50 text-sm">
+          Partnerski program
+        </p>
+        <p className="mt-2 text-xs text-[#FEB089]/70">
+          Prijavite se za dostop do partnerske nadzorne plošče
+        </p>
+      </>
+    );
+  }
+  return (
+    <p className="mt-3 text-[#E1E1E1]/50 text-sm">
+      Prijava v vaš račun
+    </p>
+  );
+}
+
 function PrijavaForm() {
   const searchParams = useSearchParams();
   const authError = searchParams.get("napaka");
   const redirect = searchParams.get("redirect");
+  const isAffiliate = redirect === "/partnerji";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(authError ? `OAuth napaka: ${authError}` : "");
@@ -187,9 +212,9 @@ export default function PrijavaPage() {
           >
             1984
           </Link>
-          <p className="mt-3 text-[#E1E1E1]/50 text-sm">
-            Prijava v vaš račun
-          </p>
+          <Suspense>
+            <PrijavaHeader />
+          </Suspense>
         </div>
 
         <Suspense>

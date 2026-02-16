@@ -1,4 +1,5 @@
 import { AnimateOnScroll } from "@/components/animate-on-scroll";
+import { createClient } from "@/lib/supabase/server";
 import {
   Users,
   Share2,
@@ -102,7 +103,12 @@ const milestones = [
   },
 ];
 
-export default function AffiliatePage() {
+export default async function AffiliatePage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const ctaHref = user ? "/partnerji" : "/registracija?redirect=/partnerji";
+  const loginHref = user ? "/partnerji" : "/prijava?redirect=/partnerji";
+
   return (
     <div className="relative">
       {/* Hero */}
@@ -131,12 +137,20 @@ export default function AffiliatePage() {
           <AnimateOnScroll delay={300}>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/registracija?redirect=/partnerji"
+                href={ctaHref}
                 className="cta-button px-8 py-3.5 rounded-full font-semibold text-sm inline-flex items-center gap-2"
               >
-                Pridružite se brezplačno
+                {user ? "Odpri partnersko ploščo" : "Pridružite se brezplačno"}
                 <ArrowRight className="w-4 h-4" />
               </Link>
+              {!user && (
+                <Link
+                  href={loginHref}
+                  className="gradient-border-btn px-8 py-3.5 rounded-full font-semibold text-sm text-[#E1E1E1]"
+                >
+                  Že imam račun
+                </Link>
+              )}
             </div>
           </AnimateOnScroll>
         </div>
@@ -337,14 +351,15 @@ export default function AffiliatePage() {
               Pripravljeni na zaslužek?
             </h2>
             <p className="mt-4 text-[#E1E1E1]/50 max-w-xl mx-auto">
-              Registrirajte se brezplačno in se prijavite v partnerski program.
-              Začnete lahko deliti že danes.
+              {user
+                ? "Odprite partnersko nadzorno ploščo in začnite deliti svojo povezavo."
+                : "Registrirajte se brezplačno in se prijavite v partnerski program. Začnete lahko deliti že danes."}
             </p>
             <Link
-              href="/registracija?redirect=/partnerji"
+              href={ctaHref}
               className="mt-8 cta-button px-10 py-4 rounded-full font-semibold text-sm inline-flex items-center gap-2"
             >
-              Začnite zdaj
+              {user ? "Odpri partnersko ploščo" : "Začnite zdaj"}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </AnimateOnScroll>
