@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getUserTier, checkOcrLimit, incrementOcr } from "@/lib/credits";
 import { incrementWords, countWords } from "@/lib/credits";
+import { aiTextLimit, rateLimitResponse } from "@/lib/rate-limit";
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
 
@@ -18,6 +19,9 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return new Response("Neavtorizirano", { status: 401 });
   }
+
+  const { success, reset } = await aiTextLimit.limit(user.id);
+  if (!success) return rateLimitResponse(reset);
 
   const formData = await request.formData();
   const file = formData.get("image") as File | null;

@@ -3,6 +3,7 @@ import { chatStream, type ChatMessage } from "@/lib/ai/client";
 import { CHAT_SYSTEM_PROMPT } from "@/lib/ai/prompts";
 import { getUserTier } from "@/lib/credits";
 import { checkWordLimit, incrementWords, countWords } from "@/lib/credits";
+import { aiTextLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextRequest } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 
@@ -15,6 +16,9 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return new Response("Neavtorizirano", { status: 401 });
   }
+
+  const { success, reset } = await aiTextLimit.limit(user.id);
+  if (!success) return rateLimitResponse(reset);
 
   const { conversationId, message, messages } = (await request.json()) as {
     conversationId?: string;

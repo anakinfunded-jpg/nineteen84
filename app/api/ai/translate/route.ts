@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { generateStream } from "@/lib/ai/client";
 import { getUserTier } from "@/lib/credits";
 import { checkWordLimit, incrementWords, countWords } from "@/lib/credits";
+import { aiTextLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextRequest } from "next/server";
 
 const LANGUAGES: Record<string, string> = {
@@ -78,6 +79,9 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return new Response("Neavtorizirano", { status: 401 });
   }
+
+  const { success, reset } = await aiTextLimit.limit(user.id);
+  if (!success) return rateLimitResponse(reset);
 
   const { text, sourceLang, targetLang } = await request.json();
 

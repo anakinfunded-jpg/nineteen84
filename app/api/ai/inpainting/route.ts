@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { checkInpaintingLimit, incrementInpainting, incrementImages } from "@/lib/credits";
+import { aiImageLimit, rateLimitResponse } from "@/lib/rate-limit";
 import OpenAI from "openai";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,6 +16,9 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
   }
+
+  const { success, reset } = await aiImageLimit.limit(user.id);
+  if (!success) return rateLimitResponse(reset);
 
   const withinLimit = await checkInpaintingLimit(user.id);
   if (!withinLimit) {
