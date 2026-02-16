@@ -91,6 +91,8 @@ export default function SpominPage() {
   }
 
   async function handleDelete(id: string) {
+    if (!confirm("Ali ste prepričani, da želite izbrisati ta dokument?")) return;
+
     try {
       const res = await fetch("/api/ai/memory", {
         method: "DELETE",
@@ -153,9 +155,13 @@ export default function SpominPage() {
   }
 
   async function handleCopy() {
-    await navigator.clipboard.writeText(answer);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(answer);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for older browsers
+    }
   }
 
   return (

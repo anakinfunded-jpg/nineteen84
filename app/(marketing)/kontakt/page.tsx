@@ -11,14 +11,34 @@ export default function KontaktPage() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
+  const [error, setError] = useState("");
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !message.trim() || sending) return;
 
     setSending(true);
-    // [TODO] Wire up to actual contact form API (e.g. Resend)
-    await new Promise((r) => setTimeout(r, 1000));
-    setSent(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Napaka pri pošiljanju");
+        setSending(false);
+        return;
+      }
+
+      setSent(true);
+    } catch {
+      setError("Napaka pri povezavi s strežnikom");
+    }
+
     setSending(false);
   }
 
@@ -153,6 +173,10 @@ export default function KontaktPage() {
                       placeholder="Kako vam lahko pomagamo?"
                     />
                   </div>
+
+                  {error && (
+                    <p className="text-sm text-red-400">{error}</p>
+                  )}
 
                   <button
                     type="submit"

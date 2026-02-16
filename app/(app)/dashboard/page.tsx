@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { InviteFriends } from "@/components/dashboard/invite-friends";
+import { getUsage, getUserPlan } from "@/lib/credits";
+import { PLANS } from "@/lib/stripe";
 import {
   MessageSquare,
   FileText,
@@ -63,6 +65,20 @@ export default async function DashboardPage() {
     user?.email?.split("@")[0] ||
     "Uporabnik";
 
+  const planId = user ? await getUserPlan(user.id) : ("free" as const);
+  const plan = PLANS[planId];
+  const usage = user
+    ? await getUsage(user.id)
+    : { wordsUsed: 0, imagesUsed: 0, ttsUsed: 0, sttUsed: 0, ocrUsed: 0, inpaintingUsed: 0 };
+
+  const fmt = (n: number) => n.toLocaleString("sl-SI");
+
+  const stats = [
+    { label: "Besede ta mesec", value: `${fmt(usage.wordsUsed)} / ${fmt(plan.words)}` },
+    { label: "Generirane slike", value: `${fmt(usage.imagesUsed)} / ${fmt(plan.images)}` },
+    { label: "Govor (TTS)", value: `${fmt(usage.ttsUsed)} / ${fmt(plan.tts)}` },
+  ];
+
   return (
     <div className="p-8 max-w-6xl">
       {/* Header */}
@@ -77,11 +93,7 @@ export default async function DashboardPage() {
 
       {/* Stats */}
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {[
-          { label: "Besede ta mesec", value: "0 / 20.000" },
-          { label: "Generirane slike", value: "0 / 200" },
-          { label: "AI pogovori", value: "0" },
-        ].map((stat) => (
+        {stats.map((stat) => (
           <div
             key={stat.label}
             className="glass-card rounded-xl p-5"

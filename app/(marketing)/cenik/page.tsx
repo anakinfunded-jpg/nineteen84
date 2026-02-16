@@ -16,10 +16,10 @@ const plans = [
     desc: "Za preizkus platforme",
     popular: false,
     features: [
-      "5.000 besed / mesec",
-      "10 slik / mesec",
+      "1.000 besed / mesec",
+      "5 slik / mesec",
       "AI Chat, Besedila, Dokumenti",
-      "5 predlog za besedila",
+      "3 predloge za besedila",
       "AI Prevajalnik (3 jeziki)",
       "5 generiranj zvoka",
       "10 analiz slik (OCR)",
@@ -49,7 +49,7 @@ const plans = [
       "Pretvorba datotek",
       "E-poštna podpora",
     ],
-    cta: "Začni brezplačno",
+    cta: "Preizkusi 5 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -71,7 +71,7 @@ const plans = [
       "Pretvorba datotek",
       "Prednostna podpora",
     ],
-    cta: "Začni brezplačno",
+    cta: "Preizkusi 5 dni brezplačno",
     ctaStyle: "cta-button",
   },
   {
@@ -93,7 +93,7 @@ const plans = [
       "API dostop",
       "Telefonska podpora",
     ],
-    cta: "Začni brezplačno",
+    cta: "Preizkusi 5 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
 ];
@@ -101,7 +101,7 @@ const plans = [
 const faq = [
   {
     q: "Ali res lahko začnem brezplačno?",
-    a: "Da! Brezplačen paket vključuje 5.000 besed in 10 slik na mesec. Kreditna kartica ni potrebna.",
+    a: "Da! Brezplačen paket vključuje 1.000 besed in 5 slik na mesec. Kreditna kartica ni potrebna.",
   },
   {
     q: "Kako deluje obračunavanje?",

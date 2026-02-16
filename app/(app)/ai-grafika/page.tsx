@@ -61,16 +61,21 @@ function GrafikaPageInner() {
     if (promptParam) setPrompt(promptParam);
   }, [searchParams]);
 
+  const [galleryError, setGalleryError] = useState(false);
+
   async function loadImages() {
     setLoadingImages(true);
+    setGalleryError(false);
     try {
       const res = await fetch("/api/ai/image");
       if (res.ok) {
         const data = await res.json();
         setImages(data);
+      } else {
+        setGalleryError(true);
       }
     } catch {
-      // silent
+      setGalleryError(true);
     }
     setLoadingImages(false);
   }
@@ -244,7 +249,17 @@ function GrafikaPageInner() {
       <div className="mt-10">
         <h2 className="text-lg font-semibold text-white mb-4">Galerija</h2>
 
-        {loadingImages ? (
+        {galleryError ? (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <p className="text-sm text-red-400/70 mb-3">Napaka pri nalaganju galerije</p>
+            <button
+              onClick={loadImages}
+              className="text-sm text-[#FEB089] hover:text-[#FEB089]/80 transition-colors"
+            >
+              Poskusi znova
+            </button>
+          </div>
+        ) : loadingImages ? (
           <div className="flex justify-center py-12">
             <Loader2 className="w-6 h-6 animate-spin text-[#E1E1E1]/30" />
           </div>

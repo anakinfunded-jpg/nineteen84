@@ -9,6 +9,8 @@ const productLinks = [
   { label: "AI Zvok", href: "/funkcije/ai-zvok" },
   { label: "Računalniški vid", href: "/funkcije/ai-vid" },
   { label: "AI Spomin", href: "/funkcije/ai-spomin" },
+  { label: "AI Inpainting", href: "/funkcije/ai-inpainting" },
+  { label: "Najdi in spremeni", href: "/funkcije/ai-zamenjava" },
   { label: "Pretvorniki", href: "/funkcije/pretvorniki" },
 ];
 

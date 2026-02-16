@@ -81,9 +81,13 @@ function PredlogePage() {
   }
 
   async function handleCopy(prompt: Prompt) {
-    await navigator.clipboard.writeText(prompt.prompt);
-    setCopiedId(prompt.id);
-    setTimeout(() => setCopiedId(null), 2000);
+    try {
+      await navigator.clipboard.writeText(prompt.prompt);
+      setCopiedId(prompt.id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch {
+      // Fallback for older browsers
+    }
   }
 
   function getCategoryIcon(iconName: string): LucideIcon {

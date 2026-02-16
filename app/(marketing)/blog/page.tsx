@@ -1,6 +1,7 @@
 import { AnimateOnScroll } from "@/components/animate-on-scroll";
+import { NewsletterForm } from "@/components/marketing/newsletter-form";
 import { blogPosts } from "@/lib/marketing/blog-posts";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -112,16 +113,8 @@ export default function BlogPage() {
                 Prijavite se na naše e-novice za najnovejše nasvete in novosti
                 o AI ustvarjanju vsebin.
               </p>
-              <div className="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <input
-                  type="email"
-                  placeholder="vaš@email.si"
-                  className="flex-1 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors"
-                />
-                <button className="cta-button px-6 py-3 rounded-xl font-semibold text-sm whitespace-nowrap flex items-center justify-center gap-2">
-                  Prijavi se
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+              <div className="mt-6">
+                <NewsletterForm />
               </div>
               <p className="mt-3 text-xs text-[#E1E1E1]/20">
                 Brez spama. Odjava kadarkoli.

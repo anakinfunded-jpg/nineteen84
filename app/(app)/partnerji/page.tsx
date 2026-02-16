@@ -425,9 +425,13 @@ function ActiveDashboard() {
   }
 
   function copyToClipboard(text: string, type: "link" | "code") {
-    navigator.clipboard.writeText(text);
-    setCopied(type);
-    setTimeout(() => setCopied(null), 2000);
+    try {
+      navigator.clipboard.writeText(text);
+      setCopied(type);
+      setTimeout(() => setCopied(null), 2000);
+    } catch {
+      // Fallback for older browsers
+    }
   }
 
   if (loading || !stats) {
