@@ -60,6 +60,7 @@ export const features: Feature[] = [
           "Izboljšava obstoječih besedil",
           "Prilagajanje tona in sloga",
         ],
+        screenshotKey: "ai-chat-writing",
       },
       {
         title: "Pametno usmerjanje modelov",
@@ -69,6 +70,7 @@ export const features: Feature[] = [
           "Hitri odgovori za preprosta vprašanja",
           "Napredni model za kompleksne analize",
         ],
+        screenshotKey: "ai-chat-routing",
       },
     ],
     faq: [
@@ -106,6 +108,7 @@ export const features: Feature[] = [
           "Človeški ton in naravni slog",
           "Brez blokiranja pisanja",
         ],
+        screenshotKey: "ai-besedila-generate",
       },
       {
         title: "Besedila, ki prodajajo",
@@ -115,6 +118,7 @@ export const features: Feature[] = [
           "Prilagodljiv ton za vsako blagovno znamko",
           "Optimizirano za konverzije",
         ],
+        screenshotKey: "ai-besedila-copywriting",
       },
     ],
     faq: [
@@ -152,6 +156,7 @@ export const features: Feature[] = [
           "Komercialna uporaba brez omejitev",
           "Ni licenčnih stroškov",
         ],
+        screenshotKey: "ai-grafika-rights",
       },
       {
         title: "Galerija in upravljanje",
@@ -199,6 +204,7 @@ export const features: Feature[] = [
           "Poenostavitev tehničnih besedil",
           "Ohranjanje ključnih informacij",
         ],
+        screenshotKey: "ai-dokumenti-tone",
       },
     ],
     faq: [
@@ -234,6 +240,7 @@ export const features: Feature[] = [
           "Francoščina, italijanščina, španščina",
           "Vsi jezikovni pari podprti",
         ],
+        screenshotKey: "ai-prevajalnik-languages",
       },
     ],
     faq: [
@@ -342,6 +349,7 @@ export const features: Feature[] = [
           "Tekstovni opis želenega rezultata",
           "Prenos rezultata v PNG formatu",
         ],
+        screenshotKey: "ai-inpainting-result",
       },
     ],
     faq: [

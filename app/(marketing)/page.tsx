@@ -1,4 +1,5 @@
 import { AnimateOnScroll } from "@/components/animate-on-scroll";
+import { DashboardPreview } from "@/components/marketing/dashboard-mockup";
 import { features, categories } from "@/lib/marketing/features";
 import {
   Check,
@@ -223,6 +224,25 @@ export default function HomePage() {
           <AnimateOnScroll delay={400}>
             <p className="mt-6 text-sm text-[#E1E1E1]/30">
               Brezplačen paket — brez kreditne kartice
+            </p>
+          </AnimateOnScroll>
+        </div>
+      </section>
+
+      {/* ===================== DASHBOARD PREVIEW ===================== */}
+      <section className="pb-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <AnimateOnScroll>
+            <p className="text-center text-sm text-[#E1E1E1]/30 mb-6 uppercase tracking-widest font-medium">
+              Pogled v aplikacijo
+            </p>
+          </AnimateOnScroll>
+          <AnimateOnScroll delay={100}>
+            <DashboardPreview />
+          </AnimateOnScroll>
+          <AnimateOnScroll delay={200}>
+            <p className="text-center text-sm text-[#E1E1E1]/40 mt-6 max-w-lg mx-auto">
+              11 AI orodij v enem intitivnem vmesniku — od pogovorov in besedil do grafike, zvoka in analize slik.
             </p>
           </AnimateOnScroll>
         </div>
