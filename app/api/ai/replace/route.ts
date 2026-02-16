@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { checkImageLimit, incrementImages } from "@/lib/credits";
-import OpenAI, { toFile } from "openai";
+import OpenAI from "openai";
 import { NextRequest, NextResponse } from "next/server";
 
 const openai = new OpenAI();
@@ -37,21 +37,52 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Convert Web File to Buffer for SDK compatibility
+    // Convert file to base64 for Responses API
     const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
-    const uploadableImage = await toFile(imageBuffer, "image.png", { type: "image/png" });
+    const base64Image = imageBuffer.toString("base64");
+    const mimeType = imageFile.type || "image/png";
 
-    const response = await openai.images.edit({
-      model: "dall-e-2",
-      image: uploadableImage,
-      prompt: `In this image, find "${findText}" and replace it with "${replaceText}". Keep everything else in the image exactly the same.`,
-      n: 1,
-      size: "1024x1024",
-      response_format: "b64_json",
+    // Use Responses API with image_generation tool (gpt-image-1 via GPT-4o)
+    const response = await openai.responses.create({
+      model: "gpt-4o",
+      input: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "input_image" as const,
+              image_url: `data:${mimeType};base64,${base64Image}`,
+              detail: "auto" as const,
+            },
+            {
+              type: "input_text" as const,
+              text: `Edit this image: find "${findText}" and replace it with "${replaceText}". Keep everything else in the image exactly the same. Preserve all details, text, and other elements.`,
+            },
+          ],
+        },
+      ],
+      tools: [
+        {
+          type: "image_generation",
+          action: "edit",
+          input_fidelity: "high",
+          quality: "high",
+          size: "auto",
+          output_format: "png",
+        },
+      ],
     });
 
-    const imageData = response.data?.[0];
-    if (!imageData?.b64_json) {
+    // Extract the edited image from response
+    const imageCall = response.output.find(
+      (item) => item.type === "image_generation_call"
+    );
+
+    if (
+      !imageCall ||
+      imageCall.type !== "image_generation_call" ||
+      !imageCall.result
+    ) {
       return NextResponse.json(
         { error: "Napaka pri urejanju slike" },
         { status: 500 }
@@ -59,7 +90,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Upload to Supabase Storage
-    const buffer = Buffer.from(imageData.b64_json, "base64");
+    const buffer = Buffer.from(imageCall.result, "base64");
     const fileName = `${user.id}/replace-${Date.now()}.png`;
 
     const admin = createAdminClient();
