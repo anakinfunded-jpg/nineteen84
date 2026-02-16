@@ -10,6 +10,8 @@ import {
   Replace,
   Brain,
   ArrowRightLeft,
+  BookOpenText,
+  GraduationCap,
   type LucideIcon,
 } from "lucide-react";
 
@@ -446,6 +448,104 @@ export const features: Feature[] = [
       { q: "Katere pretvorbe so na voljo?", a: "Podpiramo pretvorbo slik (PNG, JPG, WebP), besedila v PDF, Markdown v HTML ter JSON v CSV in obratno." },
     ],
   },
+  {
+    slug: "ai-povzetek",
+    title: "AI Povzetek",
+    shortDesc: "Naložite dokument ali prilepite besedilo in pridobite takojšen povzetek v slovenščini.",
+    icon: BookOpenText,
+    category: "Učenje",
+    heroTitle: "AI Povzetek — takojšnji povzetki",
+    heroDescription: "Naložite PDF, DOCX, PPTX ali XLSX datoteko ali prilepite besedilo in pridobite jasen, strukturiran povzetek v slovenščini. Izbirajte med 4 načini povzemanja — od kratkih do podrobnih.",
+    appPath: "/ai-povzetek",
+    sections: [
+      {
+        title: "4 načini povzemanja",
+        description: "Izberite način povzemanja glede na vaše potrebe: kratek povzetek za hiter pregled, srednji za uravnotežen pregled, podroben za temeljito razumevanje ali ključne točke za strukturiran seznam.",
+        points: [
+          "Kratek povzetek — bistvo v nekaj stavkih",
+          "Srednji povzetek — uravnotežen pregled",
+          "Podroben povzetek — temeljita analiza",
+          "Ključne točke — strukturiran seznam",
+        ],
+        screenshotKey: "ai-povzetek-modes",
+      },
+      {
+        title: "Podpora za datoteke",
+        description: "Naložite dokumente v najpogostejših formatih — PDF, DOCX, PPTX in XLSX. AI izvleče besedilo in ustvari povzetek, ne glede na format izvirnika.",
+        points: [
+          "PDF dokumenti",
+          "Word dokumenti (DOCX)",
+          "PowerPoint predstavitve (PPTX)",
+          "Excel preglednice (XLSX)",
+        ],
+        screenshotKey: "ai-povzetek-upload",
+      },
+      {
+        title: "Pretočno prikazovanje",
+        description: "Povzetek se prikazuje sproti, medtem ko ga AI ustvarja. Ni čakanja na celoten rezultat — besedilo se izpisuje v realnem času.",
+        points: [
+          "Rezultat v realnem času",
+          "Brez čakanja na celoten povzetek",
+          "Kopiranje in nadaljnja uporaba",
+        ],
+        screenshotKey: "ai-povzetek-stream",
+      },
+    ],
+    faq: [
+      { q: "Katere datoteke lahko naložim?", a: "Podpiramo PDF, DOCX, PPTX in XLSX formate. Lahko pa tudi prilepite besedilo neposredno." },
+      { q: "Kako dolg je lahko dokument?", a: "AI lahko obdela dokumente do nekaj tisoč besed. Za zelo dolge dokumente priporočamo povzemanje po poglavjih." },
+      { q: "Ali povzetek ohranja ključne informacije?", a: "Da, AI identificira najpomembnejše informacije in jih vključi v povzetek, ne glede na izbrani način." },
+      { q: "Ali lahko povzamem besedilo v tujem jeziku?", a: "Da, AI razume besedila v številnih jezikih in ustvari povzetek v slovenščini." },
+    ],
+  },
+  {
+    slug: "ai-ucenje",
+    title: "AI Učenje",
+    shortDesc: "Ustvarite učne kartice, kvize in preizkuse iz kateregakoli besedila ali dokumenta.",
+    icon: GraduationCap,
+    category: "Učenje",
+    heroTitle: "AI Učenje — učno gradivo v sekundah",
+    heroDescription: "Naložite dokument ali prilepite besedilo in AI ustvari učne kartice, kvize ali preizkuse. Idealno za študente, dijake in učitelje — pripravite se na izpite hitreje kot kdajkoli.",
+    appPath: "/ai-ucenje",
+    sections: [
+      {
+        title: "Učne kartice",
+        description: "AI ustvari kartice z vprašanji na eni strani in odgovori na drugi. Idealno za učenje definicij, pojmov in ključnih dejstev iz kateregakoli gradiva.",
+        points: [
+          "Vprašanje in odgovor na vsaki kartici",
+          "Samodejno generiranje iz besedila",
+          "Podpora za vse predmete in teme",
+        ],
+        screenshotKey: "ai-ucenje-cards",
+      },
+      {
+        title: "Kvizi z ocenjevanjem",
+        description: "Ustvarite kvize z večizbirnimi vprašanji. AI generira vprašanja, možne odgovore in pravilne rešitve — preverite svoje znanje v nekaj klikih.",
+        points: [
+          "Večizbirna vprašanja",
+          "Samodejno ocenjevanje",
+          "Razlaga pravilnih odgovorov",
+        ],
+        screenshotKey: "ai-ucenje-quiz",
+      },
+      {
+        title: "Preizkusi",
+        description: "Pripravite se na izpite z generiranimi preizkusi. AI ustvari vprašanja različnih zahtevnostnih stopenj za temeljito preverjanje znanja.",
+        points: [
+          "Vprašanja različnih zahtevnosti",
+          "Simulacija izpitnih pogojev",
+          "Podrobne rešitve",
+        ],
+        screenshotKey: "ai-ucenje-test",
+      },
+    ],
+    faq: [
+      { q: "Iz katerih gradiv lahko ustvarim učno gradivo?", a: "Iz kateregakoli besedila — učbenikov, skript, zapiskov, člankov. Naložite PDF, DOCX, PPTX ali XLSX ali prilepite besedilo." },
+      { q: "Ali so vprašanja kakovostna?", a: "Da, AI generira vprašanja, ki pokrivajo ključne koncepte in dejstva iz gradiva. Za najboljše rezultate uporabite jasno strukturirano besedilo." },
+      { q: "Ali lahko izberem število kartic ali vprašanj?", a: "AI samodejno prilagodi število glede na obseg gradiva. Običajno generira 5–15 kartic ali vprašanj." },
+      { q: "V katerem jeziku so učne kartice?", a: "V slovenščini. AI razume tudi tujejezična gradiva in ustvari kartice v slovenščini." },
+    ],
+  },
 ];
 
 export const categories = [
@@ -453,6 +553,7 @@ export const categories = [
   { name: "Grafika", color: "#EE94B0" },
   { name: "Zvok", color: "#D797A6" },
   { name: "Analiza", color: "#EFBC9F" },
+  { name: "Učenje", color: "#B8A9E8" },
   { name: "Orodja", color: "#FF9ED1" },
 ];
 

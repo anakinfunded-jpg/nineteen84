@@ -1081,6 +1081,8 @@ export function DashboardPreview() {
     { icon: "🎨", label: "AI Inpainting", active: false },
     { icon: "🔄", label: "Najdi in spremeni", active: false },
     { icon: "🧠", label: "AI Spomin", active: false },
+    { icon: "📖", label: "AI Povzetek", active: false },
+    { icon: "🎓", label: "AI Učenje", active: false },
     { icon: "⚙️", label: "Pretvorniki", active: false },
   ];
 
@@ -1129,7 +1131,7 @@ export function DashboardPreview() {
             <div className="flex justify-end">
               <div className="bg-[#FEB089]/20 rounded-2xl rounded-br-md px-4 py-2.5 max-w-[70%] border border-[#FEB089]/10">
                 <p className="text-[11px] text-[#FEB089]/80 leading-relaxed">
-                  Napiši mi 3 predloge za marketinško kampanjo za novo kavno znamko.
+                  Povzemi mi to poglavje iz učbenika za biologijo v 5 ključnih točkah.
                 </p>
               </div>
             </div>
@@ -1139,13 +1141,13 @@ export function DashboardPreview() {
               </div>
               <div className="bg-white/[0.06] rounded-2xl rounded-bl-md px-4 py-2.5 max-w-[85%] border border-white/[0.06]">
                 <p className="text-[11px] text-white/70 leading-relaxed">
-                  <span className="font-semibold">1. &ldquo;Jutranja rutina, nova zgodba&rdquo;</span> — Kampanja, ki poudarja, da vsako jutro zasluži posebno kavo. Fokus na ritualu in kakovosti zrn.
+                  <span className="font-semibold">1. Celično dihanje</span> — Proces, pri katerem celice pretvarjajo glukozo v energijo (ATP) ob prisotnosti kisika.
                 </p>
                 <p className="text-[11px] text-white/70 leading-relaxed mt-2">
-                  <span className="font-semibold">2. &ldquo;Od zrna do skodelice&rdquo;</span> — Transparentnost izvora, etična pridelava in direktna trgovina s pridelovalci.
+                  <span className="font-semibold">2. Glikoliza</span> — Prva faza celičnega dihanja, ki poteka v citoplazmi in razgradi glukozo v piruvat.
                 </p>
                 <p className="text-[11px] text-white/70 leading-relaxed mt-2">
-                  <span className="font-semibold">3. &ldquo;Okusi Slovenijo&rdquo;</span> — Lokalna znamka z globalnim okusom. Poudari slovensko kakovost...
+                  <span className="font-semibold">3. Krebsov cikel</span> — Niz kemijskih reakcij v mitohondrijih, ki sprošča elektrone za oksidativno fosforilacijo...
                 </p>
               </div>
             </div>

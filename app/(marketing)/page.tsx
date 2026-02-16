@@ -7,7 +7,6 @@ import {
   Globe,
   Shield,
   Clock,
-  Lightbulb,
   TrendingUp,
   ArrowRight,
   Sparkles,
@@ -16,6 +15,7 @@ import {
   ShoppingCart,
   GraduationCap,
   Feather,
+  BookOpen,
   Share2,
   Mail,
   Search,
@@ -50,7 +50,7 @@ const plans = [
   {
     name: "Osnovno",
     price: "16,90",
-    desc: "Za podjetnike in posameznike",
+    desc: "Za posameznike in študente",
     popular: false,
     features: [
       "20.000 besed / mesec",
@@ -68,7 +68,7 @@ const plans = [
   {
     name: "Profesionalno",
     price: "39,90",
-    desc: "Za marketinške ekipe in agencije",
+    desc: "Za profesionalce in ekipe",
     popular: true,
     features: [
       "50.000 besed / mesec",
@@ -107,30 +107,36 @@ const plans = [
   },
 ];
 
-const useCases = [
+const useCases: { icon: LucideIcon; title: string; desc: string }[] = [
   {
-    title: "Marketinške ekipe",
-    desc: "Ustvarjajte vsebine za družbena omrežja, e-poštne kampanje in opise izdelkov 10x hitreje.",
+    icon: GraduationCap,
+    title: "Študenti in dijaki",
+    desc: "Povzetki učbenikov, kartice za izpite, eseji, seminarske naloge — vse v brezhibni slovenščini.",
   },
   {
+    icon: Briefcase,
+    title: "Zaposleni",
+    desc: "E-maili, poročila, predstavitve, zapisniki sestankov — AI pomaga pri vsakodnevnih nalogah.",
+  },
+  {
+    icon: TrendingUp,
     title: "Podjetniki",
-    desc: "Pripravite profesionalna besedila, slike in dokumente brez zaposlovanja dodatnega kadra.",
+    desc: "Marketinška besedila, opisi izdelkov, poslovni načrti — profesionalne vsebine brez agencije.",
   },
   {
-    title: "Spletni trgovci",
-    desc: "Generirajte opise izdelkov, oglase in grafike za celoten katalog v minutah.",
+    icon: BookOpen,
+    title: "Učitelji in profesorji",
+    desc: "Kvizi, preizkusi, poenostavitev gradiv za učence — priprava materialov v minutah.",
   },
   {
-    title: "Agencije",
-    desc: "Pospešite produkcijo vsebin za stranke z AI asistentom, ki razume slovenščino.",
+    icon: Megaphone,
+    title: "Tržniki in agencije",
+    desc: "Kampanje, oglasi, objave za družbena omrežja, grafike — 10x hitrejša produkcija vsebin.",
   },
   {
-    title: "Blogerji in ustvarjalci",
-    desc: "Premagajte pisateljski blok in ustvarjajte članke, objave in grafike z lahkoto.",
-  },
-  {
-    title: "Prevajalci",
-    desc: "Pridobite kakovostne osnutke prevodov in jih izpopolnite — prihranite ure dela.",
+    icon: Feather,
+    title: "Freelancerji in ustvarjalci",
+    desc: "Blogi, prevodi, grafika za stranke — celoten kreativni studio na enem mestu.",
   },
 ];
 
@@ -138,13 +144,13 @@ const valueProps: { icon: LucideIcon; title: string; desc: string }[] = [
   { icon: Zap, title: "10x hitrejše ustvarjanje", desc: "Besedilo, ki bi ga pisali uro, AI ustvari v 60 sekundah. Več časa za strategijo." },
   { icon: Globe, title: "Brezhibna slovenščina", desc: "Edina AI platforma, optimizirana za slovenski jezik. Naravna besedila brez tujk." },
   { icon: Shield, title: "Vaši podatki, vaša last", desc: "Generirane vsebine so vaša last. Podatkov ne delimo in ne treniramo AI z njimi." },
-  { icon: Lightbulb, title: "Nikoli brez idej", desc: "AI pomaga premagati pisateljski blok in generira nove ideje na podlagi vaših navodil." },
+  { icon: Sparkles, title: "Za vsako nalogo", desc: "Od seminarskih in povzetkov do e-mailov in marketinških kampanj — AI pomaga pri vsakem besedilu." },
   { icon: Clock, title: "Na voljo 24/7", desc: "AI ne potrebuje odmora. Ustvarjajte vsebine kadarkoli — tudi ob 3. uri zjutraj." },
-  { icon: TrendingUp, title: "Besedila, ki prodajajo", desc: "Predloge temeljijo na preizkušenih copywriting formulah za višje konverzije." },
+  { icon: GraduationCap, title: "Učite se hitreje", desc: "Ustvarite učne kartice, kvize in povzetke iz kateregakoli gradiva v nekaj sekundah." },
 ];
 
 const howItWorks = [
-  { step: "1", title: "Izberite orodje", desc: "Izberite med 11 AI orodji — od besedil do slik in zvoka." },
+  { step: "1", title: "Izberite orodje", desc: "Izberite med 13 AI orodji — od besedil do slik in zvoka." },
   { step: "2", title: "Vnesite navodila", desc: "Opišite, kaj potrebujete. V slovenščini, seveda." },
   { step: "3", title: "Pridobite rezultat", desc: "AI ustvari vsebino v sekundah. Uredite, kopirajte ali prenesite." },
 ];
@@ -190,16 +196,16 @@ export default function HomePage() {
 
           <AnimateOnScroll delay={100}>
             <h1 className="mt-8 text-5xl sm:text-6xl md:text-7xl font-serif tracking-[0.01em] leading-[1.1]">
-              Vaš AI marketinški
+              AI, ki razume
               <br />
-              <span className="logo-gradient">tim v eni aplikaciji.</span>
+              <span className="logo-gradient">slovenščino.</span>
             </h1>
           </AnimateOnScroll>
 
           <AnimateOnScroll delay={200}>
             <p className="mt-8 text-lg md:text-xl text-[#E1E1E1]/60 max-w-2xl mx-auto leading-relaxed">
-              Prodajna besedila, e-maili, slike, zvok, prevodi in dokumenti — vse
-              v brezhibni slovenščini. 11 AI orodij na enem mestu.
+              Besedila, povzetki, učno gradivo, slike, prevodi, zvok — 13 AI
+              orodij za študente, zaposlene in podjetnike.
             </p>
           </AnimateOnScroll>
 
@@ -242,7 +248,7 @@ export default function HomePage() {
           </AnimateOnScroll>
           <AnimateOnScroll delay={200}>
             <p className="text-center text-sm text-[#E1E1E1]/40 mt-6 max-w-lg mx-auto">
-              11 AI orodij v enem intuitivnem vmesniku — od pogovorov in besedil do grafike, zvoka in analize slik.
+              13 AI orodij v enem intuitivnem vmesniku — od pogovorov in besedil do grafike, zvoka in analize slik.
             </p>
           </AnimateOnScroll>
         </div>
@@ -254,7 +260,7 @@ export default function HomePage() {
           <div className="text-center">
             <AnimateOnScroll>
               <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
-                11 AI orodij
+                13 AI orodij
               </span>
             </AnimateOnScroll>
             <AnimateOnScroll delay={100}>
@@ -447,7 +453,7 @@ export default function HomePage() {
             </AnimateOnScroll>
             <AnimateOnScroll delay={200}>
               <p className="mt-4 text-[#E1E1E1]/50 max-w-xl mx-auto">
-                Namesto plačevanja 6 različnih orodij, dobite vse v eni
+                Namesto plačevanja 7 različnih orodij, dobite vse v eni
                 aplikaciji — prilagojeno za slovenščino.
               </p>
             </AnimateOnScroll>
@@ -463,6 +469,7 @@ export default function HomePage() {
                   { name: "DeepL Pro", what: "Prevajanje besedil", price: "9" },
                   { name: "ElevenLabs", what: "Pretvorba besedila v govor", price: "5" },
                   { name: "Grammarly", what: "Preverjanje slovnice", price: "12" },
+                  { name: "Quizlet Plus", what: "Učne kartice in kvizi", price: "8" },
                 ].map((tool, i) => (
                   <div
                     key={tool.name}
@@ -490,7 +497,7 @@ export default function HomePage() {
                       Skupaj posamično
                     </p>
                     <p className="mt-1 text-2xl font-bold text-[#E1E1E1]/30 line-through">
-                      &euro;82/mesec
+                      &euro;90/mesec
                     </p>
                   </div>
                   <div className="text-center sm:text-right">
@@ -504,7 +511,7 @@ export default function HomePage() {
                       </span>
                     </p>
                     <p className="mt-1 text-sm accent-gradient font-semibold">
-                      Prihranite ~&euro;42 na mesec
+                      Prihranite ~&euro;50 na mesec
                     </p>
                   </div>
                 </div>
@@ -544,6 +551,7 @@ export default function HomePage() {
             {useCases.map((item, i) => (
               <AnimateOnScroll key={item.title} delay={i * 80}>
                 <div className="glass-card p-6 rounded-2xl h-full">
+                  <item.icon className="w-8 h-8 accent-icon mb-4" />
                   <h3 className="text-base font-semibold text-white">
                     {item.title}
                   </h3>
@@ -657,7 +665,7 @@ export default function HomePage() {
           <AnimateOnScroll delay={100}>
             <p className="mt-6 text-lg text-[#E1E1E1]/50">
               Največja in najobsežnejša slovenska AI aplikacija.
-              11 orodij, 120+ predlog, vse v slovenščini.
+              13 orodij za študij, delo in poslovanje. 120+ predlog, vse v slovenščini.
             </p>
           </AnimateOnScroll>
 
