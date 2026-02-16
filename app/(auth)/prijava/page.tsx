@@ -38,7 +38,16 @@ function PrijavaForm() {
   const isAffiliate = redirect === "/partnerji";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(authError ? `OAuth napaka: ${authError}` : "");
+  const [error, setError] = useState(() => {
+    if (!authError) return "";
+    if (authError === "drug-brskalnik") {
+      return "Vaš račun je potrjen! Povezavo ste odprli v drugem brskalniku, zato se morate prijaviti ročno. Vnesite e-pošto in geslo spodaj.";
+    }
+    if (authError === "no_code") {
+      return "Potrditvena povezava je neveljavna ali pretečena. Poskusite se prijaviti.";
+    }
+    return `Napaka pri prijavi: ${authError}`;
+  });
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -171,7 +180,7 @@ function PrijavaForm() {
           </div>
 
           {error && (
-            <p className="text-sm text-red-400/90">{error}</p>
+            <p className={`text-sm ${authError === "drug-brskalnik" ? "text-green-400/90" : "text-red-400/90"}`}>{error}</p>
           )}
 
           <button

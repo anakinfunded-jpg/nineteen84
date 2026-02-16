@@ -56,7 +56,12 @@ export async function GET(request: NextRequest) {
       return response;
     }
     console.error("[auth/callback] exchangeCodeForSession failed:", error.message);
-    return NextResponse.redirect(`${baseUrl}/prijava?napaka=${encodeURIComponent(error.message)}`);
+
+    // PKCE error = email confirmed in a different browser. Account IS verified, just needs manual login.
+    const isPKCE = error.message?.includes("PKCE") || error.message?.includes("code verifier");
+    const errorKey = isPKCE ? "drug-brskalnik" : encodeURIComponent(error.message);
+    const redirectParam = next !== "/dashboard" ? `&redirect=${encodeURIComponent(next)}` : "";
+    return NextResponse.redirect(`${baseUrl}/prijava?napaka=${errorKey}${redirectParam}`);
   }
 
   console.error("[auth/callback] No code parameter in URL");
