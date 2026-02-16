@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { checkImageLimit, incrementImages } from "@/lib/credits";
-import OpenAI from "openai";
+import OpenAI, { toFile } from "openai";
 import { NextRequest, NextResponse } from "next/server";
 
 const openai = new OpenAI();
@@ -37,14 +37,17 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Use gpt-image-1 to edit the image with text instructions
+    // Convert Web File to Buffer for SDK compatibility
+    const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
+    const uploadableImage = await toFile(imageBuffer, "image.png", { type: "image/png" });
+
     const response = await openai.images.edit({
       model: "gpt-image-1",
-      image: imageFile,
+      image: uploadableImage,
       prompt: `In this image, find "${findText}" and replace it with "${replaceText}". Keep everything else in the image exactly the same.`,
       n: 1,
-      size: "1024x1024",
-      response_format: "b64_json",
+      size: "1024x1024" as "1024x1024",
+      quality: "high" as "high",
     });
 
     const imageData = response.data?.[0];
