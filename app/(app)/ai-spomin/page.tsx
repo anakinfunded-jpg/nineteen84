@@ -29,6 +29,7 @@ export default function SpominPage() {
   // Upload state
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
@@ -59,17 +60,30 @@ export default function SpominPage() {
 
   async function handleUpload(e: FormEvent) {
     e.preventDefault();
-    if (!title.trim() || !content.trim() || uploading) return;
+    if (!title.trim() || uploading) return;
+    if (!pendingFile && !content.trim()) return;
 
     setUploading(true);
     setUploadError("");
 
     try {
-      const res = await fetch("/api/ai/memory/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, content }),
-      });
+      let res: Response;
+
+      if (pendingFile) {
+        const formData = new FormData();
+        formData.append("file", pendingFile);
+        formData.append("title", title);
+        res = await fetch("/api/ai/memory/upload", {
+          method: "POST",
+          body: formData,
+        });
+      } else {
+        res = await fetch("/api/ai/memory/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title, content }),
+        });
+      }
 
       const data = await res.json();
 
@@ -81,6 +95,7 @@ export default function SpominPage() {
 
       setTitle("");
       setContent("");
+      setPendingFile(null);
       setShowUpload(false);
       await loadDocuments();
     } catch {
@@ -109,9 +124,21 @@ export default function SpominPage() {
   }
 
   async function handleFileUpload(file: File) {
-    const text = await file.text();
+    const name = file.name.toLowerCase();
+    const binaryExts = [".pdf", ".docx", ".pptx", ".xlsx"];
+    const isBinary = binaryExts.some((ext) => name.endsWith(ext));
+
     setTitle(file.name.replace(/\.[^.]+$/, ""));
-    setContent(text);
+
+    if (isBinary) {
+      setPendingFile(file);
+      setContent("");
+    } else {
+      const text = await file.text();
+      setPendingFile(null);
+      setContent(text);
+    }
+
     setShowUpload(true);
   }
 
@@ -277,13 +304,33 @@ export default function SpominPage() {
                 />
               </div>
               <div>
-                <textarea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="Prilepite vsebino dokumenta ali naložite datoteko..."
-                  rows={5}
-                  className="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors resize-none"
-                />
+                {pendingFile ? (
+                  <div className="w-full px-3 py-3 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-[#FEB089]/50 shrink-0" />
+                    <span className="text-[#E1E1E1]/70">{pendingFile.name}</span>
+                    <span className="text-[#E1E1E1]/30 text-xs">
+                      ({(pendingFile.size / 1024).toFixed(0)} KB)
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPendingFile(null);
+                        setTitle("");
+                      }}
+                      className="ml-auto text-[#E1E1E1]/30 hover:text-red-400 transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <textarea
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    placeholder="Prilepite vsebino dokumenta ali naložite datoteko..."
+                    rows={5}
+                    className="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors resize-none"
+                  />
+                )}
               </div>
               <div className="flex gap-2">
                 <button
@@ -291,7 +338,7 @@ export default function SpominPage() {
                   onClick={() => {
                     const input = document.createElement("input");
                     input.type = "file";
-                    input.accept = ".txt,.md,.csv,.json";
+                    input.accept = ".pdf,.docx,.pptx,.xlsx,.txt,.md,.csv,.json";
                     input.onchange = (e) => {
                       const f = (e.target as HTMLInputElement).files?.[0];
                       if (f) handleFileUpload(f);
@@ -305,7 +352,7 @@ export default function SpominPage() {
                 </button>
                 <button
                   type="submit"
-                  disabled={!title.trim() || !content.trim() || uploading}
+                  disabled={!title.trim() || (!content.trim() && !pendingFile) || uploading}
                   className="flex-1 cta-button px-3 py-2 rounded-lg text-xs font-semibold disabled:opacity-50 flex items-center justify-center gap-1.5"
                 >
                   {uploading ? (

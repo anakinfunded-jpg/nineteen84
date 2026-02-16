@@ -20,6 +20,8 @@ import {
   ArrowRightLeft,
   BookOpen,
   Handshake,
+  GraduationCap,
+  BookOpenText,
   type LucideIcon,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
@@ -56,6 +58,13 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Računalniški vid", href: "/ai-vid", icon: Eye },
       { label: "AI Spomin", href: "/ai-spomin", icon: Brain },
+    ],
+  },
+  {
+    title: "Učenje",
+    items: [
+      { label: "AI Povzetek", href: "/ai-povzetek", icon: BookOpenText },
+      { label: "AI Učenje", href: "/ai-ucenje", icon: GraduationCap },
     ],
   },
   {
