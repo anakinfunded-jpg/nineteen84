@@ -39,10 +39,11 @@ const ACTIONS: Record<string, { label: string; prompt: string }> = {
 
 const SYSTEM_PROMPT = `Si profesionalni slovenski lektor in pisec. Tvoja naloga je obdelava besedil v slovenščini.
 Pravila:
-- Vedno odgovarjaj v slovenščini
+- Vedno odgovarjaj v slovenščini z upoštevanjem slovničnih pravil (skloni, spol, glagolski vid, dvojina)
 - Ohrani oblikovanje (odstavki, seznami, naslovi)
 - Vrni SAMO obdelano besedilo, brez komentarjev ali pojasnil
-- Piši v brezhibni slovenščini`;
+- Piši v brezhibni slovenščini
+- Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.) — vrni čist tekst`;
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();

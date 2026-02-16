@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import ReactMarkdown from "react-markdown";
 import {
   Loader2,
   Languages,
@@ -284,14 +285,18 @@ export default function PrevajalnikPage() {
                 </button>
               )}
             </div>
-            <div className="w-full min-h-[288px] px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm whitespace-pre-wrap">
+            <div className="w-full min-h-[288px] px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm">
               {loading && !result && (
                 <div className="flex items-center gap-2 text-[#E1E1E1]/30">
                   <Loader2 className="w-4 h-4 animate-spin" />
                   Prevajam...
                 </div>
               )}
-              {result || (!loading && (
+              {result ? (
+                <div className="prose-chat leading-relaxed">
+                  <ReactMarkdown>{result}</ReactMarkdown>
+                </div>
+              ) : (!loading && (
                 <span className="text-[#E1E1E1]/20">
                   Prevod se bo prikazal tukaj...
                 </span>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, type FormEvent, type DragEvent } from "react";
+import ReactMarkdown from "react-markdown";
 import {
   Loader2,
   Upload,
@@ -243,8 +244,8 @@ export default function VisionPage() {
           </div>
 
           {output ? (
-            <div className="flex-1 text-sm text-[#E1E1E1] leading-relaxed whitespace-pre-wrap">
-              {output}
+            <div className="flex-1 prose-chat text-sm text-[#E1E1E1] leading-relaxed">
+              <ReactMarkdown>{output}</ReactMarkdown>
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-center">

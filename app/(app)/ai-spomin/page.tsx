@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, type FormEvent } from "react";
+import ReactMarkdown from "react-markdown";
 import {
   Loader2,
   Brain,
@@ -216,8 +217,8 @@ export default function SpominPage() {
                   {copied ? "Kopirano" : "Kopiraj"}
                 </button>
               </div>
-              <div className="text-sm text-[#E1E1E1] leading-relaxed whitespace-pre-wrap">
-                {answer}
+              <div className="prose-chat text-sm text-[#E1E1E1] leading-relaxed">
+                <ReactMarkdown>{answer}</ReactMarkdown>
               </div>
             </div>
           )}

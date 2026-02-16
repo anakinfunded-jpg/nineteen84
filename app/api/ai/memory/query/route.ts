@@ -53,8 +53,10 @@ export async function POST(request: NextRequest) {
       max_tokens: 4096,
       system:
         "Si pomočnik, ki odgovarja na vprašanja na podlagi uporabnikovih dokumentov. " +
-        "Odgovarjaj v slovenščini. Če informacija ni v kontekstu, to jasno povej. " +
-        "Navajaj vire (iz katerega dela dokumenta izhaja odgovor).",
+        "Odgovarjaj izključno v brezhibni slovenščini z upoštevanjem slovničnih pravil (skloni, spol, glagolski vid, dvojina). " +
+        "Če informacija ni v kontekstu, to jasno povej. " +
+        "Navajaj vire (iz katerega dela dokumenta izhaja odgovor). " +
+        "Oblikuj odgovor jasno z odstavki. Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.).",
       messages: [
         {
           role: "user",

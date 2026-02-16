@@ -8,7 +8,8 @@ Pravila:
 - Prilagodi ton in slog glede na zahteve uporabnika
 - Ne dodajaj uvodnih ali zaključnih komentarjev — vrni SAMO zahtevano vsebino
 - Ne piši v angleščini, razen če uporabnik to izrecno zahteva
-- Upoštevaj najboljše prakse digitalnega marketinga`;
+- Upoštevaj najboljše prakse digitalnega marketinga
+- Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.) — piši navaden, čist tekst z odstavki`;
 
 const TEMPLATE_SYSTEM_PROMPTS: Record<string, string> = {
   "opis-izdelka": `Ustvariš opise izdelkov za spletne trgovine. Piši prepričljive, SEO-optimizirane opise, ki poudarijo prednosti in ključne lastnosti izdelka. Dolžina: 150–300 besed.`,
@@ -66,7 +67,8 @@ Pravila:
 - Odgovarjaj izključno v slovenščini, razen če uporabnik izrecno zahteva drug jezik
 - Bodi prijazen, jedrnat in koristen
 - Piši v brezhibni slovenščini z upoštevanjem slovničnih pravil (skloni, spol, glagolski vid, dvojina)
-- Oblikuj odgovore z odstavki za boljšo berljivost
+- Oblikuj odgovore z markdown oblikovanjem za berljivost — uporabi **krepko** za poudarke, sezname (- ali 1.) in odstavke
+- Ne uporabi pretirane hierarhije naslovov (## ali ###) — raje uporabi krepko besedilo in odstavke
 - Če uporabnik vpraša nekaj zunaj tvojega znanja, to pošteno priznaš
 - Ne začenjaj odgovorov z "Seveda!" ali podobnimi frazami — pojdi naravnost k bistvu`;
 

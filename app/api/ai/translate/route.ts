@@ -66,7 +66,8 @@ Pravila:
 - Ohrani pomen, ton in slog izvirnika
 - Ohrani oblikovanje (odstavki, seznami, naslovi)
 - Vrni SAMO prevod, brez komentarjev ali pojasnil
-- Prevod naj zveni naravno v ciljnem jeziku, ne kot dobesedni prevod`;
+- Prevod naj zveni naravno v ciljnem jeziku, ne kot dobesedni prevod
+- Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.) — vrni čist prevod`;
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();

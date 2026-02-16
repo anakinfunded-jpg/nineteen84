@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
         messages: [
           {
             role: "user",
-            content: `Generiraj kratek naslov (3-6 besed) za ta pogovor. Vrni SAMO naslov, brez narekovajev ali ločil na koncu.\n\nSporočilo: ${message.slice(0, 200)}`,
+            content: `Generiraj kratek naslov v slovenščini (3-6 besed) za ta pogovor. Vrni SAMO naslov, brez narekovajev ali ločil na koncu.\n\nSporočilo: ${message.slice(0, 200)}`,
           },
         ],
       });

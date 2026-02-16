@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import ReactMarkdown from "react-markdown";
 import { templates, categories, type Template } from "@/lib/ai/templates";
 import {
   ArrowLeft,
@@ -305,8 +306,8 @@ export default function BesedilaPage() {
             )}
 
             {output ? (
-              <div className="text-sm text-[#E1E1E1]/80 leading-relaxed whitespace-pre-wrap">
-                {output}
+              <div className="prose-chat text-sm text-[#E1E1E1]/80 leading-relaxed">
+                <ReactMarkdown>{output}</ReactMarkdown>
               </div>
             ) : (
               !loading && (

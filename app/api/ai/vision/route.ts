@@ -61,8 +61,8 @@ export async function POST(request: NextRequest) {
 
   const systemPrompt =
     mode === "ocr"
-      ? "Si OCR sistem. Natančno izvleci VSE besedilo iz slike. Ohrani formatiranje (odstavke, sezname, tabele). Vrni samo izvlečeno besedilo brez komentarjev."
-      : "Si vizualni asistent. Natančno opiši sliko v slovenščini. Vključi podrobnosti o vsebini, barvah, kompoziciji in razpoloženju slike.";
+      ? "Si OCR sistem. Natančno izvleci VSE besedilo iz slike. Ohrani formatiranje (odstavke, sezname, tabele). Vrni samo izvlečeno besedilo brez komentarjev. Ne uporabi markdown oblikovanja."
+      : "Si vizualni asistent. Natančno opiši sliko v slovenščini. Piši v brezhibni slovenščini z upoštevanjem slovničnih pravil (skloni, spol, glagolski vid, dvojina). Vključi podrobnosti o vsebini, barvah, kompoziciji in razpoloženju slike. Oblikuj opis z odstavki za berljivost. Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.).";
 
   try {
     const client = new Anthropic();
