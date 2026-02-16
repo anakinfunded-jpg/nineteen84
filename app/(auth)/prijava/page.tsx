@@ -3,13 +3,16 @@
 import { AuthListener } from "@/components/auth-listener";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
 export default function PrijavaPage() {
+  const searchParams = useSearchParams();
+  const authError = searchParams.get("napaka");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(authError ? `OAuth napaka: ${authError}` : "");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -25,7 +28,16 @@ export default function PrijavaPage() {
     });
 
     if (error) {
-      setError("Napačen e-poštni naslov ali geslo.");
+      const msg = error.message?.toLowerCase() || "";
+      if (msg.includes("invalid login") || msg.includes("invalid credentials")) {
+        setError("Napačen e-poštni naslov ali geslo.");
+      } else if (msg.includes("email not confirmed")) {
+        setError("E-poštni naslov še ni potrjen. Preverite svojo e-pošto.");
+      } else if (msg.includes("rate limit")) {
+        setError("Preveč poskusov. Počakajte nekaj minut.");
+      } else {
+        setError(`Prijava ni uspela: ${error.message}`);
+      }
       setLoading(false);
       return;
     }
@@ -37,8 +49,8 @@ export default function PrijavaPage() {
   async function handleGoogleLogin() {
     setGoogleLoading(true);
     const supabase = createClient();
-    const redirectBase =
-      process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+    // Always use actual origin to match cookies/PKCE verifier domain
+    const redirectBase = window.location.origin;
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {

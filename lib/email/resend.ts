@@ -18,7 +18,7 @@ export async function sendEmail(options: {
   contactId: string;
 }) {
   const resend = getResendClient();
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://1984.si";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.1984.si";
   const unsubscribeUrl = `${appUrl}/api/outreach/unsubscribe?token=${options.contactId}`;
 
   const { data, error } = await resend.emails.send({

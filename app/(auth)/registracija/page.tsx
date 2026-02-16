@@ -3,12 +3,10 @@
 import { AuthListener } from "@/components/auth-listener";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
 export default function RegistracijaPage() {
-  const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,12 +32,22 @@ export default function RegistracijaPage() {
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/auth/callback`,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
     if (error) {
-      setError("Registracija ni uspela. Poskusite znova.");
+      // Show actual error for debugging, with Slovenian fallback
+      const msg = error.message?.toLowerCase() || "";
+      if (msg.includes("already registered") || msg.includes("already been registered")) {
+        setError("Ta e-poštni naslov je že registriran. Poskusite se prijaviti.");
+      } else if (msg.includes("rate limit")) {
+        setError("Preveč poskusov. Počakajte nekaj minut in poskusite znova.");
+      } else if (msg.includes("password")) {
+        setError("Geslo ne ustreza zahtevam. Uporabite vsaj 6 znakov.");
+      } else {
+        setError(`Registracija ni uspela: ${error.message}`);
+      }
       setLoading(false);
       return;
     }
@@ -51,8 +59,7 @@ export default function RegistracijaPage() {
   async function handleGoogleLogin() {
     setGoogleLoading(true);
     const supabase = createClient();
-    const redirectBase =
-      process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+    const redirectBase = window.location.origin;
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {

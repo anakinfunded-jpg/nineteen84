@@ -14,6 +14,6 @@ export async function GET(request: NextRequest) {
       .is("clicked_at", null);
   }
 
-  const destination = url || process.env.NEXT_PUBLIC_APP_URL || "https://1984.si";
+  const destination = url || process.env.NEXT_PUBLIC_APP_URL || "https://www.1984.si";
   return NextResponse.redirect(destination);
 }

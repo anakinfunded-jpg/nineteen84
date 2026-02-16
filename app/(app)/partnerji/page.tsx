@@ -304,7 +304,7 @@ function ActiveDashboard() {
   const ms = MILESTONE_META[stats.milestone];
   const mp = stats.milestoneProgress;
   const nextMs = mp.next ? MILESTONE_META[mp.next] : null;
-  const referralLink = `https://1984.si/?ref=${stats.code}`;
+  const referralLink = `https://www.1984.si/?ref=${stats.code}`;
 
   return (
     <div className="p-8 max-w-5xl">

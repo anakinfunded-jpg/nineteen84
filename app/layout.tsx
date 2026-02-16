@@ -20,12 +20,12 @@ export const metadata: Metadata = {
   title: "1984 | AI, ki piše slovensko",
   description:
     "Prva slovenska AI platforma za ustvarjanje marketinških vsebin. Opisi izdelkov, objave za družbena omrežja, e-maili, blogi — vse v brezhibni slovenščini.",
-  metadataBase: new URL("https://1984.si"),
+  metadataBase: new URL("https://www.1984.si"),
   openGraph: {
     title: "1984 | AI, ki piše slovensko",
     description:
       "Prva slovenska AI platforma za ustvarjanje marketinških vsebin. Opisi izdelkov, objave za družbena omrežja, e-maili, blogi — vse v brezhibni slovenščini.",
-    url: "https://1984.si",
+    url: "https://www.1984.si",
     siteName: "1984",
     locale: "sl_SI",
     type: "website",

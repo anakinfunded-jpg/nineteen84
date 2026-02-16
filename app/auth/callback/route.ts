@@ -55,7 +55,10 @@ export async function GET(request: NextRequest) {
       });
       return response;
     }
+    console.error("[auth/callback] exchangeCodeForSession failed:", error.message);
+    return NextResponse.redirect(`${baseUrl}/prijava?napaka=${encodeURIComponent(error.message)}`);
   }
 
-  return NextResponse.redirect(`${baseUrl}/prijava?napaka=auth`);
+  console.error("[auth/callback] No code parameter in URL");
+  return NextResponse.redirect(`${baseUrl}/prijava?napaka=no_code`);
 }

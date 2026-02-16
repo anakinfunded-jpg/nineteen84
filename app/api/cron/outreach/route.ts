@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   }
 
   const supabase = createAdminClient();
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://1984.si";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.1984.si";
 
   // Find campaigns that are scheduled and due
   const { data: campaigns } = await supabase
