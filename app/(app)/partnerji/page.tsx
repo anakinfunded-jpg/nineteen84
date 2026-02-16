@@ -153,14 +153,14 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
     <div className="p-8 max-w-3xl">
       <h1 className="text-2xl font-semibold text-white">Partnerski program</h1>
       <p className="mt-1 text-sm text-[#E1E1E1]/50">
-        Pridružite se in zaslužite 30% provizije za vsako priporočilo.
+        Pridružite se in zaslužite 20% provizije za vsako priporočilo.
       </p>
 
       {/* Benefits */}
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
-          { icon: TrendingUp, title: "30% ponavljajoča se provizija", desc: "Za vsako plačljivo naročnino" },
-          { icon: Gift, title: "15% popust za občinstvo", desc: "Vaši sledilci dobijo popust" },
+          { icon: TrendingUp, title: "20% ponavljajoča se provizija", desc: "Za vsako plačljivo naročnino (12 mesecev)" },
+          { icon: Gift, title: "21-dnevni preizkus za občinstvo", desc: "Vaši sledilci dobijo podaljšan preizkus" },
           { icon: Clock, title: "90-dnevno sledenje", desc: "Dolga doba za konverzijo" },
           { icon: BarChart3, title: "Analitika v realnem času", desc: "Spremljajte vse na enem mestu" },
         ].map((b) => (
@@ -485,7 +485,7 @@ function ActiveDashboard() {
         <div className="glass-card rounded-xl p-4">
           <div className="flex items-center gap-2 mb-2">
             <Tag className="w-4 h-4 text-[#FEB089]" />
-            <span className="text-xs text-[#E1E1E1]/40 uppercase tracking-wider">Koda za popust</span>
+            <span className="text-xs text-[#E1E1E1]/40 uppercase tracking-wider">Partnerska koda</span>
           </div>
           <div className="flex items-center gap-2">
             <code className="flex-1 text-sm text-[#E1E1E1]/80 bg-white/[0.04] rounded-lg px-3 py-2 font-mono uppercase">

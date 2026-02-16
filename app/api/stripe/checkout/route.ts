@@ -39,17 +39,18 @@ export async function POST(request: NextRequest) {
     customerId = customer.id;
   }
 
-  // Check for affiliate referral
+  // Check for affiliate referral (no coupon — referred users get extended trial instead)
   let affiliateId: string | undefined;
   let affiliateCode: string | undefined;
+  let isAffiliateReferred = false;
   const discounts: { coupon: string }[] = [];
 
   if (ref) {
     const affiliate = await getAffiliateByCode(ref);
-    if (affiliate && affiliate.status === "active" && process.env.STRIPE_AFFILIATE_COUPON_ID) {
+    if (affiliate && affiliate.status === "active") {
       affiliateId = affiliate.id;
       affiliateCode = affiliate.code;
-      discounts.push({ coupon: process.env.STRIPE_AFFILIATE_COUPON_ID });
+      isAffiliateReferred = true;
     }
   }
 
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
     line_items: [{ price: plan.priceId, quantity: 1 }],
     ...(discounts.length > 0 ? { discounts } : {}),
     subscription_data: {
-      trial_period_days: 5,
+      trial_period_days: isAffiliateReferred ? 21 : 5,
       metadata: { user_id: user.id },
     },
     metadata: {

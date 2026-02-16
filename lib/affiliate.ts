@@ -31,10 +31,12 @@ export interface AffiliateConversion {
   affiliate_id: string;
   referred_user_id: string | null;
   stripe_subscription_id: string | null;
+  stripe_invoice_id: string | null;
   plan_id: string;
   amount: number;
   commission: number;
   status: string;
+  type: "initial" | "recurring";
   created_at: string;
 }
 
@@ -118,6 +120,7 @@ export async function recordConversion(
     plan_id: planId,
     amount,
     commission,
+    type: "initial",
   });
 
   // Update affiliate totals
@@ -162,8 +165,8 @@ export async function updateMilestone(affiliateId: string) {
       milestone: newMilestone,
       updated_at: new Date().toISOString(),
     };
-    if (newMilestone === "platinum" && affiliate.commission_rate < 35) {
-      updates.commission_rate = 35;
+    if (newMilestone === "platinum" && affiliate.commission_rate < 25) {
+      updates.commission_rate = 25;
     }
 
     await supabase.from("affiliates").update(updates).eq("id", affiliateId);
@@ -278,4 +281,65 @@ export function getMilestoneProgress(conversions: number): {
     : 100;
 
   return { current, next, nextAt, progress };
+}
+
+export function isCommissionActive(conversionDate: string): boolean {
+  const created = new Date(conversionDate);
+  const twelveMonthsLater = new Date(created);
+  twelveMonthsLater.setMonth(twelveMonthsLater.getMonth() + 12);
+  return new Date() < twelveMonthsLater;
+}
+
+export async function getOriginalConversion(
+  subscriptionId: string
+): Promise<AffiliateConversion | null> {
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("affiliate_conversions")
+    .select("*")
+    .eq("stripe_subscription_id", subscriptionId)
+    .eq("type", "initial")
+    .maybeSingle();
+  return data as AffiliateConversion | null;
+}
+
+export async function recordRecurringCommission(
+  affiliateId: string,
+  subscriptionId: string,
+  planId: string,
+  amount: number,
+  invoiceId: string,
+  originalDate: string
+) {
+  if (!isCommissionActive(originalDate)) return;
+
+  const supabase = createAdminClient();
+  const affiliate = await getAffiliateById(affiliateId);
+  if (!affiliate) return;
+
+  const commission = Number((amount * (affiliate.commission_rate / 100)).toFixed(2));
+
+  // Insert with stripe_invoice_id for dedup (unique index will reject duplicates)
+  const { error } = await supabase.from("affiliate_conversions").insert({
+    affiliate_id: affiliateId,
+    stripe_subscription_id: subscriptionId,
+    stripe_invoice_id: invoiceId,
+    plan_id: planId,
+    amount,
+    commission,
+    type: "recurring",
+  });
+
+  // If duplicate invoice, skip silently
+  if (error?.code === "23505") return;
+  if (error) return;
+
+  // Update affiliate totals
+  await supabase
+    .from("affiliates")
+    .update({
+      total_earned: Number((affiliate.total_earned + commission).toFixed(2)),
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", affiliateId);
 }

@@ -1,6 +1,12 @@
 import { stripe, getPlanByPriceId } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getAffiliateByCode, recordConversion, getPlanPrice } from "@/lib/affiliate";
+import {
+  getAffiliateByCode,
+  recordConversion,
+  getPlanPrice,
+  getOriginalConversion,
+  recordRecurringCommission,
+} from "@/lib/affiliate";
 import { NextRequest } from "next/server";
 import type Stripe from "stripe";
 
@@ -157,6 +163,50 @@ export async function POST(request: NextRequest) {
         .from("affiliate_conversions")
         .update({ status: "canceled" })
         .eq("stripe_subscription_id", subscription.id);
+      break;
+    }
+
+    case "invoice.paid": {
+      const invoice = event.data.object as Stripe.Invoice;
+      const subDetails = invoice.parent?.subscription_details;
+      const subscriptionId =
+        subDetails && "subscription" in subDetails
+          ? typeof subDetails.subscription === "string"
+            ? subDetails.subscription
+            : subDetails.subscription?.id
+          : null;
+
+      // Skip initial subscription creation (already handled at checkout)
+      if (
+        !subscriptionId ||
+        invoice.billing_reason === "subscription_create"
+      ) {
+        break;
+      }
+
+      // Look up subscription for affiliate_id
+      const { data: sub } = await supabase
+        .from("subscriptions")
+        .select("affiliate_id, plan_id")
+        .eq("stripe_subscription_id", subscriptionId)
+        .maybeSingle();
+
+      if (sub?.affiliate_id) {
+        const original = await getOriginalConversion(subscriptionId);
+        if (original) {
+          const planPrice = getPlanPrice(sub.plan_id);
+          if (planPrice > 0) {
+            await recordRecurringCommission(
+              sub.affiliate_id,
+              subscriptionId,
+              sub.plan_id,
+              planPrice,
+              invoice.id,
+              original.created_at
+            );
+          }
+        }
+      }
       break;
     }
 

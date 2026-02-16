@@ -21,7 +21,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Partnerski program | 1984 — AI, ki piše slovensko",
   description:
-    "Zaslužite 30% provizije za vsako priporočilo. Pridružite se partnerskemu programu 1984 in pomagajte slovenskim podjetjem odkriti moč AI.",
+    "Zaslužite 20% provizije za vsako priporočilo. Pridružite se partnerskemu programu 1984 in pomagajte slovenskim podjetjem odkriti moč AI.",
 };
 
 const steps = [
@@ -38,20 +38,20 @@ const steps = [
   {
     icon: Wallet,
     title: "Zaslužite",
-    desc: "Zaslužite 30% provizije za vsako plačljivo naročnino — vsak mesec, dokler ostanejo naročniki.",
+    desc: "Zaslužite 20% provizije za vsako plačljivo naročnino — 12 mesecev za vsakega uporabnika.",
   },
 ];
 
 const benefits = [
   {
     icon: TrendingUp,
-    title: "30% ponavljajoča se provizija",
-    desc: "Ne enkratno — zaslužite vsak mesec, dokler vaš priporočeni uporabnik ostane naročnik.",
+    title: "20% ponavljajoča se provizija",
+    desc: "Zaslužite vsak mesec, 12 mesecev za vsakega priporočenega uporabnika.",
   },
   {
     icon: Gift,
-    title: "15% popust za vaše občinstvo",
-    desc: "Vaši sledilci dobijo trajni 15% popust na vse pakete — lažje priporočanje.",
+    title: "21-dnevni brezplačni preizkus",
+    desc: "Vaši sledilci dobijo podaljšan 21-dnevni preizkus namesto standardnih 5 dni — lažje priporočanje.",
   },
   {
     icon: Clock,
@@ -91,7 +91,7 @@ const milestones = [
     icon: Crown,
     level: "Platinasti",
     min: 100,
-    reward: "Nadgradnja na 35% provizijo",
+    reward: "Nadgradnja na 25% provizijo",
     color: "from-blue-400 to-blue-300",
   },
   {
@@ -129,9 +129,9 @@ export default async function AffiliatePage() {
           <AnimateOnScroll delay={200}>
             <p className="mt-6 text-lg text-[#E1E1E1]/60 max-w-2xl mx-auto leading-relaxed">
               Pridružite se našemu partnerskemu programu in zaslužite{" "}
-              <span className="text-white font-semibold">30% ponavljajočo provizijo</span>{" "}
+              <span className="text-white font-semibold">20% ponavljajočo provizijo</span>{" "}
               za vsako priporočilo. Vaše občinstvo dobi{" "}
-              <span className="text-white font-semibold">15% popust</span>.
+              <span className="text-white font-semibold">21-dnevni brezplačni preizkus</span>.
             </p>
           </AnimateOnScroll>
           <AnimateOnScroll delay={300}>
@@ -264,9 +264,9 @@ export default async function AffiliatePage() {
                 </thead>
                 <tbody>
                   {[
-                    { name: "Osnovno", price: "16,90", comm: "5,07", yearly: "60,84" },
-                    { name: "Profesionalno", price: "39,90", comm: "11,97", yearly: "143,64" },
-                    { name: "Poslovno", price: "84,90", comm: "25,47", yearly: "305,64" },
+                    { name: "Osnovno", price: "16,90", comm: "3,38", yearly: "40,56" },
+                    { name: "Profesionalno", price: "39,90", comm: "7,98", yearly: "95,76" },
+                    { name: "Poslovno", price: "84,90", comm: "16,98", yearly: "203,76" },
                   ].map((row) => (
                     <tr
                       key={row.name}
@@ -293,7 +293,7 @@ export default async function AffiliatePage() {
 
           <AnimateOnScroll delay={200}>
             <p className="mt-4 text-center text-sm text-[#E1E1E1]/30">
-              Primer: 20 uporabnikov na Profesionalnem paketu = &euro;239,40/mesec ali &euro;2.872,80/leto
+              Primer: 20 uporabnikov na Profesionalnem paketu = &euro;159,60/mesec (provizija traja 12 mesecev)
             </p>
           </AnimateOnScroll>
         </div>

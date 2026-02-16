@@ -201,7 +201,7 @@ function RegistracijaForm() {
               Partnerski program
             </p>
             <p className="mt-2 text-xs text-[#FEB089]/70">
-              Ustvarite račun in se prijavite kot partner — zaslužite 30% provizije
+              Ustvarite račun in se prijavite kot partner — zaslužite 20% provizije
             </p>
           </>
         ) : (
