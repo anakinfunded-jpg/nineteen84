@@ -241,7 +241,7 @@ function RegistracijaForm() {
               />
             </svg>
           )}
-          Nadaljuj z Google
+          Nadaljuj z Googlom
         </button>
 
         {/* Divider */}

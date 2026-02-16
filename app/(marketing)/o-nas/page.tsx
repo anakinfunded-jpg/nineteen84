@@ -140,7 +140,7 @@ export default function ONasPage() {
                 Vse se je začelo konec leta 2025, ko je Luka Horvat — takrat
                 vodja digitalnega marketinga pri slovenskem startupu — opazil
                 ponavljajoč problem: vsak teden je porabil ure za pisanje
-                marketinških besedil, objav za družabna omrežja in e-poštnih
+                marketinških besedil, objav za družbena omrežja in e-poštnih
                 kampanj. Obstoječa AI orodja so delovala odlično v angleščini,
                 a v slovenščini so rezultati bili neuporabni — polni tujk,
                 čudnih stavčnih struktur in očitno strojno prevedenih fraz.

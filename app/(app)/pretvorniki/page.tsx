@@ -411,7 +411,7 @@ code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
           ) : (
             <ArrowRightLeft className="w-4 h-4" />
           )}
-          {loading ? "Pretvarja..." : "Pretvori"}
+          {loading ? "Pretvarjam..." : "Pretvori"}
         </button>
       </div>
 

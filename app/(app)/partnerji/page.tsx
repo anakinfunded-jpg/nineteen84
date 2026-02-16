@@ -159,7 +159,7 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
       {/* Benefits */}
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
-          { icon: TrendingUp, title: "30% ponavljajoča provizija", desc: "Za vsako plačljivo naročnino" },
+          { icon: TrendingUp, title: "30% ponavljajoča se provizija", desc: "Za vsako plačljivo naročnino" },
           { icon: Gift, title: "15% popust za občinstvo", desc: "Vaši sledilci dobijo popust" },
           { icon: Clock, title: "90-dnevno sledenje", desc: "Dolga doba za konverzijo" },
           { icon: BarChart3, title: "Analitika v realnem času", desc: "Spremljajte vse na enem mestu" },
@@ -369,7 +369,7 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
           ) : (
             <ArrowRight className="w-4 h-4" />
           )}
-          Pošlji prijavo
+          Pošljite prijavo
         </button>
       </form>
     </div>

@@ -141,7 +141,7 @@ export const templates: Template[] = [
   {
     id: "naslovi-oglasov",
     name: "Naslovi za oglase",
-    description: "Udarjalni naslovi za oglase",
+    description: "Udarni naslovi za oglase",
     icon: "Type",
     category: "Marketing",
     fields: [

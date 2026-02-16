@@ -32,11 +32,11 @@ const plans = [
   {
     name: "Brezplačno",
     price: "0",
-    desc: "Za preizkus platforme",
+    desc: "14-dnevni preizkus",
     popular: false,
     features: [
-      "1.000 besed / mesec",
-      "5 slik / mesec",
+      "2.000 besed",
+      "10 slik",
       "AI Chat, Besedila, Dokumenti",
       "3 predloge za besedila",
       "AI Prevajalnik (3 jeziki)",
@@ -44,12 +44,12 @@ const plans = [
       "10 analiz slik (OCR)",
       "E-poštna podpora",
     ],
-    cta: "Začni brezplačno",
+    cta: "Preizkusi 14 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
     name: "Osnovno",
-    price: "14,90",
+    price: "16,90",
     desc: "Za podjetnike in posameznike",
     popular: false,
     features: [
@@ -57,7 +57,7 @@ const plans = [
       "200 slik / mesec",
       "AI Chat, Besedila, Dokumenti",
       "15 predlog za besedila",
-      "AI Prevajalnik (6 jezikov)",
+      "AI Prevajalnik (40+ jezikov)",
       "50 generiranj zvoka",
       "100 analiz slik (OCR)",
       "E-poštna podpora",
@@ -67,19 +67,19 @@ const plans = [
   },
   {
     name: "Profesionalno",
-    price: "24,90",
+    price: "39,90",
     desc: "Za marketinške ekipe in agencije",
     popular: true,
     features: [
       "50.000 besed / mesec",
-      "500 slik / mesec",
+      "400 slik / mesec",
       "Vse funkcije vključene",
       "Vse predloge za besedila",
-      "Napredni AI model (Sonnet)",
-      "200 generiranj zvoka",
-      "500 analiz slik (OCR)",
-      "100 inpainting urejanj",
-      "100 dokumentov v AI Spomin",
+      "Najzmogljivejši AI model (Opus)",
+      "150 generiranj zvoka",
+      "400 analiz slik (OCR)",
+      "80 inpainting urejanj",
+      "100 dokumentov v AI Spominu",
       "Prednostna podpora",
     ],
     cta: "Preizkusi 5 dni brezplačno",
@@ -87,18 +87,18 @@ const plans = [
   },
   {
     name: "Poslovno",
-    price: "39,90",
+    price: "84,90",
     desc: "Za velika podjetja in organizacije",
     popular: false,
     features: [
-      "100.000 besed / mesec",
-      "1.000 slik / mesec",
-      "Vse funkcije — brez omejitev",
-      "Napredni AI model (Sonnet)",
-      "Neomejeno generiranje zvoka",
-      "Neomejene analize slik",
-      "Neomejeno inpainting urejanj",
-      "Neomejeno dokumentov",
+      "150.000 besed / mesec",
+      "800 slik / mesec",
+      "Vse funkcije — vrhunska kakovost",
+      "Najzmogljivejši AI model (Opus)",
+      "400 generiranj zvoka",
+      "800 analiz slik (OCR)",
+      "250 inpainting urejanj",
+      "250 dokumentov v AI Spominu",
       "API dostop",
       "Telefonska podpora",
     ],
@@ -223,7 +223,7 @@ export default function HomePage() {
 
           <AnimateOnScroll delay={400}>
             <p className="mt-6 text-sm text-[#E1E1E1]/30">
-              Brezplačen paket — brez kreditne kartice
+              14-dnevni brezplačni preizkus — brez kreditne kartice
             </p>
           </AnimateOnScroll>
         </div>
@@ -242,7 +242,7 @@ export default function HomePage() {
           </AnimateOnScroll>
           <AnimateOnScroll delay={200}>
             <p className="text-center text-sm text-[#E1E1E1]/40 mt-6 max-w-lg mx-auto">
-              11 AI orodij v enem intitivnem vmesniku — od pogovorov in besedil do grafike, zvoka in analize slik.
+              11 AI orodij v enem intuitivnem vmesniku — od pogovorov in besedil do grafike, zvoka in analize slik.
             </p>
           </AnimateOnScroll>
         </div>
@@ -259,7 +259,7 @@ export default function HomePage() {
             </AnimateOnScroll>
             <AnimateOnScroll delay={100}>
               <h2 className="mt-4 text-4xl md:text-5xl font-serif tracking-[0.01em] leading-tight">
-                Vse kar potrebujete za
+                Vse, kar potrebujete za
                 <br />
                 popolno slovensko vsebino
               </h2>
@@ -448,7 +448,7 @@ export default function HomePage() {
             <AnimateOnScroll delay={200}>
               <p className="mt-4 text-[#E1E1E1]/50 max-w-xl mx-auto">
                 Namesto plačevanja 6 različnih orodij, dobite vse v eni
-                aplikaciji — prilagojeni za slovenščino.
+                aplikaciji — prilagojeno za slovenščino.
               </p>
             </AnimateOnScroll>
           </div>
@@ -498,13 +498,13 @@ export default function HomePage() {
                       1984 Profesionalno
                     </p>
                     <p className="mt-1 text-4xl font-bold text-white">
-                      &euro;24,90
+                      &euro;39,90
                       <span className="text-sm font-normal text-[#E1E1E1]/40">
                         /mesec
                       </span>
                     </p>
                     <p className="mt-1 text-sm accent-gradient font-semibold">
-                      Prihranite ~&euro;57 na mesec
+                      Prihranite ~&euro;42 na mesec
                     </p>
                   </div>
                 </div>
@@ -657,7 +657,7 @@ export default function HomePage() {
           <AnimateOnScroll delay={100}>
             <p className="mt-6 text-lg text-[#E1E1E1]/50">
               Največja in najobsežnejša slovenska AI aplikacija.
-              11 orodij, 40+ predlog, vse v slovenščini.
+              11 orodij, 120+ predlog, vse v slovenščini.
             </p>
           </AnimateOnScroll>
 
@@ -671,7 +671,7 @@ export default function HomePage() {
                 Preizkusi 1984 brezplačno
               </Link>
               <p className="mt-4 text-sm text-[#E1E1E1]/30">
-                Brezplačen paket — brez kreditne kartice — odpoved kadarkoli
+                14-dnevni brezplačni preizkus — brez kreditne kartice — odpoved kadarkoli
               </p>
             </div>
           </AnimateOnScroll>

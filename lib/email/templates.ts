@@ -150,7 +150,7 @@ ${trackingPixel(v.appUrl, v.sendId)}
 </tr>
 <tr>
 <td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:0 0 8px 8px;color:#E1E1E1">
-✓ <strong style="color:#FEB089">Namesto €24,90 → samo €17,43/mesec</strong>
+✓ <strong style="color:#FEB089">Namesto €39,90 → samo €33,92/mesec</strong>
 </td>
 </tr>
 </table>

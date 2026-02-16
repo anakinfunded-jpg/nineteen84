@@ -6,8 +6,8 @@ import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
 
 const MODELS = {
-  free: "claude-haiku-4-5-20251001",
-  premium: "claude-sonnet-4-5-20250929",
+  free: "claude-sonnet-4-5-20250929",
+  premium: "claude-opus-4-6",
 };
 
 export async function POST(request: NextRequest) {
@@ -65,8 +65,8 @@ export async function POST(request: NextRequest) {
 
   const systemPrompt =
     mode === "ocr"
-      ? "Si OCR sistem. Natančno izvleci VSE besedilo iz slike. Ohrani formatiranje (odstavke, sezname, tabele). Vrni samo izvlečeno besedilo brez komentarjev. Ne uporabi markdown oblikovanja."
-      : "Si vizualni asistent. Natančno opiši sliko v slovenščini. Piši v brezhibni slovenščini z upoštevanjem slovničnih pravil (skloni, spol, glagolski vid, dvojina). Vključi podrobnosti o vsebini, barvah, kompoziciji in razpoloženju slike. Oblikuj opis z odstavki za berljivost. Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.).";
+      ? "Si OCR sistem. Natančno izvleci VSE besedilo iz slike. Ohrani formatiranje (odstavke, sezname, tabele). Vrni samo izvlečeno besedilo brez komentarjev. Ne uporabljaj markdown oblikovanja."
+      : "Si vizualni asistent. Natančno opiši sliko v slovenščini. Piši v brezhibni slovenščini z upoštevanjem slovničnih pravil (skloni, spol, glagolski vid, dvojina). Vključi podrobnosti o vsebini, barvah, kompoziciji in razpoloženju slike. Oblikuj opis z odstavki za berljivost. Ne uporabljaj markdown oblikovanja (brez #, ##, **, __ ipd.).";
 
   try {
     const client = new Anthropic();

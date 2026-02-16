@@ -7,9 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const openai = new OpenAI();
 
-type ImageSize = "1024x1024" | "1024x1792" | "1792x1024";
-type ImageStyle = "vivid" | "natural";
-type ImageQuality = "standard" | "hd";
+type ImageSize = "1024x1024" | "1024x1536" | "1536x1024";
+type ImageQuality = "low" | "medium" | "high";
 
 export async function POST(request: NextRequest) {
   // Auth
@@ -25,12 +24,23 @@ export async function POST(request: NextRequest) {
   const { success, reset } = await aiImageLimit.limit(user.id);
   if (!success) return rateLimitResponse(reset);
 
-  const { prompt, size, style, quality } = (await request.json()) as {
+  const { prompt, size, quality } = (await request.json()) as {
     prompt: string;
-    size?: ImageSize;
-    style?: ImageStyle;
-    quality?: ImageQuality;
+    size?: string;
+    quality?: string;
   };
+
+  // Map legacy DALL-E 3 values to gpt-image-1 equivalents
+  const sizeMap: Record<string, ImageSize> = {
+    "1792x1024": "1536x1024",
+    "1024x1792": "1024x1536",
+  };
+  const qualityMap: Record<string, ImageQuality> = {
+    standard: "medium",
+    hd: "high",
+  };
+  const mappedSize: ImageSize = (sizeMap[size || ""] || size || "1024x1024") as ImageSize;
+  const mappedQuality: ImageQuality = (qualityMap[quality || ""] || quality || "medium") as ImageQuality;
 
   if (!prompt?.trim()) {
     return NextResponse.json(
@@ -49,15 +59,13 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Generate image with DALL-E 3
+    // Generate image with gpt-image-1
     const response = await openai.images.generate({
-      model: "dall-e-3",
+      model: "gpt-image-1",
       prompt,
       n: 1,
-      size: size || "1024x1024",
-      style: style || "vivid",
-      quality: quality || "standard",
-      response_format: "b64_json",
+      size: mappedSize,
+      quality: mappedQuality,
     });
 
     const imageData = response.data?.[0];
@@ -68,8 +76,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // The revised prompt from DALL-E 3
-    const revisedPrompt = imageData.revised_prompt || prompt;
+    const revisedPrompt = prompt;
 
     // Upload to Supabase Storage
     const buffer = Buffer.from(imageData.b64_json, "base64");
@@ -104,11 +111,10 @@ export async function POST(request: NextRequest) {
         revised_prompt: revisedPrompt,
         image_url: publicUrl,
         storage_path: fileName,
-        size: size || "1024x1024",
-        style: style || "vivid",
-        quality: quality || "standard",
+        size: mappedSize,
+        quality: mappedQuality,
       })
-      .select("id, prompt, revised_prompt, image_url, size, style, quality, created_at")
+      .select("id, prompt, image_url, size, quality, created_at")
       .single();
 
     if (dbError) {
@@ -143,7 +149,7 @@ export async function GET() {
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("generated_images")
-    .select("id, prompt, revised_prompt, image_url, size, style, quality, created_at")
+    .select("id, prompt, image_url, size, quality, created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(50);

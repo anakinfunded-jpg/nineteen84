@@ -44,7 +44,7 @@ Pravila:
 - Ohrani oblikovanje (odstavki, seznami, naslovi)
 - Vrni SAMO obdelano besedilo, brez komentarjev ali pojasnil
 - Piši v brezhibni slovenščini
-- Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.) — vrni čist tekst`;
+- Ne uporabljaj markdown oblikovanja (brez #, ##, **, __ ipd.) — vrni čist tekst`;
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();

@@ -45,7 +45,7 @@ const steps = [
 const benefits = [
   {
     icon: TrendingUp,
-    title: "30% ponavljajoča provizija",
+    title: "30% ponavljajoča se provizija",
     desc: "Ne enkratno — zaslužite vsak mesec, dokler vaš priporočeni uporabnik ostane naročnik.",
   },
   {
@@ -165,7 +165,7 @@ export default async function AffiliatePage() {
                 Kako deluje
               </span>
               <h2 className="text-3xl md:text-4xl font-serif tracking-[0.01em] text-white">
-                Tri preproste korake
+                Trije preprosti koraki
               </h2>
             </div>
           </AnimateOnScroll>
@@ -264,9 +264,9 @@ export default async function AffiliatePage() {
                 </thead>
                 <tbody>
                   {[
-                    { name: "Osnovno", price: "14,90", comm: "4,47", yearly: "53,64" },
-                    { name: "Profesionalno", price: "24,90", comm: "7,47", yearly: "89,64" },
-                    { name: "Poslovno", price: "39,90", comm: "11,97", yearly: "143,64" },
+                    { name: "Osnovno", price: "16,90", comm: "5,07", yearly: "60,84" },
+                    { name: "Profesionalno", price: "39,90", comm: "11,97", yearly: "143,64" },
+                    { name: "Poslovno", price: "84,90", comm: "25,47", yearly: "305,64" },
                   ].map((row) => (
                     <tr
                       key={row.name}
@@ -293,7 +293,7 @@ export default async function AffiliatePage() {
 
           <AnimateOnScroll delay={200}>
             <p className="mt-4 text-center text-sm text-[#E1E1E1]/30">
-              Primer: 20 uporabnikov na Profesionalnem paketu = &euro;149,40/mesec ali &euro;1.792,80/leto
+              Primer: 20 uporabnikov na Profesionalnem paketu = &euro;239,40/mesec ali &euro;2.872,80/leto
             </p>
           </AnimateOnScroll>
         </div>

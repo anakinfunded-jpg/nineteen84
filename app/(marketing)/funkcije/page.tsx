@@ -30,7 +30,7 @@ export default function FunkcijePage() {
           </AnimateOnScroll>
           <AnimateOnScroll delay={200}>
             <p className="mt-6 text-lg text-[#E1E1E1]/60 max-w-2xl mx-auto">
-              Od marketinških besedil do slik, zvoka in analize dokumentov — vse kar
+              Od marketinških besedil do slik, zvoka in analize dokumentov — vse, kar
               potrebujete za ustvarjanje profesionalnih vsebin v slovenščini.
             </p>
           </AnimateOnScroll>

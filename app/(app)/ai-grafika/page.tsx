@@ -15,28 +15,22 @@ import {
 type GeneratedImage = {
   id: string;
   prompt: string;
-  revised_prompt: string;
   image_url: string;
   size: string;
-  style: string;
   quality: string;
   created_at: string;
 };
 
 const sizes = [
   { value: "1024x1024", label: "Kvadrat (1024×1024)" },
-  { value: "1024x1792", label: "Pokončno (1024×1792)" },
-  { value: "1792x1024", label: "Ležeče (1792×1024)" },
-];
-
-const styles = [
-  { value: "vivid", label: "Živo" },
-  { value: "natural", label: "Naravno" },
+  { value: "1024x1536", label: "Pokončno (1024×1536)" },
+  { value: "1536x1024", label: "Ležeče (1536×1024)" },
 ];
 
 const qualities = [
-  { value: "standard", label: "Standardno" },
-  { value: "hd", label: "HD" },
+  { value: "medium", label: "Standardno" },
+  { value: "high", label: "Visoka" },
+  { value: "low", label: "Nizka" },
 ];
 
 function GrafikaPageInner() {
@@ -46,8 +40,7 @@ function GrafikaPageInner() {
   const [generating, setGenerating] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [size, setSize] = useState("1024x1024");
-  const [style, setStyle] = useState("vivid");
-  const [quality, setQuality] = useState("standard");
+  const [quality, setQuality] = useState("medium");
   const [error, setError] = useState("");
   const [lightbox, setLightbox] = useState<GeneratedImage | null>(null);
 
@@ -91,7 +84,7 @@ function GrafikaPageInner() {
       const res = await fetch("/api/ai/image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, size, style, quality }),
+        body: JSON.stringify({ prompt, size, quality }),
       });
 
       const data = await res.json();
@@ -158,7 +151,7 @@ function GrafikaPageInner() {
           </div>
 
           {/* Options row */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Size */}
             <div>
               <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
@@ -170,28 +163,6 @@ function GrafikaPageInner() {
                 className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm focus:outline-none focus:border-[#FEB089]/50 transition-colors duration-200 appearance-none"
               >
                 {sizes.map((s) => (
-                  <option
-                    key={s.value}
-                    value={s.value}
-                    className="bg-[#191919] text-[#E1E1E1]"
-                  >
-                    {s.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Style */}
-            <div>
-              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
-                Slog
-              </label>
-              <select
-                value={style}
-                onChange={(e) => setStyle(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm focus:outline-none focus:border-[#FEB089]/50 transition-colors duration-200 appearance-none"
-              >
-                {styles.map((s) => (
                   <option
                     key={s.value}
                     value={s.value}
@@ -316,11 +287,11 @@ function GrafikaPageInner() {
                     <span>{img.size}</span>
                     <span>·</span>
                     <span>
-                      {img.style === "vivid" ? "Živo" : "Naravno"}
-                    </span>
-                    <span>·</span>
-                    <span>
-                      {img.quality === "hd" ? "HD" : "Standardno"}
+                      {img.quality === "high" || img.quality === "hd"
+                        ? "Visoka"
+                        : img.quality === "low"
+                          ? "Nizka"
+                          : "Standardno"}
                     </span>
                   </div>
                 </div>

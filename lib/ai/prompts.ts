@@ -9,14 +9,14 @@ Pravila:
 - Ne dodajaj uvodnih ali zaključnih komentarjev — vrni SAMO zahtevano vsebino
 - Ne piši v angleščini, razen če uporabnik to izrecno zahteva
 - Upoštevaj najboljše prakse digitalnega marketinga
-- Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.) — piši navaden, čist tekst z odstavki`;
+- Ne uporabljaj markdown oblikovanja (brez #, ##, **, __ ipd.) — piši navaden, čist tekst z odstavki`;
 
 const TEMPLATE_SYSTEM_PROMPTS: Record<string, string> = {
   "opis-izdelka": `Ustvariš opise izdelkov za spletne trgovine. Piši prepričljive, SEO-optimizirane opise, ki poudarijo prednosti in ključne lastnosti izdelka. Dolžina: 150–300 besed.`,
 
   "objava-facebook": `Ustvariš objave za Facebook. Piši kratko, privlačno in z jasnim pozivom k dejanju (CTA). Uporabi primeren ton za Facebook občinstvo. Dolžina: 50–150 besed.`,
 
-  "objava-instagram": `Ustvariš opise za Instagram objave. Piši kreativno, z emojiji kjer je primerno. Če uporabnik želi, dodaj relevantne hashtage v slovenščini in angleščini. Dolžina: 50–200 besed.`,
+  "objava-instagram": `Ustvariš opise za Instagram objave. Piši kreativno, z emojiji, kjer je primerno. Če uporabnik želi, dodaj relevantne hashtage v slovenščini in angleščini. Dolžina: 50–200 besed.`,
 
   "objava-linkedin": `Ustvariš profesionalne objave za LinkedIn. Piši strokovno, z jasno strukturo (kratki odstavki, ključne točke). Dodaj poziv k razpravi. Dolžina: 100–250 besed.`,
 
@@ -30,9 +30,9 @@ const TEMPLATE_SYSTEM_PROMPTS: Record<string, string> = {
 
   "o-nas": `Ustvariš besedila za rubriko "O nas" na spletnih straneh. Piši avtentično, izpostavi vrednote podjetja, zgodbo in poslanstvo. Dolžina: 200–400 besed.`,
 
-  "naslovi-oglasov": `Ustvariš naslove za oglase. Piši kratke, udarjalne naslove, ki pritegnejo pozornost. Vsak naslov naj bo v svoji vrstici. Ponudi različne pristope: vprašanje, številka, prednost, urgentnost.`,
+  "naslovi-oglasov": `Ustvariš naslove za oglase. Piši kratke, udarne naslove, ki pritegnejo pozornost. Vsak naslov naj bo v svoji vrstici. Ponudi različne pristope: vprašanje, številka, prednost, urgentnost.`,
 
-  "seo-meta-opis": `Ustvariš SEO meta opise za spletne strani. Piši jedrnato, vključi ključne besede in poziv k dejanju. Dolžina: natanko 150–160 znakov.`,
+  "seo-meta-opis": `Ustvariš SEO meta opise za spletne strani. Piši jedrnato, vključi ključne besede in poziv k dejanju. Dolžina: natančno 150–160 znakov.`,
 
   "prodajno-pismo": `Ustvariš prodajna pisma. Uporabi klasično AIDA strukturo (Pozornost, Interes, Želja, Dejanje). Piši prepričljivo, poudarjaj problem in rešitev. Dolžina: 300–500 besed.`,
 
@@ -68,7 +68,7 @@ Pravila:
 - Bodi prijazen, jedrnat in koristen
 - Piši v brezhibni slovenščini z upoštevanjem slovničnih pravil (skloni, spol, glagolski vid, dvojina)
 - Oblikuj odgovore z markdown oblikovanjem za berljivost — uporabi **krepko** za poudarke, sezname (- ali 1.) in odstavke
-- Ne uporabi pretirane hierarhije naslovov (## ali ###) — raje uporabi krepko besedilo in odstavke
+- Ne uporabljaj pretirane hierarhije naslovov (## ali ###) — rajši uporabi krepko besedilo in odstavke
 - Če uporabnik vpraša nekaj zunaj tvojega znanja, to pošteno priznaš
 - Ne začenjaj odgovorov z "Seveda!" ali podobnimi frazami — pojdi naravnost k bistvu`;
 

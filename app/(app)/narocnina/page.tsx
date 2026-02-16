@@ -37,7 +37,7 @@ const PLAN_CARDS = [
   {
     id: "osnovno",
     name: "Osnovno",
-    price: "14,90",
+    price: "16,90",
     popular: false,
     features: [
       "20.000 besed",
@@ -50,26 +50,26 @@ const PLAN_CARDS = [
   {
     id: "profesionalno",
     name: "Profesionalno",
-    price: "24,90",
+    price: "39,90",
     popular: true,
     features: [
       "50.000 besed",
-      "500 slik",
+      "400 slik",
       "Vse predloge",
-      "Visoka kakovost (Sonnet)",
+      "Najzmogljivejši AI (Opus)",
       "Prednostna podpora",
     ],
   },
   {
     id: "poslovno",
     name: "Poslovno",
-    price: "39,90",
+    price: "84,90",
     popular: false,
     features: [
-      "100.000 besed",
-      "1.000 slik",
+      "150.000 besed",
+      "800 slik",
       "API dostop",
-      "Lastni podatki",
+      "Najzmogljivejši AI (Opus)",
       "Telefonska podpora",
     ],
   },
@@ -292,7 +292,7 @@ export default function NarocninaPage() {
 
             {isActive && sub?.currentPeriodEnd && !isTrial && (
               <p className="mt-2 text-sm text-[#E1E1E1]/40">
-                Naslednje zaračunavanje: {formatDate(sub.currentPeriodEnd)}
+                Naslednje obračunavanje: {formatDate(sub.currentPeriodEnd)}
               </p>
             )}
 
@@ -304,7 +304,7 @@ export default function NarocninaPage() {
 
             {status?.planId === "free" && !sub && (
               <p className="mt-2 text-sm text-[#E1E1E1]/40">
-                Nadgradite za več besed, slik in napredne funkcije.
+                Nadgradite za več besed, slik in naprednih funkcij.
               </p>
             )}
           </div>

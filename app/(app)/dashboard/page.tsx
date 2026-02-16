@@ -42,7 +42,7 @@ const tools = [
   },
   {
     title: "AI Prevajalnik",
-    desc: "Prevajajte med 6 jeziki",
+    desc: "Prevajajte med 40+ jeziki",
     icon: Languages,
     href: "/ai-prevajalnik",
   },
@@ -171,7 +171,7 @@ export default async function DashboardPage() {
             href="/predloge"
             className="mt-4 inline-flex items-center gap-1.5 text-sm text-[#FEB089] hover:text-[#FEB089]/80 transition-colors duration-200"
           >
-            Poglej vse predloge
+            Poglejte vse predloge
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

@@ -708,7 +708,7 @@ function ModelRoutingMockup() {
                 <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
                   <div className="w-2 h-2 rounded-full bg-green-400" />
                 </div>
-                <span className="text-[10px] font-medium text-white/70">Claude Haiku 4.5</span>
+                <span className="text-[10px] font-medium text-white/70">Claude Sonnet 4.5</span>
               </div>
               <span className="text-[9px] text-green-400/60 bg-green-400/10 px-2 py-0.5 rounded-full">Hiter</span>
             </div>
@@ -720,9 +720,9 @@ function ModelRoutingMockup() {
                 <div className="w-5 h-5 rounded-full bg-[#FEB089]/20 flex items-center justify-center">
                   <div className="w-2 h-2 rounded-full bg-[#FEB089]" />
                 </div>
-                <span className="text-[10px] font-medium text-white/70">Claude Sonnet 4.5</span>
+                <span className="text-[10px] font-medium text-white/70">Claude Opus 4.6</span>
               </div>
-              <span className="text-[9px] text-[#FEB089]/60 bg-[#FEB089]/10 px-2 py-0.5 rounded-full">Napreden</span>
+              <span className="text-[9px] text-[#FEB089]/60 bg-[#FEB089]/10 px-2 py-0.5 rounded-full">Najzmogljivejši</span>
             </div>
             <p className="text-[9px] text-white/30 leading-relaxed">Kompleksne analize, daljša besedila, zahtevne naloge</p>
           </div>
@@ -912,7 +912,7 @@ function ToneAdjustMockup() {
         </div>
         {/* Original */}
         <div className="bg-white/[0.04] rounded-xl p-3 border border-white/[0.08]">
-          <span className="text-[9px] text-white/25 block mb-1">Izvirno besedilo:</span>
+          <span className="text-[9px] text-white/25 block mb-1">Izvorno besedilo:</span>
           <p className="text-[10px] text-white/50 leading-[1.7]">
             Spoštovani, obveščamo vas, da je vaša naročnina bila uspešno obdelana. Zahvaljujemo se vam za zaupanje.
           </p>
@@ -1114,7 +1114,7 @@ export function DashboardPreview() {
           <div className="mt-2 mx-1 px-3 py-2 rounded-lg bg-gradient-to-r from-[#FFB288]/10 to-[#EE94B0]/10 border border-[#FEB089]/15">
             <span className="text-[9px] text-[#FEB089]/60 font-medium">Profesionalno</span>
             <div className="flex items-baseline gap-1 mt-0.5">
-              <span className="text-[12px] font-bold text-white/70">€24,90</span>
+              <span className="text-[12px] font-bold text-white/70">€39,90</span>
               <span className="text-[8px] text-white/20">/mesec</span>
             </div>
           </div>

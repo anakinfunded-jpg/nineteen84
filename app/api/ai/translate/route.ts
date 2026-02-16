@@ -57,7 +57,7 @@ const LANGUAGES: Record<string, string> = {
   // Ostalo
   ka: "gruzijščina",
   sq: "albanščina",
-  sw: "svahili",
+  sw: "svahilščina",
   la: "latinščina",
 };
 
@@ -68,7 +68,7 @@ Pravila:
 - Ohrani oblikovanje (odstavki, seznami, naslovi)
 - Vrni SAMO prevod, brez komentarjev ali pojasnil
 - Prevod naj zveni naravno v ciljnem jeziku, ne kot dobesedni prevod
-- Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.) — vrni čist prevod`;
+- Ne uporabljaj markdown oblikovanja (brez #, ##, **, __ ipd.) — vrni čist prevod`;
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();

@@ -290,7 +290,7 @@ function AIChatPageInner() {
                 AI Chat
               </h2>
               <p className="text-sm text-[#E1E1E1]/40 text-center max-w-md">
-                Zastavite vprašanje, prosite za pomoč pri pisanju ali se
+                Postavite vprašanje, prosite za pomoč pri pisanju ali se
                 pogovarjajte o marketinških idejah — vse v slovenščini.
               </p>
 

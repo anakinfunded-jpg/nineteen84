@@ -168,7 +168,7 @@ export default function SpominPage() {
     <div className="p-8 max-w-4xl">
       <h1 className="text-2xl font-semibold text-white">AI Spomin</h1>
       <p className="mt-1 text-sm text-[#E1E1E1]/50">
-        Naložite dokumente in zastavljajte vprašanja na podlagi vaše baze znanja
+        Naložite dokumente in postavljajte vprašanja na podlagi vaše baze znanja
       </p>
 
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
@@ -177,7 +177,7 @@ export default function SpominPage() {
           {/* Query form */}
           <form onSubmit={handleQuery} className="glass-card rounded-xl p-5">
             <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
-              Vprašajte svoje dokumente
+              Postavite vprašanje o dokumentih
             </label>
             <div className="flex gap-3">
               <input
@@ -235,7 +235,7 @@ export default function SpominPage() {
                 <Brain className="w-7 h-7 text-[#FEB089]/30" />
               </div>
               <p className="text-sm text-[#E1E1E1]/30">
-                Naložite dokumente v bazo znanja in zastavljajte vprašanja.
+                Naložite dokumente v bazo znanja in postavljajte vprašanja.
                 AI bo odgovarjal na podlagi vaših podatkov.
               </p>
             </div>

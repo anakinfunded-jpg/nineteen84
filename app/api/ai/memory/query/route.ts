@@ -5,8 +5,8 @@ import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
 
 const MODELS = {
-  free: "claude-haiku-4-5-20251001",
-  premium: "claude-sonnet-4-5-20250929",
+  free: "claude-sonnet-4-5-20250929",
+  premium: "claude-opus-4-6",
 };
 
 export async function POST(request: NextRequest) {
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         "Odgovarjaj izključno v brezhibni slovenščini z upoštevanjem slovničnih pravil (skloni, spol, glagolski vid, dvojina). " +
         "Če informacija ni v kontekstu, to jasno povej. " +
         "Navajaj vire (iz katerega dela dokumenta izhaja odgovor). " +
-        "Oblikuj odgovor jasno z odstavki. Ne uporabi markdown oblikovanja (brez #, ##, **, __ ipd.).",
+        "Oblikuj odgovor jasno z odstavki. Ne uporabljaj markdown oblikovanja (brez #, ##, **, __ ipd.).",
       messages: [
         {
           role: "user",

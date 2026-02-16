@@ -3,8 +3,8 @@ import Anthropic from "@anthropic-ai/sdk";
 export type ModelTier = "free" | "premium";
 
 const MODELS: Record<ModelTier, string> = {
-  free: "claude-haiku-4-5-20251001",
-  premium: "claude-sonnet-4-5-20250929",
+  free: "claude-sonnet-4-5-20250929",
+  premium: "claude-opus-4-6",
 };
 
 // Auto-routing: analyze prompt complexity to pick the right model for premium users

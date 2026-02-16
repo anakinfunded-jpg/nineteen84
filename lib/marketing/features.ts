@@ -74,9 +74,9 @@ export const features: Feature[] = [
       },
     ],
     faq: [
-      { q: "Katere AI modele uporablja AI Chat?", a: "AI Chat uporablja Claude Haiku 4.5 za hitrejše odgovore in Claude Sonnet 4.5 za zahtevnejše naloge. Profesionalni in poslovni paketi imajo dostop do naprednejšega modela." },
+      { q: "Katere AI modele uporablja AI Chat?", a: "AI Chat uporablja Claude Sonnet 4.5 za hitrejše odgovore in Claude Opus 4.6 za zahtevnejše naloge. Profesionalni in poslovni paketi imajo dostop do najzmogljivejšega modela." },
       { q: "Ali AI Chat razume slovenščino?", a: "Da, AI Chat je optimiziran za slovenščino. Razume kontekst, slovnico in kulturne posebnosti slovenskega jezika." },
-      { q: "Koliko sporočil lahko pošljem?", a: "Število sporočil je omejeno z vašo mesečno kvoto besed. Brezplačni paket vključuje 1.000 besed, plačljivi paketi pa od 20.000 do 100.000 besed." },
+      { q: "Koliko sporočil lahko pošljem?", a: "Število sporočil je omejeno z vašo mesečno kvoto besed. Brezplačni preizkus vključuje 2.000 besed, plačljivi paketi pa od 20.000 do 150.000 besed." },
       { q: "Ali se pogovori shranjujejo?", a: "Da, vaši pogovori se shranjujejo in so dostopni kadarkoli. Lahko jih tudi izbrišete." },
     ],
   },
@@ -173,7 +173,7 @@ export const features: Feature[] = [
       { q: "Kateri AI model se uporablja za slike?", a: "Za generiranje slik uporabljamo DALL-E 3 od OpenAI, enega najnaprednejših modelov za ustvarjanje slik." },
       { q: "V kakšni ločljivosti so slike?", a: "Slike so generirane v ločljivosti do 1792×1024 pikslov (ali obratno), odvisno od izbrane orientacije." },
       { q: "Ali so slike unikatne?", a: "Da, vsaka slika je generirana na novo in je popolnoma unikatna." },
-      { q: "Koliko slik lahko generiram?", a: "Odvisno od paketa — od 5 slik (brezplačno) do 1.000 slik mesečno (poslovni paket)." },
+      { q: "Koliko slik lahko generiram?", a: "Odvisno od paketa — od 10 slik (brezplačni preizkus) do 800 slik mesečno (poslovni paket)." },
     ],
   },
   {
@@ -215,11 +215,11 @@ export const features: Feature[] = [
   {
     slug: "ai-prevajalnik",
     title: "AI Prevajalnik",
-    shortDesc: "Natančno prevajanje med 6 jeziki z razumevanjem konteksta.",
+    shortDesc: "Natančno prevajanje med 40+ jeziki z razumevanjem konteksta.",
     icon: Languages,
     category: "Besedila",
     heroTitle: "AI Prevajalnik",
-    heroDescription: "Prevajajte besedila med slovenščino, angleščino, nemščino, francoščino, italijanščino in španščino. AI razume kontekst in kulturne nianse — rezultat so naravni prevodi, ne dobesedni.",
+    heroDescription: "Prevajajte besedila med 40+ jeziki, vključno s slovenščino, angleščino, nemščino, francoščino, italijanščino in španščino. AI razume kontekst in kulturne nianse — rezultat so naravni prevodi, ne dobesedni.",
     appPath: "/ai-prevajalnik",
     sections: [
       {
@@ -311,7 +311,7 @@ export const features: Feature[] = [
         points: [
           "Izvlečenje besedila iz slik",
           "Ohranjanje formatiranja",
-          "Podpora za dokumente, račune, meniji",
+          "Podpora za dokumente, račune, menije",
         ],
         screenshotKey: "ai-vid-ocr",
       },
@@ -385,7 +385,7 @@ export const features: Feature[] = [
   {
     slug: "ai-spomin",
     title: "AI Spomin",
-    shortDesc: "Naložite dokumente in zastavljajte vprašanja — AI odgovarja na podlagi vaše baze znanja.",
+    shortDesc: "Naložite dokumente in postavljajte vprašanja — AI odgovarja na podlagi vaše baze znanja.",
     icon: Brain,
     category: "Analiza",
     heroTitle: "AI Spomin — vaša baza znanja",
@@ -403,8 +403,8 @@ export const features: Feature[] = [
         screenshotKey: "ai-spomin-upload",
       },
       {
-        title: "Vprašajte svoje dokumente",
-        description: "Zastavite vprašanje v naravnem jeziku in AI poišče ustrezne informacije v vaših dokumentih ter ustvari natančen odgovor z navedbo virov.",
+        title: "Postavite vprašanje o dokumentih",
+        description: "Postavite vprašanje v naravnem jeziku in AI poišče ustrezne informacije v vaših dokumentih ter ustvari natančen odgovor z navedbo virov.",
         points: [
           "Iskanje po vseh dokumentih hkrati",
           "Natančni odgovori z viri",
@@ -414,7 +414,7 @@ export const features: Feature[] = [
       },
     ],
     faq: [
-      { q: "Koliko dokumentov lahko naložim?", a: "Odvisno od paketa — od 5 (brezplačno) do neomejeno (poslovni paket)." },
+      { q: "Koliko dokumentov lahko naložim?", a: "Odvisno od paketa — od 5 (brezplačni preizkus) do 250 (poslovni paket)." },
       { q: "Ali so moji dokumenti varni?", a: "Da, vaši dokumenti so shranjeni varno in so dostopni le vam. Drugi uporabniki nimajo dostopa." },
       { q: "Kako deluje iskanje?", a: "AI uporablja vektorsko iskanje (embeddings), ki razume pomen besedila, ne le ključne besede." },
     ],

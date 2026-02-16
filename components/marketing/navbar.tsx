@@ -28,7 +28,7 @@ const featureLinks: FeatureLink[] = [
   { label: "AI Besedila", href: "/funkcije/ai-besedila", icon: FileText, desc: "40+ predlog za marketinška besedila" },
   { label: "AI Grafika", href: "/funkcije/ai-grafika", icon: ImageIcon, desc: "Ustvarjanje profesionalnih slik" },
   { label: "AI Dokumenti", href: "/funkcije/ai-dokumenti", icon: FilePenLine, desc: "Urejanje in izboljšanje dokumentov" },
-  { label: "AI Prevajalnik", href: "/funkcije/ai-prevajalnik", icon: Languages, desc: "Prevajanje med 6 jeziki" },
+  { label: "AI Prevajalnik", href: "/funkcije/ai-prevajalnik", icon: Languages, desc: "Prevajanje med 40+ jeziki" },
   { label: "AI Zvok", href: "/funkcije/ai-zvok", icon: Volume2, desc: "Besedilo v govor in govor v besedilo" },
   { label: "Računalniški vid", href: "/funkcije/ai-vid", icon: Eye, desc: "Analiza slik in OCR" },
   { label: "AI Inpainting", href: "/funkcije/ai-inpainting", icon: Paintbrush, desc: "Urejanje delov slike z AI" },

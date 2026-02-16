@@ -40,7 +40,7 @@ export default function BlogPage() {
           </AnimateOnScroll>
           <AnimateOnScroll delay={200}>
             <p className="mt-6 text-lg text-[#E1E1E1]/60 max-w-2xl mx-auto">
-              Vse kar morate vedeti o uporabi AI za ustvarjanje vsebin v
+              Vse, kar morate vedeti o uporabi AI za ustvarjanje vsebin v
               slovenščini.
             </p>
           </AnimateOnScroll>

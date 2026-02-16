@@ -124,15 +124,15 @@ Preizkusite te nasvete danes na 1984.si in opazili boste takojšnjo razliko v ka
 `,
   },
   {
-    slug: "ai-slike-za-druzabna-omrezja",
-    title: "AI slike za družabna omrežja: Popoln vodnik",
+    slug: "ai-slike-za-druzbena-omrezja",
+    title: "AI slike za družbena omrežja: Popoln vodnik",
     excerpt:
       "Od Instagram objav do Facebook oglasov — kako z AI ustvarjati profesionalne vizualne vsebine za vaše kampanje.",
     category: "Vodniki",
     date: "2026-01-28",
     readMin: 8,
     content: `
-Vizualne vsebine so temelj uspešne prisotnosti na družabnih omrežjih. Toda profesionalne slike stanejo — bodisi čas grafičnega oblikovalca bodisi licenčnine za stock fotografije. Z AI generiranjem slik na platformi 1984 lahko ustvarite edinstvene vizualne vsebine v sekundah.
+Vizualne vsebine so temelj uspešne prisotnosti na družbenih omrežjih. Toda profesionalne slike stanejo — bodisi čas grafičnega oblikovalca bodisi licenčnine za stock fotografije. Z AI generiranjem slik na platformi 1984 lahko ustvarite edinstvene vizualne vsebine v sekundah.
 
 ## Zakaj AI slike?
 
@@ -161,7 +161,7 @@ Dober opis vsebuje 4 elemente:
 > Dinamičen prikaz vitaminskih kapsul, ki padajo v stekleno posodo, živahne barve, čisto belo ozadje, profesionalna produktna fotografija
 
 **Za LinkedIn objavo tech podjetja:**
-> Moderna pisarniška okolja z raznolikostjo ekipo, ki dela na prenosnikih, velika okna z naravno svetlobo, topli toni, korporativni a sproščen občutek
+> Moderna pisarniška okolja z raznoliko ekipo, ki dela na prenosnikih, velika okna z naravno svetlobo, topli toni, korporativni a sproščen občutek
 
 ## Najboljše prakse po platformah
 
@@ -191,7 +191,7 @@ Za hitro prilagajanje obstoječih slik uporabite orodje Najdi in spremeni. Opiš
 ## Zaključek
 
 AI slike niso nadomestek za profesionalno fotografijo pri vseh priložnostih. So pa odlično orodje za:
-- Vsakodnevne objave na družabnih omrežjih
+- Vsakodnevne objave na družbenih omrežjih
 - Testiranje vizualnih konceptov pred produkcijo
 - Dopolnjevanje obstoječega vizualnega materiala
 - Ustvarjanje vsebine, ko budžet ne dovoljuje fotografa
@@ -222,7 +222,7 @@ Pretvorite katero koli besedilo v naravno zveneči govor z izbiro med 6 profesio
 ### 2. Računalniški vid (OCR)
 Naložite katero koli sliko in AI jo bo analiziral. Dva načina delovanja:
 - **Opiši sliko** — pridobite podroben opis v slovenščini
-- **Izvleci besedilo** — OCR za dokumente, račune, meniji
+- **Izvleci besedilo** — OCR za dokumente, račune, menije
 
 ### 3. AI Inpainting
 Naložite sliko, z čopičem označite območje in opišite spremembo. AI zapolni označeno območje skladno z okolico slike.
@@ -231,7 +231,7 @@ Naložite sliko, z čopičem označite območje in opišite spremembo. AI zapoln
 Še enostavnejša alternativa inpaintingu — opišite, kaj želite najti na sliki in s čim zamenjati. AI sam poišče element in ga zamenja.
 
 ### 5. AI Spomin
-Naložite dokumente o vašem podjetju in zastavljajte vprašanja. AI odgovarja na podlagi vaše baze znanja — kot osebni asistent, ki pozna vaše poslovanje.
+Naložite dokumente o vašem podjetju in postavljajte vprašanja. AI odgovarja na podlagi vaše baze znanja — kot osebni asistent, ki pozna vaše poslovanje.
 
 ### 6. Pretvorniki
 Hitro pretvorite datoteke med formati neposredno v brskalniku:
@@ -245,7 +245,7 @@ Za profesionalne in poslovne uporabnike: AI samodejno izbere optimalen model gle
 
 ## Posodobljeni paketi
 
-Vsi novi orodja so vključeni v obstoječe naročniške pakete. Brezplačni uporabniki dobijo omejeno število poskusov, profesionalni in poslovni pa razširjene kvote.
+Vsa nova orodja so vključeni v obstoječe naročniške pakete. Brezplačni uporabniki dobijo omejeno število poskusov, profesionalni in poslovni pa razširjene kvote.
 
 Za podrobnosti o kvotah po paketih obiščite naš cenik.
 
