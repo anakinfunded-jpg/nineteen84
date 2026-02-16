@@ -39,8 +39,8 @@ function RegistracijaForm() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  function saveAffiliateData() {
-    const data = {
+  function getAffiliateData() {
+    return {
       code: code.toLowerCase().trim(),
       full_name: fullName.trim() || undefined,
       phone: phone.trim() || undefined,
@@ -53,7 +53,6 @@ function RegistracijaForm() {
       niche: niche || undefined,
       promo_plan: promoPlan.trim() || undefined,
     };
-    localStorage.setItem("pending_affiliate", JSON.stringify(data));
   }
 
   async function handleRegister(e: React.FormEvent) {
@@ -99,11 +98,16 @@ function RegistracijaForm() {
     const callbackUrl = redirect
       ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirect)}`
       : `${window.location.origin}/auth/callback`;
+    const userData: Record<string, unknown> = { full_name: fullName };
+    if (isAffiliate) {
+      userData.pending_affiliate = getAffiliateData();
+    }
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { full_name: fullName },
+        data: userData,
         emailRedirectTo: callbackUrl,
       },
     });
@@ -123,19 +127,14 @@ function RegistracijaForm() {
       return;
     }
 
-    // Save affiliate data to localStorage for auto-submit after email confirmation
-    if (isAffiliate) {
-      saveAffiliateData();
-    }
-
     setSuccess(true);
     setLoading(false);
   }
 
   async function handleGoogleLogin() {
-    // Save affiliate data before redirect (Google OAuth leaves the page)
+    // Save affiliate data to localStorage before redirect (Google OAuth can't store in metadata)
     if (isAffiliate && code.trim().length >= 3) {
-      saveAffiliateData();
+      localStorage.setItem("pending_affiliate", JSON.stringify(getAffiliateData()));
     }
     setGoogleLoading(true);
     const supabase = createClient();

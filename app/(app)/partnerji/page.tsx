@@ -653,37 +653,51 @@ export default function PartnerjPage() {
     checkAffiliate();
   }, []);
 
+  async function autoSubmitAffiliate(): Promise<boolean> {
+    // Try localStorage first (Google OAuth flow, same-browser)
+    const local = localStorage.getItem("pending_affiliate");
+    if (local) {
+      try {
+        const data = JSON.parse(local);
+        localStorage.removeItem("pending_affiliate");
+        const res = await fetch("/api/affiliate/apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        if (res.ok) {
+          const result = await res.json();
+          setCode(result.affiliate?.code || data.code || "");
+          setState("pending");
+          return true;
+        }
+      } catch { /* ignore */ }
+    }
+
+    // Try user metadata (email/password flow, works cross-browser)
+    try {
+      const metaRes = await fetch("/api/affiliate/auto-apply", { method: "POST" });
+      if (metaRes.ok) {
+        const result = await metaRes.json();
+        setCode(result.affiliate?.code || "");
+        setState("pending");
+        return true;
+      }
+    } catch { /* ignore */ }
+
+    return false;
+  }
+
   async function checkAffiliate() {
     const res = await fetch("/api/affiliate/stats");
     if (res.status === 404) {
-      // Check for pending affiliate data from registration form
-      const pending = localStorage.getItem("pending_affiliate");
-      if (pending) {
-        try {
-          const data = JSON.parse(pending);
-          localStorage.removeItem("pending_affiliate");
-          const applyRes = await fetch("/api/affiliate/apply", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          });
-          if (applyRes.ok) {
-            const result = await applyRes.json();
-            setCode(result.affiliate?.code || data.code || "");
-            setState("pending");
-            return;
-          }
-        } catch {
-          // Ignore parse errors, show normal form
-        }
-      }
-      setState("none");
+      const submitted = await autoSubmitAffiliate();
+      if (!submitted) setState("none");
       return;
     }
     if (res.ok) {
       const data = await res.json();
       setCode(data.code || "");
-      // Clear any stale pending data
       localStorage.removeItem("pending_affiliate");
       if (data.status === "active") {
         setState("active");
