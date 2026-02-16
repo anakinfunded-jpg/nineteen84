@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect, type FormEvent } from "react";
+import { useState, useRef, useEffect, type FormEvent, Suspense } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useSearchParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import {
   Send,
@@ -24,7 +25,8 @@ type Conversation = {
   created_at: string;
 };
 
-export default function AIChatPage() {
+function AIChatPageInner() {
+  const searchParams = useSearchParams();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConvId, setActiveConvId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -39,6 +41,15 @@ export default function AIChatPage() {
   useEffect(() => {
     loadConversations();
   }, []);
+
+  // Pre-fill from ?prompt= query param
+  useEffect(() => {
+    const promptParam = searchParams.get("prompt");
+    if (promptParam) {
+      setInput(promptParam);
+      inputRef.current?.focus();
+    }
+  }, [searchParams]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -376,5 +387,13 @@ export default function AIChatPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AIChatPage() {
+  return (
+    <Suspense>
+      <AIChatPageInner />
+    </Suspense>
   );
 }

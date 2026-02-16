@@ -10,9 +10,22 @@ import {
   TrendingUp,
   ArrowRight,
   Sparkles,
+  Briefcase,
+  Megaphone,
+  ShoppingCart,
+  GraduationCap,
+  Feather,
+  Share2,
+  Mail,
+  Search,
+  Image,
+  Volume2,
+  ListChecks,
+  Home,
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { promptCategories, getPromptsByCategory } from "@/lib/prompts/prompt-library";
 
 const plans = [
   {
@@ -134,6 +147,23 @@ const howItWorks = [
   { step: "2", title: "Vnesite navodila", desc: "Opišite, kaj potrebujete. V slovenščini, seveda." },
   { step: "3", title: "Pridobite rezultat", desc: "AI ustvari vsebino v sekundah. Uredite, kopirajte ali prenesite." },
 ];
+
+const homepageIconMap: Record<string, LucideIcon> = {
+  Briefcase,
+  Megaphone,
+  ShoppingCart,
+  GraduationCap,
+  Feather,
+  Share2,
+  Mail,
+  Search,
+  Image,
+  Volume2,
+  ListChecks,
+  Home,
+};
+
+const promptPreviewCategories = promptCategories.slice(0, 6);
 
 export default function HomePage() {
   return (
@@ -309,6 +339,73 @@ export default function HomePage() {
               </AnimateOnScroll>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ===================== PROMPT LIBRARY ===================== */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center">
+            <AnimateOnScroll>
+              <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
+                Knjižnica predlog
+              </span>
+            </AnimateOnScroll>
+            <AnimateOnScroll delay={100}>
+              <h2 className="mt-4 text-4xl md:text-5xl font-serif tracking-[0.01em] leading-tight">
+                120+ pripravljenih predlog
+              </h2>
+            </AnimateOnScroll>
+            <AnimateOnScroll delay={200}>
+              <p className="mt-4 text-[#E1E1E1]/50 max-w-xl mx-auto">
+                Ne veste, kaj napisati? Izberite predlogo in začnite v sekundah.
+              </p>
+            </AnimateOnScroll>
+          </div>
+
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {promptPreviewCategories.map((cat, i) => {
+              const Icon = homepageIconMap[cat.icon] || Sparkles;
+              const prompts = getPromptsByCategory(cat.id);
+              const example = prompts[0];
+              return (
+                <AnimateOnScroll key={cat.id} delay={i * 80}>
+                  <div className="glass-card rounded-2xl p-6 h-full flex flex-col">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-9 h-9 rounded-lg bg-white/[0.04] flex items-center justify-center">
+                        <Icon className="w-4.5 h-4.5 accent-icon" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-semibold text-white">
+                          {cat.label}
+                        </h3>
+                        <p className="text-xs text-[#E1E1E1]/30">
+                          {prompts.length} predlog
+                        </p>
+                      </div>
+                    </div>
+                    {example && (
+                      <p className="text-xs text-[#E1E1E1]/40 leading-relaxed line-clamp-2 flex-1">
+                        &ldquo;{example.prompt}&rdquo;
+                      </p>
+                    )}
+                  </div>
+                </AnimateOnScroll>
+              );
+            })}
+          </div>
+
+          <AnimateOnScroll delay={400}>
+            <div className="mt-10 text-center">
+              <Link
+                href="/registracija"
+                className="cta-button px-8 py-3 rounded-full font-semibold text-sm inline-flex items-center gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                Preizkusi brezplačno
+              </Link>
+            </div>
+          </AnimateOnScroll>
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import {
   Loader2,
@@ -102,7 +103,8 @@ const languageGroups = [
 
 const allLanguages = languageGroups.flatMap((g) => g.languages);
 
-export default function PrevajalnikPage() {
+function PrevajalnikPageInner() {
+  const searchParams = useSearchParams();
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
   const [sourceLang, setSourceLang] = useState("sl");
@@ -110,6 +112,12 @@ export default function PrevajalnikPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+
+  // Pre-fill from ?prompt= query param
+  useEffect(() => {
+    const promptParam = searchParams.get("prompt");
+    if (promptParam) setText(promptParam);
+  }, [searchParams]);
 
   function swapLanguages() {
     setSourceLang(targetLang);
@@ -328,5 +336,13 @@ export default function PrevajalnikPage() {
         </button>
       </form>
     </div>
+  );
+}
+
+export default function PrevajalnikPage() {
+  return (
+    <Suspense>
+      <PrevajalnikPageInner />
+    </Suspense>
   );
 }

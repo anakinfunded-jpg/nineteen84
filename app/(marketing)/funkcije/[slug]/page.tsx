@@ -1,10 +1,20 @@
 import { AnimateOnScroll } from "@/components/animate-on-scroll";
 import { DashboardMockup } from "@/components/marketing/dashboard-mockup";
 import { features, getFeatureBySlug } from "@/lib/marketing/features";
+import { getPromptsByTool } from "@/lib/prompts/prompt-library";
 import { Check, ArrowRight, Sparkles, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+
+const slugToTool: Record<string, string> = {
+  "ai-chat": "ai-chat",
+  "ai-besedila": "ai-besedila",
+  "ai-dokumenti": "ai-dokumenti",
+  "ai-prevajalnik": "ai-prevajalnik",
+  "ai-grafika": "ai-grafika",
+  "ai-zvok": "ai-zvok",
+};
 
 export function generateStaticParams() {
   return features.map((f) => ({ slug: f.slug }));
@@ -148,6 +158,45 @@ export default async function FeatureDetailPage({
           ))}
         </div>
       </section>
+
+      {/* ===================== PROMPT SUGGESTIONS ===================== */}
+      {slugToTool[slug] && getPromptsByTool(slugToTool[slug]).length > 0 && (
+        <section className="py-16 px-6">
+          <div className="max-w-6xl mx-auto">
+            <AnimateOnScroll>
+              <h2 className="text-2xl font-serif text-white mb-2">
+                Predloge za {feature.title}
+              </h2>
+              <p className="text-sm text-[#E1E1E1]/40 mb-8">
+                Pripravljene predloge, ki jih lahko uporabite takoj
+              </p>
+            </AnimateOnScroll>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {getPromptsByTool(slugToTool[slug])
+                .slice(0, 4)
+                .map((prompt, i) => (
+                  <AnimateOnScroll key={prompt.id} delay={i * 80}>
+                    <div className="glass-card rounded-xl p-5 h-full flex flex-col">
+                      <h3 className="text-sm font-semibold text-white mb-2">
+                        {prompt.title}
+                      </h3>
+                      <p className="text-sm text-[#E1E1E1]/50 leading-relaxed line-clamp-3 flex-1">
+                        {prompt.prompt}
+                      </p>
+                      <Link
+                        href="/registracija"
+                        className="mt-3 inline-flex items-center gap-1 text-xs accent-gradient font-medium"
+                      >
+                        Preizkusi <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+                  </AnimateOnScroll>
+                ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ===================== FAQ ===================== */}
       {feature.faq.length > 0 && (

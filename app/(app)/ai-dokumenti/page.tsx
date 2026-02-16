@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import {
   Loader2,
@@ -36,13 +37,20 @@ const actions = [
   },
 ];
 
-export default function DokumentiPage() {
+function DokumentiPageInner() {
+  const searchParams = useSearchParams();
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
   const [action, setAction] = useState("improve");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+
+  // Pre-fill from ?prompt= query param
+  useEffect(() => {
+    const promptParam = searchParams.get("prompt");
+    if (promptParam) setText(promptParam);
+  }, [searchParams]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -209,5 +217,13 @@ export default function DokumentiPage() {
         </button>
       </form>
     </div>
+  );
+}
+
+export default function DokumentiPage() {
+  return (
+    <Suspense>
+      <DokumentiPageInner />
+    </Suspense>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, type FormEvent } from "react";
+import { useState, useRef, useEffect, type FormEvent, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Loader2,
   Volume2,
@@ -25,8 +26,10 @@ const voices: { value: Voice; label: string }[] = [
   { value: "shimmer", label: "Shimmer" },
 ];
 
-export default function ZvokPage() {
+function ZvokPageInner() {
+  const searchParams = useSearchParams();
   const [tab, setTab] = useState<Tab>("tts");
+  const initialPrompt = searchParams.get("prompt") || "";
 
   return (
     <div className="p-8 max-w-4xl">
@@ -62,14 +65,22 @@ export default function ZvokPage() {
       </div>
 
       <div className="mt-6">
-        {tab === "tts" ? <TTSTab /> : <STTTab />}
+        {tab === "tts" ? <TTSTab initialText={initialPrompt} /> : <STTTab />}
       </div>
     </div>
   );
 }
 
-function TTSTab() {
-  const [text, setText] = useState("");
+export default function ZvokPage() {
+  return (
+    <Suspense>
+      <ZvokPageInner />
+    </Suspense>
+  );
+}
+
+function TTSTab({ initialText = "" }: { initialText?: string }) {
+  const [text, setText] = useState(initialText);
   const [voice, setVoice] = useState<Voice>("alloy");
   const [speed, setSpeed] = useState(1.0);
   const [loading, setLoading] = useState(false);

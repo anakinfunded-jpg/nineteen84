@@ -7,8 +7,11 @@ import {
   FilePenLine,
   Languages,
   Headphones,
+  BookOpen,
+  ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
+import { allPrompts } from "@/lib/prompts/prompt-library";
 
 const tools = [
   {
@@ -114,6 +117,51 @@ export default async function DashboardPage() {
               </p>
             </Link>
           ))}
+        </div>
+      </div>
+
+      {/* Prompt Library Teaser */}
+      <div className="mt-10">
+        <div className="glass-card rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-lg bg-white/[0.04] flex items-center justify-center">
+              <BookOpen className="w-5 h-5 text-[#FEB089]" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-white">
+                Knjižnica predlog
+              </h2>
+              <p className="text-xs text-[#E1E1E1]/40">
+                {allPrompts.length}+ pripravljenih predlog za vse priložnosti
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {allPrompts
+              .filter((_, i) => [3, 15, 42].includes(i))
+              .map((prompt) => (
+                <div
+                  key={prompt.id}
+                  className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.04]"
+                >
+                  <p className="text-xs font-medium text-white mb-1">
+                    {prompt.title}
+                  </p>
+                  <p className="text-xs text-[#E1E1E1]/40 line-clamp-2">
+                    {prompt.prompt}
+                  </p>
+                </div>
+              ))}
+          </div>
+
+          <Link
+            href="/predloge"
+            className="mt-4 inline-flex items-center gap-1.5 text-sm text-[#FEB089] hover:text-[#FEB089]/80 transition-colors duration-200"
+          >
+            Poglej vse predloge
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
 

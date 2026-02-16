@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Loader2,
   Download,
@@ -38,7 +39,8 @@ const qualities = [
   { value: "hd", label: "HD" },
 ];
 
-export default function GrafikaPage() {
+function GrafikaPageInner() {
+  const searchParams = useSearchParams();
   const [images, setImages] = useState<GeneratedImage[]>([]);
   const [loadingImages, setLoadingImages] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -52,6 +54,12 @@ export default function GrafikaPage() {
   useEffect(() => {
     loadImages();
   }, []);
+
+  // Pre-fill from ?prompt= query param
+  useEffect(() => {
+    const promptParam = searchParams.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [searchParams]);
 
   async function loadImages() {
     setLoadingImages(true);
@@ -344,5 +352,13 @@ export default function GrafikaPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function GrafikaPage() {
+  return (
+    <Suspense>
+      <GrafikaPageInner />
+    </Suspense>
   );
 }

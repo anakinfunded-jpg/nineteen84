@@ -18,6 +18,7 @@ import {
   Replace,
   Brain,
   ArrowRightLeft,
+  BookOpen,
   Handshake,
   type LucideIcon,
 } from "lucide-react";
@@ -61,6 +62,7 @@ const navGroups: NavGroup[] = [
     title: "Orodja",
     items: [
       { label: "Pretvorniki", href: "/pretvorniki", icon: ArrowRightLeft },
+      { label: "Knjižnica predlog", href: "/predloge", icon: BookOpen },
     ],
   },
   {
