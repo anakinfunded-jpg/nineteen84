@@ -28,10 +28,16 @@ type AffiliateItem = {
   total_earned: number;
   total_paid: number;
   milestone: string;
+  full_name: string | null;
+  phone: string | null;
   instagram: string | null;
   tiktok: string | null;
   youtube: string | null;
+  linkedin: string | null;
   website: string | null;
+  audience_size: string | null;
+  niche: string | null;
+  promo_plan: string | null;
   note: string | null;
   email: string;
   name: string;
@@ -414,14 +420,51 @@ export default function AdminAffiliatesPage() {
                               </div>
                             </div>
 
+                            {/* Contact & audience */}
+                            {(aff.full_name || aff.phone || aff.audience_size || aff.niche) && (
+                              <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                                {aff.full_name && (
+                                  <div>
+                                    <span className="text-[#E1E1E1]/40">Ime</span>
+                                    <p className="text-white">{aff.full_name}</p>
+                                  </div>
+                                )}
+                                {aff.phone && (
+                                  <div>
+                                    <span className="text-[#E1E1E1]/40">Telefon</span>
+                                    <p className="text-white">{aff.phone}</p>
+                                  </div>
+                                )}
+                                {aff.audience_size && (
+                                  <div>
+                                    <span className="text-[#E1E1E1]/40">Publika</span>
+                                    <p className="text-white">{aff.audience_size}</p>
+                                  </div>
+                                )}
+                                {aff.niche && (
+                                  <div>
+                                    <span className="text-[#E1E1E1]/40">Niša</span>
+                                    <p className="text-white capitalize">{aff.niche}</p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
                             {/* Socials */}
-                            {(aff.instagram || aff.tiktok || aff.youtube || aff.website) && (
+                            {(aff.instagram || aff.tiktok || aff.youtube || aff.linkedin || aff.website) && (
                               <div className="mt-3 flex flex-wrap gap-3 text-xs text-[#E1E1E1]/50">
                                 {aff.instagram && <span>IG: {aff.instagram}</span>}
                                 {aff.tiktok && <span>TT: {aff.tiktok}</span>}
                                 {aff.youtube && <span>YT: {aff.youtube}</span>}
+                                {aff.linkedin && <span>LI: {aff.linkedin}</span>}
                                 {aff.website && <span>Web: {aff.website}</span>}
                               </div>
+                            )}
+
+                            {aff.promo_plan && (
+                              <p className="mt-3 text-xs text-[#E1E1E1]/50">
+                                <span className="text-[#E1E1E1]/40">Promocijski plan:</span> {aff.promo_plan}
+                              </p>
                             )}
 
                             {aff.note && (

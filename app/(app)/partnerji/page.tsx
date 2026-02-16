@@ -90,16 +90,33 @@ function formatMonth(month: string) {
 
 function ApplyForm({ onApplied }: { onApplied: () => void }) {
   const [code, setCode] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
   const [instagram, setInstagram] = useState("");
   const [tiktok, setTiktok] = useState("");
   const [youtube, setYoutube] = useState("");
+  const [linkedin, setLinkedin] = useState("");
   const [website, setWebsite] = useState("");
+  const [audienceSize, setAudienceSize] = useState("");
+  const [niche, setNiche] = useState("");
+  const [promoPlan, setPromoPlan] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const inputCls =
+    "w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors";
+  const selectCls =
+    "w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm focus:outline-none focus:border-[#FEB089]/50 appearance-none transition-colors";
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
+
+    if (!audienceSize) {
+      setError("Izberite velikost vaše publike.");
+      return;
+    }
+
     setLoading(true);
 
     const res = await fetch("/api/affiliate/apply", {
@@ -107,10 +124,16 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         code: code.toLowerCase().trim(),
+        full_name: fullName.trim() || undefined,
+        phone: phone.trim() || undefined,
         instagram: instagram.trim() || undefined,
         tiktok: tiktok.trim() || undefined,
         youtube: youtube.trim() || undefined,
+        linkedin: linkedin.trim() || undefined,
         website: website.trim() || undefined,
+        audience_size: audienceSize || undefined,
+        niche: niche || undefined,
+        promo_plan: promoPlan.trim() || undefined,
       }),
     });
 
@@ -152,71 +175,185 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="mt-8 glass-card rounded-xl p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="mt-8 glass-card rounded-xl p-6 space-y-6">
         <h2 className="text-base font-semibold text-white">Prijavite se</h2>
 
+        {/* Section 1: O vas */}
         <div>
-          <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
-            Vaša unikatna koda <span className="text-red-400">*</span>
-          </label>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-[#E1E1E1]/30">1984.si/?ref=</span>
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value.replace(/[^a-zA-Z0-9-]/g, ""))}
-              required
-              minLength={3}
-              maxLength={30}
-              placeholder="vasa-koda"
-              className="flex-1 px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors"
-            />
+          <p className="text-xs text-[#FEB089] uppercase tracking-wider font-semibold mb-3">O vas</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
+                Ime in priimek <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                placeholder="Janez Novak"
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">Telefonska številka</label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+386 40 123 456"
+                className={inputCls}
+              />
+            </div>
           </div>
-          <p className="mt-1 text-xs text-[#E1E1E1]/30">
-            Samo male črke, številke in vezaji. Min. 3 znaki.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">Instagram</label>
-            <input
-              type="text"
-              value={instagram}
-              onChange={(e) => setInstagram(e.target.value)}
-              placeholder="@uporabnik"
-              className="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors"
-            />
+        {/* Section 2: Prisotnost na spletu */}
+        <div>
+          <p className="text-xs text-[#FEB089] uppercase tracking-wider font-semibold mb-3">
+            Vaša prisotnost na spletu
+          </p>
+          <p className="text-xs text-[#E1E1E1]/30 mb-3">
+            Izpolnite vsaj en profil. Priporočamo min. 1.000 sledilcev.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">Instagram</label>
+              <input
+                type="text"
+                value={instagram}
+                onChange={(e) => setInstagram(e.target.value)}
+                placeholder="@uporabnik"
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">TikTok</label>
+              <input
+                type="text"
+                value={tiktok}
+                onChange={(e) => setTiktok(e.target.value)}
+                placeholder="@uporabnik"
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">YouTube</label>
+              <input
+                type="text"
+                value={youtube}
+                onChange={(e) => setYoutube(e.target.value)}
+                placeholder="URL kanala"
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">LinkedIn</label>
+              <input
+                type="text"
+                value={linkedin}
+                onChange={(e) => setLinkedin(e.target.value)}
+                placeholder="URL profila"
+                className={inputCls}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">Spletna stran / Blog</label>
+              <input
+                type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                placeholder="https://..."
+                className={inputCls}
+              />
+            </div>
           </div>
-          <div>
-            <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">TikTok</label>
-            <input
-              type="text"
-              value={tiktok}
-              onChange={(e) => setTiktok(e.target.value)}
-              placeholder="@uporabnik"
-              className="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors"
-            />
+        </div>
+
+        {/* Section 3: O vaši publiki */}
+        <div>
+          <p className="text-xs text-[#FEB089] uppercase tracking-wider font-semibold mb-3">
+            O vaši publiki
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
+                Velikost publike <span className="text-red-400">*</span>
+              </label>
+              <select
+                value={audienceSize}
+                onChange={(e) => setAudienceSize(e.target.value)}
+                required
+                className={selectCls}
+              >
+                <option value="" className="bg-[#191919]">Izberite</option>
+                <option value="1000-5000" className="bg-[#191919]">1.000 – 5.000 sledilcev</option>
+                <option value="5000-20000" className="bg-[#191919]">5.000 – 20.000 sledilcev</option>
+                <option value="20000-50000" className="bg-[#191919]">20.000 – 50.000 sledilcev</option>
+                <option value="50000+" className="bg-[#191919]">50.000+ sledilcev</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
+                Niša / področje <span className="text-red-400">*</span>
+              </label>
+              <select
+                value={niche}
+                onChange={(e) => setNiche(e.target.value)}
+                required
+                className={selectCls}
+              >
+                <option value="" className="bg-[#191919]">Izberite</option>
+                <option value="marketing" className="bg-[#191919]">Marketing</option>
+                <option value="podjetnistvo" className="bg-[#191919]">Podjetništvo</option>
+                <option value="tehnologija" className="bg-[#191919]">Tehnologija</option>
+                <option value="oblikovanje" className="bg-[#191919]">Oblikovanje</option>
+                <option value="e-trgovina" className="bg-[#191919]">E-trgovina</option>
+                <option value="izobrazevanje" className="bg-[#191919]">Izobraževanje</option>
+                <option value="drugo" className="bg-[#191919]">Drugo</option>
+              </select>
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
+                Kako bi promovirali 1984? <span className="text-red-400">*</span>
+              </label>
+              <textarea
+                value={promoPlan}
+                onChange={(e) => setPromoPlan(e.target.value)}
+                required
+                rows={3}
+                placeholder="Npr. Instagram stories, video recenzije, blog objave, newsletter..."
+                className={inputCls + " resize-none"}
+              />
+            </div>
           </div>
+        </div>
+
+        {/* Section 4: Partnerska koda */}
+        <div>
+          <p className="text-xs text-[#FEB089] uppercase tracking-wider font-semibold mb-3">
+            Vaša koda
+          </p>
           <div>
-            <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">YouTube</label>
-            <input
-              type="text"
-              value={youtube}
-              onChange={(e) => setYoutube(e.target.value)}
-              placeholder="URL kanala"
-              className="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors"
-            />
-          </div>
-          <div>
-            <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">Spletna stran</label>
-            <input
-              type="text"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              placeholder="https://..."
-              className="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors"
-            />
+            <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
+              Partnerska koda <span className="text-red-400">*</span>
+            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-[#E1E1E1]/30">1984.si/?ref=</span>
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value.replace(/[^a-zA-Z0-9-]/g, ""))}
+                required
+                minLength={3}
+                maxLength={30}
+                placeholder="vasa-koda"
+                className={"flex-1 " + inputCls}
+              />
+            </div>
+            <p className="mt-1 text-xs text-[#E1E1E1]/30">
+              Samo male črke, številke in vezaji. Min. 3 znaki.
+            </p>
           </div>
         </div>
 

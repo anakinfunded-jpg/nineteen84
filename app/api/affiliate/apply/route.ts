@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
   }
 
-  const { code, instagram, tiktok, youtube, website } = await request.json();
+  const { code, full_name, phone, instagram, tiktok, youtube, linkedin, website, audience_size, niche, promo_plan } = await request.json();
 
   if (!code || typeof code !== "string" || code.length < 3 || code.length > 30) {
     return NextResponse.json(
@@ -63,10 +63,16 @@ export async function POST(request: NextRequest) {
   const { data, error } = await admin.from("affiliates").insert({
     user_id: user.id,
     code: code.toLowerCase(),
+    full_name: full_name || null,
+    phone: phone || null,
     instagram: instagram || null,
     tiktok: tiktok || null,
     youtube: youtube || null,
+    linkedin: linkedin || null,
     website: website || null,
+    audience_size: audience_size || null,
+    niche: niche || null,
+    promo_plan: promo_plan || null,
   }).select().single();
 
   if (error) {
