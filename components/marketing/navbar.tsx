@@ -39,6 +39,7 @@ const featureLinks: FeatureLink[] = [
 
 const navLinks = [
   { label: "Cenik", href: "/cenik" },
+  { label: "Zasluži s 1984", href: "/affiliate" },
   { label: "Blog", href: "/blog" },
   { label: "O nas", href: "/o-nas" },
   { label: "Kontakt", href: "/kontakt" },

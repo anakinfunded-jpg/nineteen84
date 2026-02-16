@@ -16,8 +16,27 @@ import Link from "next/link";
 
 const plans = [
   {
+    name: "Brezplačno",
+    price: "0",
+    desc: "Za preizkus platforme",
+    popular: false,
+    features: [
+      "5.000 besed / mesec",
+      "10 slik / mesec",
+      "AI Chat, Besedila, Dokumenti",
+      "5 predlog za besedila",
+      "AI Prevajalnik (3 jeziki)",
+      "5 generiranj zvoka",
+      "10 analiz slik (OCR)",
+      "E-poštna podpora",
+    ],
+    cta: "Začni brezplačno",
+    ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
+  },
+  {
     name: "Osnovno",
     price: "14,90",
+    desc: "Za podjetnike in posameznike",
     popular: false,
     features: [
       "20.000 besed / mesec",
@@ -26,13 +45,16 @@ const plans = [
       "15 predlog za besedila",
       "AI Prevajalnik (6 jezikov)",
       "50 generiranj zvoka",
-      "100 analiz slik",
+      "100 analiz slik (OCR)",
       "E-poštna podpora",
     ],
+    cta: "Začni brezplačno",
+    ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
     name: "Profesionalno",
     price: "24,90",
+    desc: "Za marketinške ekipe in agencije",
     popular: true,
     features: [
       "50.000 besed / mesec",
@@ -41,15 +63,18 @@ const plans = [
       "Vse predloge za besedila",
       "Napredni AI model (Sonnet)",
       "200 generiranj zvoka",
-      "500 analiz slik",
+      "500 analiz slik (OCR)",
       "100 inpainting urejanj",
       "100 dokumentov v AI Spomin",
       "Prednostna podpora",
     ],
+    cta: "Začni brezplačno",
+    ctaStyle: "cta-button",
   },
   {
     name: "Poslovno",
     price: "39,90",
+    desc: "Za velika podjetja in organizacije",
     popular: false,
     features: [
       "100.000 besed / mesec",
@@ -63,6 +88,8 @@ const plans = [
       "API dostop",
       "Telefonska podpora",
     ],
+    cta: "Začni brezplačno",
+    ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
 ];
 
@@ -285,6 +312,101 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ===================== SAVE MONEY ===================== */}
+      <section className="py-24 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center">
+            <AnimateOnScroll>
+              <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
+                Prihranite
+              </span>
+            </AnimateOnScroll>
+            <AnimateOnScroll delay={100}>
+              <h2 className="mt-4 text-4xl md:text-5xl font-serif tracking-[0.01em] leading-tight">
+                Vse na enem mestu —
+                <br />
+                <span className="logo-gradient">za delček cene.</span>
+              </h2>
+            </AnimateOnScroll>
+            <AnimateOnScroll delay={200}>
+              <p className="mt-4 text-[#E1E1E1]/50 max-w-xl mx-auto">
+                Namesto plačevanja 6 različnih orodij, dobite vse v eni
+                aplikaciji — prilagojeni za slovenščino.
+              </p>
+            </AnimateOnScroll>
+          </div>
+
+          <AnimateOnScroll delay={300}>
+            <div className="mt-14 glass-card rounded-2xl p-8 md:p-10">
+              <div className="space-y-4">
+                {[
+                  { name: "ChatGPT Plus", what: "AI pogovor in besedila", price: "20" },
+                  { name: "Canva Pro", what: "Grafično oblikovanje", price: "12" },
+                  { name: "Adobe Photoshop", what: "Urejanje slik", price: "24" },
+                  { name: "DeepL Pro", what: "Prevajanje besedil", price: "9" },
+                  { name: "ElevenLabs", what: "Pretvorba besedila v govor", price: "5" },
+                  { name: "Grammarly", what: "Preverjanje slovnice", price: "12" },
+                ].map((tool, i) => (
+                  <div
+                    key={tool.name}
+                    className="flex items-center justify-between py-2.5 border-b border-white/[0.04] last:border-0"
+                  >
+                    <div>
+                      <span className="text-sm font-medium text-white">
+                        {tool.name}
+                      </span>
+                      <span className="text-xs text-[#E1E1E1]/30 ml-2">
+                        {tool.what}
+                      </span>
+                    </div>
+                    <span className="text-sm text-[#E1E1E1]/50">
+                      &euro;{tool.price}/mesec
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-white/[0.08]">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                  <div>
+                    <p className="text-xs text-[#E1E1E1]/30 uppercase tracking-wider">
+                      Skupaj posamično
+                    </p>
+                    <p className="mt-1 text-2xl font-bold text-[#E1E1E1]/30 line-through">
+                      &euro;82/mesec
+                    </p>
+                  </div>
+                  <div className="text-center sm:text-right">
+                    <p className="text-xs accent-gradient uppercase tracking-wider font-semibold">
+                      1984 Profesionalno
+                    </p>
+                    <p className="mt-1 text-4xl font-bold text-white">
+                      &euro;24,90
+                      <span className="text-sm font-normal text-[#E1E1E1]/40">
+                        /mesec
+                      </span>
+                    </p>
+                    <p className="mt-1 text-sm accent-gradient font-semibold">
+                      Prihranite ~&euro;57 na mesec
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 text-center">
+                <Link
+                  href="/registracija"
+                  className="cta-button px-8 py-3 rounded-full font-semibold text-sm inline-flex items-center gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Preizkusi brezplačno
+                </Link>
+              </div>
+            </div>
+          </AnimateOnScroll>
+        </div>
+      </section>
+
       {/* ===================== USE CASES ===================== */}
       <section className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
@@ -320,7 +442,7 @@ export default function HomePage() {
 
       {/* ===================== PRICING ===================== */}
       <section id="cenik" className="py-24 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center">
             <AnimateOnScroll>
               <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
@@ -337,13 +459,13 @@ export default function HomePage() {
             </AnimateOnScroll>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
             {plans.map((plan, i) => (
               <AnimateOnScroll key={plan.name} delay={i * 100}>
                 <div
-                  className={`relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 ${
+                  className={`relative rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 ${
                     plan.popular
-                      ? "bg-linear-to-b from-white/[0.06] to-white/[0.02] border border-white/[0.1] shadow-[0_8px_32px_rgba(254,176,137,0.08)] md:scale-[1.03]"
+                      ? "bg-linear-to-b from-white/[0.06] to-white/[0.02] border border-white/[0.1] shadow-[0_8px_32px_rgba(254,176,137,0.08)]"
                       : "glass-card"
                   }`}
                 >
@@ -355,21 +477,33 @@ export default function HomePage() {
                     </div>
                   )}
 
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="text-lg font-semibold text-white">
                     {plan.name}
                   </h3>
-                  <div className="mt-4 flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-white">
-                      €{plan.price}
-                    </span>
-                    <span className="text-[#E1E1E1]/40 text-sm">/mesec</span>
+                  <p className="text-sm text-[#E1E1E1]/40 mt-1">{plan.desc}</p>
+
+                  <div className="mt-5 flex items-baseline gap-1">
+                    {plan.price === "0" ? (
+                      <span className="text-4xl font-bold text-white">
+                        Brezplačno
+                      </span>
+                    ) : (
+                      <>
+                        <span className="text-4xl font-bold text-white">
+                          &euro;{plan.price}
+                        </span>
+                        <span className="text-[#E1E1E1]/40 text-sm">
+                          /mesec
+                        </span>
+                      </>
+                    )}
                   </div>
 
-                  <ul className="mt-8 space-y-3">
+                  <ul className="mt-7 space-y-2.5">
                     {plan.features.map((feat) => (
                       <li
                         key={feat}
-                        className="flex items-start gap-3 text-sm text-[#E1E1E1]/70"
+                        className="flex items-start gap-2.5 text-sm text-[#E1E1E1]/70"
                       >
                         <Check className="w-4 h-4 accent-icon shrink-0 mt-0.5" />
                         {feat}
@@ -379,13 +513,9 @@ export default function HomePage() {
 
                   <Link
                     href="/registracija"
-                    className={`mt-8 block text-center py-3 rounded-full font-semibold text-sm transition-all duration-200 ${
-                      plan.popular
-                        ? "cta-button"
-                        : "gradient-border-btn text-[#E1E1E1] hover:text-white"
-                    }`}
+                    className={`mt-7 block text-center py-3 rounded-full font-semibold text-sm transition-all duration-200 ${plan.ctaStyle}`}
                   >
-                    Začni brezplačno
+                    {plan.cta}
                   </Link>
                 </div>
               </AnimateOnScroll>

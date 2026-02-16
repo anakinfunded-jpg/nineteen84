@@ -48,6 +48,22 @@ export async function proxy(request: NextRequest) {
     return response;
   }
 
+  // ── User invite referral tracking ──
+  // If ?invite=CODE is present, set a 30-day cookie and redirect to clean URL
+  const inviteCode = searchParams.get("invite");
+  if (inviteCode && /^[a-f0-9]{8}$/i.test(inviteCode)) {
+    const cleanUrl = request.nextUrl.clone();
+    cleanUrl.searchParams.delete("invite");
+    const response = NextResponse.redirect(cleanUrl);
+    response.cookies.set("__1984_invite", inviteCode.toLowerCase(), {
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+      path: "/",
+      sameSite: "lax",
+      httpOnly: false,
+    });
+    return response;
+  }
+
   // ── Fast path: public pages skip Supabase entirely ──
   // This avoids the ~200-400ms auth.getUser() round-trip for every visitor
   if (isPublicPath(pathname) && !isAuthPage(pathname)) {

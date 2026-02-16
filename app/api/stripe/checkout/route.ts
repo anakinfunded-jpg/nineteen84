@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
   }
 
-  const { planId, ref } = (await request.json()) as { planId: PlanId; ref?: string };
+  const { planId, ref, invite } = (await request.json()) as { planId: PlanId; ref?: string; invite?: string };
   const plan = PLANS[planId];
 
   if (!plan || !plan.priceId) {
@@ -53,6 +53,27 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  // Check for user invite referral (5% discount, separate from affiliate)
+  let inviteReferrerId: string | undefined;
+  if (!discounts.length && invite && /^[a-f0-9]{8}$/i.test(invite) && process.env.STRIPE_INVITE_COUPON_ID) {
+    // Verify the referrer exists and hasn't exceeded limit
+    const { data: referrerId } = await admin.rpc("find_user_by_invite_code", {
+      code: invite.toLowerCase(),
+    });
+    if (referrerId && referrerId !== user.id) {
+      const { count } = await admin
+        .from("user_referrals")
+        .select("id", { count: "exact", head: true })
+        .eq("referrer_id", referrerId)
+        .eq("status", "converted");
+
+      if ((count || 0) < 10) {
+        inviteReferrerId = referrerId;
+        discounts.push({ coupon: process.env.STRIPE_INVITE_COUPON_ID });
+      }
+    }
+  }
+
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     mode: "subscription",
@@ -66,6 +87,7 @@ export async function POST(request: NextRequest) {
     metadata: {
       user_id: user.id,
       ...(affiliateId ? { affiliate_id: affiliateId, affiliate_code: affiliateCode } : {}),
+      ...(inviteReferrerId ? { invite_referrer_id: inviteReferrerId } : {}),
     },
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina?success=true`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina?canceled=true`,

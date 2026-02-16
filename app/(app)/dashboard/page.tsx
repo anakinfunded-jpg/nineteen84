@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { InviteFriends } from "@/components/dashboard/invite-friends";
 import {
   MessageSquare,
   FileText,
@@ -115,6 +116,9 @@ export default async function DashboardPage() {
           ))}
         </div>
       </div>
+
+      {/* Invite Friends */}
+      <InviteFriends />
     </div>
   );
 }

@@ -17,6 +17,7 @@ const companyLinks = [
   { label: "Blog", href: "/blog" },
   { label: "Kontakt", href: "/kontakt" },
   { label: "Cenik", href: "/cenik" },
+  { label: "Partnerski program", href: "/affiliate" },
 ];
 
 const legalLinks = [

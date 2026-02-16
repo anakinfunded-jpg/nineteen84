@@ -69,6 +69,32 @@ export async function POST(request: NextRequest) {
           { onConflict: "user_id" }
         );
 
+        // Record user invite referral conversion
+        const inviteReferrerId = session.metadata?.invite_referrer_id;
+        if (inviteReferrerId && userId) {
+          // Update existing pending referral to converted
+          const { data: existingRef } = await supabase
+            .from("user_referrals")
+            .select("id")
+            .eq("referrer_id", inviteReferrerId)
+            .eq("referred_user_id", userId)
+            .maybeSingle();
+
+          if (existingRef) {
+            await supabase
+              .from("user_referrals")
+              .update({ status: "converted" })
+              .eq("id", existingRef.id);
+          } else {
+            // Create and immediately mark as converted
+            await supabase.from("user_referrals").insert({
+              referrer_id: inviteReferrerId,
+              referred_user_id: userId,
+              status: "converted",
+            });
+          }
+        }
+
         // Record affiliate conversion if referred
         const affiliateCode = session.metadata?.affiliate_code;
         if (affiliateCode && userId) {
