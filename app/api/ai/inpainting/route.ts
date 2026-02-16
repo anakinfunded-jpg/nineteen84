@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const response = await openai.images.edit({
-      model: "dall-e-2",
+      model: "gpt-image-1",
       image: imageFile,
       mask: maskFile,
       prompt,

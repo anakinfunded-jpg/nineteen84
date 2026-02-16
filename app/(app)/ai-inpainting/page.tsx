@@ -144,9 +144,23 @@ export default function InpaintingPage() {
       const maskCanvas = maskCanvasRef.current;
       if (!canvas || !maskCanvas) return;
 
-      // Export image as PNG (square, 1024x1024)
+      // Export a CLEAN image (without the red paint overlay)
+      const imgExportCanvas = document.createElement("canvas");
+      imgExportCanvas.width = CANVAS_SIZE;
+      imgExportCanvas.height = CANVAS_SIZE;
+      const imgExportCtx = imgExportCanvas.getContext("2d")!;
+      imgExportCtx.fillStyle = "#000";
+      imgExportCtx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+      const img = imageObjRef.current!;
+      const scale = Math.min(CANVAS_SIZE / img.width, CANVAS_SIZE / img.height);
+      const w = img.width * scale;
+      const h = img.height * scale;
+      const ox = (CANVAS_SIZE - w) / 2;
+      const oy = (CANVAS_SIZE - h) / 2;
+      imgExportCtx.drawImage(img, ox, oy, w, h);
+
       const imageBlob = await new Promise<Blob>((resolve) =>
-        canvas.toBlob((b) => resolve(b!), "image/png")
+        imgExportCanvas.toBlob((b) => resolve(b!), "image/png")
       );
 
       // Create mask: transparent where painted (white), opaque elsewhere
