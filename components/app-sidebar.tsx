@@ -88,7 +88,7 @@ const navGroups: NavGroup[] = [
   },
 ];
 
-export function AppSidebar({ user, isAffiliate = false }: { user: User; isAffiliate?: boolean }) {
+export function AppSidebar({ user, isAffiliate = false, planName }: { user: User; isAffiliate?: boolean; planName?: string }) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -147,12 +147,19 @@ export function AppSidebar({ user, isAffiliate = false }: { user: User; isAffili
     <>
       {/* Logo */}
       <div className="h-16 flex items-center justify-between px-6 border-b border-white/[0.06]">
-        <Link
-          href="/dashboard"
-          className="text-2xl font-serif tracking-[0.01em] logo-gradient"
-        >
-          1984
-        </Link>
+        <div className="flex items-center gap-2.5">
+          <Link
+            href="/dashboard"
+            className="text-2xl font-serif tracking-[0.01em] logo-gradient"
+          >
+            1984
+          </Link>
+          {planName && (
+            <span className="text-[10px] font-medium bg-[#FEB089]/10 text-[#FEB089] px-2 py-0.5 rounded-full">
+              {planName}
+            </span>
+          )}
+        </div>
         <button
           onClick={() => setMobileOpen(false)}
           className="lg:hidden p-1.5 rounded-lg text-[#E1E1E1]/40 hover:text-[#E1E1E1] hover:bg-white/[0.04] transition-colors"
@@ -228,12 +235,19 @@ export function AppSidebar({ user, isAffiliate = false }: { user: User; isAffili
         >
           <Menu className="w-5 h-5" />
         </button>
-        <Link
-          href="/dashboard"
-          className="text-xl font-serif tracking-[0.01em] logo-gradient"
-        >
-          1984
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/dashboard"
+            className="text-xl font-serif tracking-[0.01em] logo-gradient"
+          >
+            1984
+          </Link>
+          {planName && (
+            <span className="text-[10px] font-medium bg-[#FEB089]/10 text-[#FEB089] px-2 py-0.5 rounded-full">
+              {planName}
+            </span>
+          )}
+        </div>
         <div className="w-9" /> {/* Spacer for centering */}
       </div>
 

@@ -10,6 +10,7 @@ import {
   ExternalLink,
   AlertTriangle,
   PartyPopper,
+  ArrowDown,
 } from "lucide-react";
 
 type StatusData = {
@@ -34,10 +35,26 @@ type StatusData = {
 
 const PLAN_CARDS = [
   {
+    id: "free",
+    name: "Brezplačno",
+    price: "0",
+    popular: false,
+    rank: 0,
+    limits: "2.000 besed · 10 slik",
+    features: [
+      "2.000 besed",
+      "10 slik",
+      "AI Chat",
+      "3 predloge",
+    ],
+  },
+  {
     id: "osnovno",
     name: "Osnovno",
     price: "16,90",
     popular: false,
+    rank: 1,
+    limits: "20.000 besed · 200 slik",
     features: [
       "20.000 besed",
       "200 slik",
@@ -51,6 +68,8 @@ const PLAN_CARDS = [
     name: "Profesionalno",
     price: "39,90",
     popular: true,
+    rank: 2,
+    limits: "50.000 besed · 400 slik",
     features: [
       "50.000 besed",
       "400 slik",
@@ -64,6 +83,8 @@ const PLAN_CARDS = [
     name: "Poslovno",
     price: "84,90",
     popular: false,
+    rank: 3,
+    limits: "150.000 besed · 800 slik",
     features: [
       "150.000 besed",
       "800 slik",
@@ -223,6 +244,8 @@ export default function NarocninaPage() {
 
   const sub = status?.subscription;
   const isActive = sub?.status === "active";
+  const currentPlanCard = PLAN_CARDS.find((p) => p.id === status?.planId) || PLAN_CARDS[0];
+  const currentRank = currentPlanCard.rank;
 
   return (
     <div className="p-8 max-w-5xl">
@@ -256,10 +279,23 @@ export default function NarocninaPage() {
             <div className="flex items-center gap-3">
               <h2 className="text-lg font-semibold text-white">
                 {status?.plan.name || "Brezplačno"}
+                {status && (
+                  <span className="text-[#E1E1E1]/40 font-normal">
+                    {status.planId === "free"
+                      ? ""
+                      : ` — €${status.plan.priceEur}/mesec`}
+                  </span>
+                )}
               </h2>
               {sub && <StatusBadge status={sub.status} />}
               {!sub && <StatusBadge status="inactive" />}
             </div>
+
+            {status && (
+              <p className="mt-1.5 text-sm text-[#E1E1E1]/50">
+                {currentPlanCard?.limits}
+              </p>
+            )}
 
             {isActive && sub?.currentPeriodEnd && (
               <p className="mt-2 text-sm text-[#E1E1E1]/40">
@@ -324,20 +360,25 @@ export default function NarocninaPage() {
           Nadgradite za več besed, slik in naprednih funkcij.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {PLAN_CARDS.map((plan) => {
             const isCurrent = status?.planId === plan.id;
+            const isUpgrade = plan.rank > currentRank;
+            const isDowngrade = plan.rank < currentRank;
+            const isFree = plan.id === "free";
 
             return (
               <div
                 key={plan.id}
                 className={`relative rounded-2xl p-6 transition-all duration-300 ${
-                  plan.popular
-                    ? "bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/[0.1] shadow-[0_8px_32px_rgba(254,176,137,0.06)]"
-                    : "glass-card"
+                  isCurrent
+                    ? "bg-gradient-to-b from-[#FEB089]/[0.06] to-white/[0.02] border border-[#FEB089]/20 shadow-[0_8px_32px_rgba(254,176,137,0.06)]"
+                    : plan.popular
+                      ? "bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/[0.1] shadow-[0_8px_32px_rgba(254,176,137,0.06)]"
+                      : "glass-card"
                 }`}
               >
-                {plan.popular && (
+                {plan.popular && !isCurrent && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="cta-gradient text-xs font-bold text-[#171717] px-3 py-1 rounded-full uppercase tracking-wider whitespace-nowrap">
                       Priljubljeno
@@ -350,10 +391,16 @@ export default function NarocninaPage() {
                 </h3>
 
                 <div className="mt-3 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-white">
-                    &euro;{plan.price}
-                  </span>
-                  <span className="text-[#E1E1E1]/40 text-sm">/mesec</span>
+                  {isFree ? (
+                    <span className="text-3xl font-bold text-white">Brezplačno</span>
+                  ) : (
+                    <>
+                      <span className="text-3xl font-bold text-white">
+                        &euro;{plan.price}
+                      </span>
+                      <span className="text-[#E1E1E1]/40 text-sm">/mesec</span>
+                    </>
+                  )}
                 </div>
 
                 <ul className="mt-6 space-y-3">
@@ -368,31 +415,49 @@ export default function NarocninaPage() {
                   ))}
                 </ul>
 
-                <button
-                  onClick={() => !isCurrent && handleCheckout(plan.id)}
-                  disabled={isCurrent || checkoutLoading === plan.id}
-                  className={`mt-6 w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
-                    isCurrent
-                      ? "bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1]/40 cursor-default"
-                      : plan.popular
+                {isCurrent ? (
+                  <button
+                    disabled
+                    className="mt-6 w-full py-2.5 rounded-xl font-semibold text-sm bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1]/40 cursor-default flex items-center justify-center gap-2"
+                  >
+                    <Check className="w-4 h-4" />
+                    Trenutni paket
+                  </button>
+                ) : isUpgrade ? (
+                  <button
+                    onClick={() => handleCheckout(plan.id)}
+                    disabled={checkoutLoading === plan.id}
+                    className={`mt-6 w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
+                      plan.popular
                         ? "cta-button"
                         : "gradient-border-btn text-[#E1E1E1] hover:text-white"
-                  }`}
-                >
-                  {checkoutLoading === plan.id ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : isCurrent ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      Trenutni paket
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4" />
-                      Izberi paket
-                    </>
-                  )}
-                </button>
+                    }`}
+                  >
+                    {checkoutLoading === plan.id ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4" />
+                        Nadgradi
+                      </>
+                    )}
+                  </button>
+                ) : isDowngrade ? (
+                  <button
+                    onClick={handlePortal}
+                    disabled={portalLoading}
+                    className="mt-6 w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.08]"
+                  >
+                    {portalLoading ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <ArrowDown className="w-4 h-4" />
+                        Znižaj paket
+                      </>
+                    )}
+                  </button>
+                ) : null}
               </div>
             );
           })}

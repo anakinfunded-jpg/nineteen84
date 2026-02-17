@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "@/components/app-sidebar";
+import { getUserPlan } from "@/lib/credits";
+import { PLANS } from "@/lib/stripe";
 
 export default async function AppLayout({
   children,
@@ -31,9 +33,12 @@ export default async function AppLayout({
     // Table may not exist yet or query failed — default to false
   }
 
+  const planId = await getUserPlan(user.id);
+  const planName = PLANS[planId].name;
+
   return (
     <div className="flex h-screen bg-[#171717]">
-      <AppSidebar user={user} isAffiliate={isAffiliate} />
+      <AppSidebar user={user} isAffiliate={isAffiliate} planName={planName} />
       <main className="flex-1 overflow-y-auto pt-14 lg:pt-0">{children}</main>
     </div>
   );
