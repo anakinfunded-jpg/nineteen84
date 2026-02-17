@@ -25,6 +25,7 @@ const companyLinks = [
 const legalLinks = [
   { label: "Pogoji uporabe", href: "/pogoji" },
   { label: "Politika zasebnosti", href: "/zasebnost" },
+  { label: "Impressum", href: "/impressum" },
 ];
 
 export function MarketingFooter() {

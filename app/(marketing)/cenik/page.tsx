@@ -132,6 +132,49 @@ const faq = [
 export default function CenikPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            itemListElement: [
+              {
+                "@type": "Product",
+                name: "1984 Osnovno",
+                description: "AI platforma za posameznike — 20.000 besed in 200 slik mesečno",
+                offers: { "@type": "Offer", price: "16.90", priceCurrency: "EUR", availability: "https://schema.org/InStock", url: "https://www.1984.si/registracija" },
+              },
+              {
+                "@type": "Product",
+                name: "1984 Profesionalno",
+                description: "AI platforma za ekipe — 50.000 besed in 400 slik mesečno z najzmogljivejšim AI modelom",
+                offers: { "@type": "Offer", price: "39.90", priceCurrency: "EUR", availability: "https://schema.org/InStock", url: "https://www.1984.si/registracija" },
+              },
+              {
+                "@type": "Product",
+                name: "1984 Poslovno",
+                description: "AI platforma za podjetja — 150.000 besed, 800 slik mesečno, API dostop",
+                offers: { "@type": "Offer", price: "84.90", priceCurrency: "EUR", availability: "https://schema.org/InStock", url: "https://www.1984.si/registracija" },
+              },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faq.map((item) => ({
+              "@type": "Question",
+              name: item.q,
+              acceptedAnswer: { "@type": "Answer", text: item.a },
+            })),
+          }),
+        }}
+      />
       {/* Hero */}
       <section className="pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">

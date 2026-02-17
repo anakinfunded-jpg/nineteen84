@@ -44,6 +44,26 @@ export default function KontaktPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "1984",
+            url: "https://www.1984.si",
+            email: "info@1984.si",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "Grobelno del 151",
+              addressLocality: "Grobelno",
+              postalCode: "3231",
+              addressCountry: "SI",
+            },
+            description: "Prva slovenska AI platforma za ustvarjanje marketinških vsebin.",
+          }),
+        }}
+      />
       {/* Hero */}
       <section className="pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">

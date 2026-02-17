@@ -27,6 +27,13 @@ export const authLimit = new Ratelimit({
   prefix: "rl:auth",
 });
 
+// API v1 routes: 60 requests per 60 seconds per user (generous for programmatic use)
+export const apiLimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(60, "60 s"),
+  prefix: "rl:api",
+});
+
 export function rateLimitResponse(reset: number) {
   const retryAfter = Math.ceil((reset - Date.now()) / 1000);
   return new Response(

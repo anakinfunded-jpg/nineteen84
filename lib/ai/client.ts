@@ -70,6 +70,26 @@ export async function generateStream(options: {
   });
 }
 
+export async function generateText(options: {
+  systemPrompt: string;
+  userPrompt: string;
+  tier?: ModelTier;
+  maxTokens?: number;
+}): Promise<string> {
+  const { systemPrompt, userPrompt, tier = "free", maxTokens = 2048 } = options;
+  const client = getClient();
+
+  const response = await client.messages.create({
+    model: MODELS[tier],
+    max_tokens: maxTokens,
+    system: systemPrompt,
+    messages: [{ role: "user", content: userPrompt }],
+  });
+
+  const textBlock = response.content.find((b) => b.type === "text");
+  return textBlock?.text ?? "";
+}
+
 export type ChatMessage = {
   role: "user" | "assistant";
   content: string;

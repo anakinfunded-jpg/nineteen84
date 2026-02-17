@@ -56,6 +56,34 @@ export default function RootLayout({
       <body
         className={`${instrumentSerif.variable} ${plusJakarta.variable} font-sans antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "1984",
+              url: "https://www.1984.si",
+              logo: "https://www.1984.si/icon.png",
+              description:
+                "Prva slovenska AI platforma za ustvarjanje marketinških vsebin.",
+              email: "info@1984.si",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Grobelno del 151",
+                addressLocality: "Grobelno",
+                postalCode: "3231",
+                addressCountry: "SI",
+              },
+              contactPoint: {
+                "@type": "ContactPoint",
+                email: "info@1984.si",
+                contactType: "customer support",
+                availableLanguage: "Slovenian",
+              },
+            }),
+          }}
+        />
         {children}
         <CookieConsent />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (

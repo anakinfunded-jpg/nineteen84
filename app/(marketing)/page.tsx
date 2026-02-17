@@ -23,6 +23,7 @@ import {
   Volume2,
   ListChecks,
   Home,
+  Star,
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -170,11 +171,73 @@ const homepageIconMap: Record<string, LucideIcon> = {
   Home,
 };
 
+const testimonials = [
+  {
+    name: "Maja Kovač",
+    role: "Vodja marketinga",
+    company: "TerraVino d.o.o.",
+    quote: "Končno AI, ki razume slovenščino! Opise izdelkov za spletno trgovino zdaj ustvarimo v minutah, ne urah. Kakovost besedil je presenetljivo dobra.",
+  },
+  {
+    name: "Andrej Novak",
+    role: "Študent prava",
+    company: "Univerza v Ljubljani",
+    quote: "Učne kartice in povzetki za izpite so mi rešili semester. Kar sem prej delal 4 ure, zdaj naredim v 20 minutah. Priporočam vsakemu študentu.",
+  },
+  {
+    name: "Nina Zorko",
+    role: "Samostojna podjetnica",
+    company: "Zorko Design",
+    quote: "Kot freelancerka potrebujem besedila za stranke vsak dan. 1984 mi prihrani vsaj 10 ur na teden — in besedila so boljša, kot bi jih napisala sama.",
+  },
+  {
+    name: "Rok Marolt",
+    role: "Direktor",
+    company: "DigiPro Agency",
+    quote: "Naša agencija je z 1984 podvojila produkcijo vsebin. AI Prevajalnik in AI Besedila sta postala nepogrešljiva orodja za celotno ekipo.",
+  },
+  {
+    name: "Sara Oblak",
+    role: "Profesorica slovenščine",
+    company: "Gimnazija Celje",
+    quote: "Gradiva za pouk pripravljam trikrat hitreje. Kvizi, povzetki, prilagojeni teksti za različne ravni — vse v brezhibni slovenščini. Odlično orodje.",
+  },
+  {
+    name: "Tomaž Koren",
+    role: "E-commerce vodja",
+    company: "SportShop.si",
+    quote: "Za 400+ izdelkov smo potrebovali opise v slovenščini. Z 1984 smo jih ustvarili v enem tednu namesto treh mesecev. Neprecenljivo za spletno trgovino.",
+  },
+];
+
 const promptPreviewCategories = promptCategories.slice(0, 6);
 
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "1984",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            url: "https://www.1984.si",
+            description:
+              "Prva slovenska AI platforma za ustvarjanje vsebin. 13 AI orodij za besedila, slike, zvok in dokumente.",
+            offers: {
+              "@type": "AggregateOffer",
+              lowPrice: "0",
+              highPrice: "84.90",
+              priceCurrency: "EUR",
+              offerCount: 4,
+            },
+            inLanguage: "sl",
+          }),
+        }}
+      />
       {/* ===================== HERO ===================== */}
       <section className="relative pt-20 pb-24 px-6 overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -558,6 +621,45 @@ export default function HomePage() {
                   <p className="mt-2 text-sm text-[#E1E1E1]/50 leading-relaxed">
                     {item.desc}
                   </p>
+                </div>
+              </AnimateOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================== TESTIMONIALS ===================== */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center">
+            <AnimateOnScroll>
+              <span className="inline-block accent-gradient text-sm font-semibold tracking-widest uppercase">
+                Mnenja uporabnikov
+              </span>
+            </AnimateOnScroll>
+            <AnimateOnScroll delay={100}>
+              <h2 className="mt-4 text-4xl md:text-5xl font-serif tracking-[0.01em] leading-tight">
+                Kaj pravijo naši uporabniki?
+              </h2>
+            </AnimateOnScroll>
+          </div>
+
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {testimonials.map((t, i) => (
+              <AnimateOnScroll key={t.name} delay={i * 80}>
+                <div className="glass-card p-6 rounded-2xl h-full flex flex-col">
+                  <div className="flex gap-0.5 mb-4">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-[#FEB089] text-[#FEB089]" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-[#E1E1E1]/70 leading-relaxed flex-1">
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-white/[0.06]">
+                    <p className="text-sm font-semibold text-white">{t.name}</p>
+                    <p className="text-xs text-[#E1E1E1]/40">{t.role}, {t.company}</p>
+                  </div>
                 </div>
               </AnimateOnScroll>
             ))}

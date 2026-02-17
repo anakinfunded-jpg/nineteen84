@@ -10,6 +10,12 @@ import {
   Shield,
   Trash2,
   Mail,
+  Key,
+  Copy,
+  Plus,
+  Eye,
+  EyeOff,
+  AlertTriangle,
 } from "lucide-react";
 
 export default function NastavitvePage() {
@@ -40,6 +46,17 @@ export default function NastavitvePage() {
   const [deleteText, setDeleteText] = useState("");
   const [deleting, setDeleting] = useState(false);
 
+  // API keys (Poslovno only)
+  const [isPoslovno, setIsPoslovno] = useState(false);
+  const [apiKeys, setApiKeys] = useState<{ id: string; key_prefix: string; name: string; created_at: string; last_used_at: string | null }[]>([]);
+  const [loadingKeys, setLoadingKeys] = useState(false);
+  const [newKeyName, setNewKeyName] = useState("");
+  const [generatingKey, setGeneratingKey] = useState(false);
+  const [newRawKey, setNewRawKey] = useState("");
+  const [keyCopied, setKeyCopied] = useState(false);
+  const [keyError, setKeyError] = useState("");
+  const [showRawKey, setShowRawKey] = useState(false);
+
   useEffect(() => {
     loadUser();
   }, []);
@@ -58,8 +75,75 @@ export default function NastavitvePage() {
         createdAt: u.created_at,
       });
       setFullName(u.user_metadata?.full_name || "");
+
+      // Check if user has Poslovno plan
+      const { data: sub } = await supabase
+        .from("subscriptions")
+        .select("plan_id")
+        .eq("user_id", u.id)
+        .eq("status", "active")
+        .single();
+      if (sub?.plan_id === "poslovno") {
+        setIsPoslovno(true);
+        loadApiKeys();
+      }
     }
     setLoading(false);
+  }
+
+  async function loadApiKeys() {
+    setLoadingKeys(true);
+    try {
+      const res = await fetch("/api/api-keys");
+      const data = await res.json();
+      if (data.success) setApiKeys(data.data);
+    } catch { /* ignore */ }
+    setLoadingKeys(false);
+  }
+
+  async function handleGenerateKey(e: FormEvent) {
+    e.preventDefault();
+    if (generatingKey || !newKeyName.trim()) return;
+    setGeneratingKey(true);
+    setKeyError("");
+    setNewRawKey("");
+
+    try {
+      const res = await fetch("/api/api-keys", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newKeyName.trim() }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setNewRawKey(data.data.key);
+        setNewKeyName("");
+        loadApiKeys();
+      } else {
+        setKeyError(data.error?.message || "Napaka pri ustvarjanju ključa.");
+      }
+    } catch {
+      setKeyError("Napaka pri ustvarjanju ključa.");
+    }
+    setGeneratingKey(false);
+  }
+
+  async function handleRevokeKey(keyId: string) {
+    try {
+      const res = await fetch("/api/api-keys", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keyId }),
+      });
+      const data = await res.json();
+      if (data.success) loadApiKeys();
+    } catch { /* ignore */ }
+  }
+
+  function copyKey() {
+    navigator.clipboard.writeText(newRawKey);
+    setKeyCopied(true);
+    setTimeout(() => setKeyCopied(false), 2000);
   }
 
   async function handleSaveProfile(e: FormEvent) {
@@ -275,6 +359,111 @@ export default function NastavitvePage() {
               </button>
             </div>
           </form>
+        )}
+
+        {/* API Keys — Poslovno only */}
+        {isPoslovno && (
+          <div className="glass-card rounded-xl p-6 space-y-4">
+            <div className="flex items-center gap-3 mb-2">
+              <Key className="w-5 h-5 text-[#FEB089]/60" />
+              <h2 className="text-sm font-semibold text-white">API ključi</h2>
+            </div>
+            <p className="text-xs text-[#E1E1E1]/40">
+              Uporabite API ključe za programski dostop do vseh AI storitev. Največ 3 ključi.
+            </p>
+
+            {/* New key modal */}
+            {newRawKey && (
+              <div className="p-4 rounded-xl bg-[#FEB089]/5 border border-[#FEB089]/20 space-y-3">
+                <div className="flex items-center gap-2 text-[#FEB089]">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Shranite ta ključ — prikazan bo samo enkrat!</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <code className="flex-1 px-3 py-2 rounded-lg bg-white/[0.04] text-sm text-[#E1E1E1] font-mono overflow-hidden text-ellipsis">
+                    {showRawKey ? newRawKey : newRawKey.slice(0, 10) + "••••••••••••••••••••••••••••••••"}
+                  </code>
+                  <button
+                    onClick={() => setShowRawKey(!showRawKey)}
+                    className="p-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] transition-colors text-[#E1E1E1]/60"
+                  >
+                    {showRawKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                  <button
+                    onClick={copyKey}
+                    className="p-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] transition-colors text-[#E1E1E1]/60"
+                  >
+                    {keyCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+                <button
+                  onClick={() => { setNewRawKey(""); setShowRawKey(false); }}
+                  className="text-xs text-[#E1E1E1]/40 hover:text-[#E1E1E1]/60 transition-colors"
+                >
+                  Zapri
+                </button>
+              </div>
+            )}
+
+            {/* Generate new key */}
+            <form onSubmit={handleGenerateKey} className="flex gap-2">
+              <input
+                type="text"
+                value={newKeyName}
+                onChange={(e) => setNewKeyName(e.target.value)}
+                placeholder="Ime ključa (npr. Produkcija)"
+                maxLength={50}
+                className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={generatingKey || !newKeyName.trim() || apiKeys.length >= 3}
+                className="cta-button px-4 py-2.5 rounded-xl font-semibold text-sm disabled:opacity-50 flex items-center gap-2"
+              >
+                {generatingKey ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
+                Ustvari
+              </button>
+            </form>
+
+            {keyError && <p className="text-sm text-red-400">{keyError}</p>}
+
+            {/* Keys list */}
+            {loadingKeys ? (
+              <div className="flex justify-center py-4">
+                <Loader2 className="w-5 h-5 animate-spin text-[#E1E1E1]/30" />
+              </div>
+            ) : apiKeys.length > 0 ? (
+              <div className="space-y-2">
+                {apiKeys.map((k) => (
+                  <div key={k.id} className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                    <div className="min-w-0">
+                      <p className="text-sm text-[#E1E1E1] font-medium truncate">{k.name}</p>
+                      <p className="text-xs text-[#E1E1E1]/30 font-mono">{k.key_prefix}••••••••</p>
+                    </div>
+                    <div className="flex items-center gap-4 shrink-0">
+                      <div className="text-right">
+                        <p className="text-xs text-[#E1E1E1]/30">
+                          Ustvarjen {new Date(k.created_at).toLocaleDateString("sl-SI")}
+                        </p>
+                        <p className="text-xs text-[#E1E1E1]/20">
+                          {k.last_used_at ? `Zadnja uporaba ${new Date(k.last_used_at).toLocaleDateString("sl-SI")}` : "Še ni bil uporabljen"}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => handleRevokeKey(k.id)}
+                        className="p-2 rounded-lg text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                        title="Prekliči ključ"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-[#E1E1E1]/30 text-center py-3">Nimate še API ključev.</p>
+            )}
+          </div>
         )}
 
         {/* Delete account */}
