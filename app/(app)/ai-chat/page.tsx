@@ -11,6 +11,9 @@ import {
   MessageSquare,
   Trash2,
   Sparkles,
+  Paperclip,
+  FileText,
+  X,
 } from "lucide-react";
 
 type Message = {
@@ -25,6 +28,16 @@ type Conversation = {
   created_at: string;
 };
 
+type AttachedFile = {
+  name: string;
+  content: string;
+};
+
+const TEXT_EXTENSIONS = [".txt", ".md", ".csv", ".json"];
+const BINARY_EXTENSIONS = [".pdf", ".docx", ".pptx", ".xlsx"];
+const ALL_EXTENSIONS = [...TEXT_EXTENSIONS, ...BINARY_EXTENSIONS];
+const ACCEPT = ALL_EXTENSIONS.join(",");
+
 function AIChatPageInner() {
   const searchParams = useSearchParams();
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -33,8 +46,12 @@ function AIChatPageInner() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingConvs, setLoadingConvs] = useState(true);
+  const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
+  const [parsingFile, setParsingFile] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
 
   // Load conversations on mount
@@ -97,6 +114,7 @@ function AIChatPageInner() {
     setActiveConvId(null);
     setMessages([]);
     setInput("");
+    setAttachedFile(null);
     inputRef.current?.focus();
   }
 
@@ -110,16 +128,73 @@ function AIChatPageInner() {
     }
   }
 
+  async function handleFileAttach(file: File) {
+    if (file.size > 4 * 1024 * 1024) {
+      alert("Datoteka je prevelika. Največja velikost je 4 MB.");
+      return;
+    }
+
+    const name = file.name.toLowerCase();
+    const ext = name.slice(name.lastIndexOf("."));
+
+    if (!ALL_EXTENSIONS.includes(ext)) {
+      alert(
+        `Nepodprt format. Podprti formati: ${ALL_EXTENSIONS.join(", ")}`
+      );
+      return;
+    }
+
+    setParsingFile(true);
+
+    try {
+      let text: string;
+
+      if (TEXT_EXTENSIONS.some((e) => name.endsWith(e))) {
+        text = await file.text();
+      } else {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/api/parse-file", {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          alert(data.error || "Napaka pri branju datoteke");
+          setParsingFile(false);
+          return;
+        }
+        text = data.text;
+      }
+
+      setAttachedFile({ name: file.name, content: text });
+    } catch {
+      alert("Napaka pri branju datoteke");
+    }
+
+    setParsingFile(false);
+  }
+
   async function sendMessage(text: string) {
-    if (!text.trim() || loading) return;
+    if ((!text.trim() && !attachedFile) || loading) return;
+
+    // Build the full message with file content if attached
+    let fullMessage = text.trim();
+    if (attachedFile) {
+      const filePrefix = `[Priložena datoteka: ${attachedFile.name}]\n\n${attachedFile.content}`;
+      fullMessage = fullMessage
+        ? `${filePrefix}\n\n${fullMessage}`
+        : filePrefix;
+    }
 
     const userMsg: Message = {
       id: crypto.randomUUID(),
       role: "user",
-      content: text,
+      content: fullMessage,
     };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    setAttachedFile(null);
     setLoading(true);
 
     const history = messages.map((m) => ({
@@ -133,7 +208,7 @@ function AIChatPageInner() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           conversationId: activeConvId,
-          message: text,
+          message: fullMessage,
           messages: history,
         }),
       });
@@ -220,8 +295,45 @@ function AIChatPageInner() {
     }
   }
 
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(true);
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(false);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileAttach(file);
+  }
+
   return (
-    <div className="flex h-[calc(100vh-0px)] overflow-hidden">
+    <div
+      className="flex h-[calc(100vh-0px)] overflow-hidden"
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {/* Drag overlay */}
+      {dragging && (
+        <div className="absolute inset-0 z-50 bg-[#171717]/80 backdrop-blur-sm flex items-center justify-center pointer-events-none">
+          <div className="flex flex-col items-center gap-3 p-8 rounded-2xl border-2 border-dashed border-[#FEB089]/50">
+            <FileText className="w-12 h-12 text-[#FEB089]" />
+            <p className="text-lg text-[#FEB089] font-medium">
+              Spustite datoteko za prilogo
+            </p>
+            <p className="text-sm text-[#E1E1E1]/40">
+              PDF, DOCX, PPTX, XLSX, TXT, MD, CSV, JSON
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Conversation sidebar */}
       <div className="w-72 shrink-0 bg-[#181818] border-r border-white/[0.06] flex flex-col">
         <div className="p-4">
@@ -293,6 +405,9 @@ function AIChatPageInner() {
                 Postavite vprašanje, prosite za pomoč pri pisanju ali se
                 pogovarjajte o marketinških idejah — vse v slovenščini.
               </p>
+              <p className="text-xs text-[#E1E1E1]/25 text-center mt-2">
+                Priložite datoteke z vlečenjem ali s klikom na sponko.
+              </p>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 {[
@@ -353,10 +468,59 @@ function AIChatPageInner() {
 
         {/* Input */}
         <div className="border-t border-white/[0.06] p-4">
+          {/* Attached file indicator */}
+          {(attachedFile || parsingFile) && (
+            <div className="max-w-3xl mx-auto mb-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm">
+                {parsingFile ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-[#FEB089]" />
+                    <span className="text-[#E1E1E1]/50">
+                      Berem datoteko...
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <FileText className="w-3.5 h-3.5 text-[#FEB089]/60" />
+                    <span className="text-[#E1E1E1]/70">
+                      {attachedFile!.name}
+                    </span>
+                    <button
+                      onClick={() => setAttachedFile(null)}
+                      className="text-[#E1E1E1]/30 hover:text-red-400 transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
           <form
             onSubmit={handleSend}
             className="max-w-3xl mx-auto flex items-end gap-3"
           >
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={ACCEPT}
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) handleFileAttach(f);
+                e.target.value = "";
+              }}
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={loading || parsingFile}
+              className="shrink-0 w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-[#E1E1E1]/40 hover:text-[#FEB089] hover:border-[#FEB089]/30 transition-colors duration-200 disabled:opacity-40"
+              title="Priloži datoteko"
+            >
+              <Paperclip className="w-4 h-4" />
+            </button>
             <div className="flex-1 relative">
               <textarea
                 ref={inputRef}
@@ -371,7 +535,7 @@ function AIChatPageInner() {
             </div>
             <button
               type="submit"
-              disabled={loading || !input.trim()}
+              disabled={loading || (!input.trim() && !attachedFile)}
               className="shrink-0 w-11 h-11 rounded-xl cta-button flex items-center justify-center disabled:opacity-40 transition-opacity duration-200"
             >
               {loading ? (

@@ -240,6 +240,7 @@ function STTTab() {
   const [result, setResult] = useState("");
   const [copied, setCopied] = useState(false);
   const [recording, setRecording] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -324,8 +325,45 @@ function STTTab() {
     }
   }
 
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(true);
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(false);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(false);
+    const f = e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  }
+
   return (
-    <form onSubmit={handleTranscribe} className="space-y-4">
+    <form
+      onSubmit={handleTranscribe}
+      className="space-y-4 relative"
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {dragging && (
+        <div className="absolute inset-0 z-50 bg-[#171717]/80 backdrop-blur-sm flex items-center justify-center rounded-2xl pointer-events-none">
+          <div className="flex flex-col items-center gap-3 p-8 rounded-2xl border-2 border-dashed border-[#FEB089]/50">
+            <Upload className="w-12 h-12 text-[#FEB089]" />
+            <p className="text-lg text-[#FEB089] font-medium">
+              Spustite zvočno datoteko
+            </p>
+            <p className="text-sm text-[#E1E1E1]/40">
+              MP3, WAV, M4A, WebM
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="glass-card rounded-xl p-6 space-y-4">
         {/* Upload or record */}
         <div>

@@ -25,6 +25,7 @@ export default function SpominPage() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loadingDocs, setLoadingDocs] = useState(true);
   const [showUpload, setShowUpload] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
   // Upload state
   const [title, setTitle] = useState("");
@@ -191,8 +192,44 @@ export default function SpominPage() {
     }
   }
 
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(true);
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(false);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileUpload(file);
+  }
+
   return (
-    <div className="p-8 max-w-4xl">
+    <div
+      className="p-8 max-w-4xl relative"
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {dragging && (
+        <div className="absolute inset-0 z-50 bg-[#171717]/80 backdrop-blur-sm flex items-center justify-center rounded-2xl pointer-events-none">
+          <div className="flex flex-col items-center gap-3 p-8 rounded-2xl border-2 border-dashed border-[#FEB089]/50">
+            <Upload className="w-12 h-12 text-[#FEB089]" />
+            <p className="text-lg text-[#FEB089] font-medium">
+              Spustite datoteko za nalaganje
+            </p>
+            <p className="text-sm text-[#E1E1E1]/40">
+              PDF, DOCX, PPTX, XLSX, TXT, MD, CSV, JSON
+            </p>
+          </div>
+        </div>
+      )}
+
       <h1 className="text-2xl font-semibold text-white">AI Spomin</h1>
       <p className="mt-1 text-sm text-[#E1E1E1]/50">
         Naložite dokumente in postavljajte vprašanja na podlagi vaše baze znanja
