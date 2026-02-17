@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sendNotification } from "@/lib/email/resend";
+import { payoutCreatedEmail, payoutPaidEmail } from "@/lib/email/templates";
 import { NextRequest, NextResponse } from "next/server";
 
 const ADMIN_EMAILS = ["anakinfunded@gmail.com"];
@@ -79,6 +81,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // Send notification email to affiliate
+  try {
+    const { data: affiliate } = await admin
+      .from("affiliates")
+      .select("user_id")
+      .eq("id", affiliateId)
+      .single();
+
+    if (affiliate?.user_id) {
+      const { data: userData } = await admin.auth.admin.getUserById(affiliate.user_id);
+      const email = userData?.user?.email;
+      const name = userData?.user?.user_metadata?.full_name || "";
+
+      if (email) {
+        await sendNotification({
+          to: email,
+          subject: "1984 — Novo izplačilo ustvarjeno",
+          html: payoutCreatedEmail(name, Number(amount), period),
+        });
+      }
+    }
+  } catch {
+    // Email failure shouldn't block the response
+  }
+
   return NextResponse.json({ payout });
 }
 
@@ -133,6 +160,36 @@ export async function PATCH(request: NextRequest) {
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  // Send notification when payout is marked as paid
+  if (status === "paid") {
+    try {
+      const { data: payoutInfo } = await admin
+        .from("affiliate_payouts")
+        .select("affiliate_id, amount, period, affiliates(user_id)")
+        .eq("id", payoutId)
+        .single();
+
+      if (payoutInfo) {
+        const aff = payoutInfo.affiliates as unknown as { user_id: string } | null;
+        if (aff?.user_id) {
+          const { data: userData } = await admin.auth.admin.getUserById(aff.user_id);
+          const email = userData?.user?.email;
+          const name = userData?.user?.user_metadata?.full_name || "";
+
+          if (email) {
+            await sendNotification({
+              to: email,
+              subject: "1984 — Izplačilo izvedeno",
+              html: payoutPaidEmail(name, Number(payoutInfo.amount), payoutInfo.period),
+            });
+          }
+        }
+      }
+    } catch {
+      // Email failure shouldn't block the response
+    }
   }
 
   return NextResponse.json({ payout: data });

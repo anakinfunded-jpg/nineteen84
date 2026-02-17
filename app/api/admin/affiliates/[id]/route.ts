@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { updateMilestone } from "@/lib/affiliate";
+import { sendNotification } from "@/lib/email/resend";
+import { affiliateApprovedEmail, affiliateRejectedEmail } from "@/lib/email/templates";
 import { NextRequest, NextResponse } from "next/server";
 
 const ADMIN_EMAILS = ["anakinfunded@gmail.com"];
@@ -95,6 +97,33 @@ export async function PATCH(
 
   // Recalculate milestone if needed
   await updateMilestone(id);
+
+  // Send notification email on status change
+  if (body.status === "active" || body.status === "rejected") {
+    try {
+      const { data: userData } = await admin.auth.admin.getUserById(data.user_id);
+      const email = userData?.user?.email;
+      const name = userData?.user?.user_metadata?.full_name || "";
+
+      if (email) {
+        if (body.status === "active") {
+          await sendNotification({
+            to: email,
+            subject: "Vaša prijava v partnerski program 1984 je odobrena!",
+            html: affiliateApprovedEmail(name, data.code),
+          });
+        } else {
+          await sendNotification({
+            to: email,
+            subject: "Partnerski program 1984 — status prijave",
+            html: affiliateRejectedEmail(name),
+          });
+        }
+      }
+    } catch {
+      // Email failure shouldn't block the status update
+    }
+  }
 
   return NextResponse.json({ affiliate: data });
 }

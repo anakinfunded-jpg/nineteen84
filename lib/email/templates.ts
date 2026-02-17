@@ -183,3 +183,100 @@ export function renderSubject(
     .replace(/\{\{company\}\}/g, vars.company || "")
     .trim();
 }
+
+// ==================== AFFILIATE NOTIFICATION TEMPLATES ====================
+
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.1984.si";
+
+export function affiliateApprovedEmail(name: string, code: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Vaša prijava v partnerski program <strong style="color:#FEB089">1984</strong> je bila <strong style="color:#4ade80">odobrena</strong>!</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Vaša partnerska koda: <strong style="color:white;background:rgba(255,255,255,0.06);padding:4px 12px;border-radius:6px">${code}</strong></p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Vaša partnerska povezava:</p>
+<p style="margin:0 0 24px;color:#FEB089;word-break:break-all">${appUrl}/?ref=${code}</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Kaj zdaj?</p>
+<ul style="margin:0 0 16px;padding-left:20px;color:#E1E1E1">
+<li style="margin-bottom:8px">Delite povezavo na družbenih omrežjih, blogu ali neposredno</li>
+<li style="margin-bottom:8px">Zaslužite <strong style="color:white">20% provizije</strong> za vsakega plačljivega uporabnika</li>
+<li style="margin-bottom:8px">Vaši sledilci dobijo <strong style="color:white">21-dnevni brezplačni preizkus</strong></li>
+<li style="margin-bottom:8px">Spremljajte statistiko na <a href="${appUrl}/partnerji" style="color:#FEB089">partnerski nadzorni plošči</a></li>
+</ul>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function affiliateRejectedEmail(name: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Zahvaljujemo se vam za zanimanje za partnerski program <strong style="color:#FEB089">1984</strong>.</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Žal vaše prijave trenutno ne moremo odobriti. To lahko pomeni, da vaš profil trenutno ne ustreza našim kriterijem, ali da nimamo prostih mest.</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Če menite, da gre za napako, nas kontaktirajte na <a href="mailto:info@1984.si" style="color:#FEB089">info@1984.si</a>.</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function payoutCreatedEmail(name: string, amount: number, period: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Ustvarjeno je bilo izplačilo v okviru partnerskega programa <strong style="color:#FEB089">1984</strong>:</p>
+
+<table style="margin:0 0 24px;width:100%;border-collapse:collapse">
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:8px 8px 0 0;border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+Znesek: <strong style="color:white">&euro;${amount.toFixed(2)}</strong>
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:0 0 8px 8px;color:#E1E1E1">
+Obdobje: <strong style="color:white">${period}</strong>
+</td>
+</tr>
+</table>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Izplačilo bo obdelano v najkrajšem možnem času. O statusu vas bomo obvestili.</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function payoutPaidEmail(name: string, amount: number, period: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Vaše partnersko izplačilo je bilo <strong style="color:#4ade80">izvedeno</strong>!</p>
+
+<table style="margin:0 0 24px;width:100%;border-collapse:collapse">
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:8px 8px 0 0;border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+Znesek: <strong style="color:white">&euro;${amount.toFixed(2)}</strong>
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:0 0 8px 8px;color:#E1E1E1">
+Obdobje: <strong style="color:white">${period}</strong>
+</td>
+</tr>
+</table>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Znesek bo viden na vašem bančnem računu v 1–3 delovnih dneh.</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Podrobnosti najdete na <a href="${appUrl}/partnerji" style="color:#FEB089">partnerski nadzorni plošči</a>.</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Hvala za vaše partnerstvo!</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}

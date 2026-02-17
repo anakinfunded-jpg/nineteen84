@@ -38,3 +38,25 @@ export async function sendEmail(options: {
 
   return data;
 }
+
+/** Send a transactional notification email (no unsubscribe header needed). */
+export async function sendNotification(options: {
+  to: string;
+  subject: string;
+  html: string;
+}) {
+  const resend = getResendClient();
+
+  const { data, error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: options.to,
+    subject: options.subject,
+    html: options.html,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
