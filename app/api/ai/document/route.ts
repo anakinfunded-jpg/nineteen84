@@ -3,6 +3,7 @@ import { generateStream } from "@/lib/ai/client";
 import { getUserTier } from "@/lib/credits";
 import { checkWordLimit, incrementWords, countWords } from "@/lib/credits";
 import { aiTextLimit, rateLimitResponse } from "@/lib/rate-limit";
+import { parseFile } from "@/lib/file-parser";
 import { NextRequest } from "next/server";
 
 const ACTIONS: Record<string, { label: string; prompt: string }> = {
@@ -59,9 +60,35 @@ export async function POST(request: NextRequest) {
   const { success, reset } = await aiTextLimit.limit(user.id);
   if (!success) return rateLimitResponse(reset);
 
-  const { text, action } = await request.json();
+  let text: string;
+  let action: string;
 
-  if (!text || !action) {
+  const contentType = request.headers.get("content-type") || "";
+
+  if (contentType.includes("multipart/form-data")) {
+    const formData = await request.formData();
+    const file = formData.get("file") as File | null;
+    action = (formData.get("action") as string) || "improve";
+
+    if (!file) {
+      return new Response("Datoteka je obvezna", { status: 400 });
+    }
+
+    try {
+      const parsed = await parseFile(file);
+      text = parsed.text;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Napaka pri branju datoteke";
+      return new Response(message, { status: 400 });
+    }
+  } else {
+    const body = await request.json();
+    text = body.text;
+    action = body.action;
+  }
+
+  if (!text?.trim() || !action) {
     return new Response("Besedilo in dejanje sta obvezna", { status: 400 });
   }
 

@@ -3,6 +3,7 @@ import { generateStream } from "@/lib/ai/client";
 import { getUserTier } from "@/lib/credits";
 import { checkWordLimit, incrementWords, countWords } from "@/lib/credits";
 import { aiTextLimit, rateLimitResponse } from "@/lib/rate-limit";
+import { parseFile } from "@/lib/file-parser";
 import { NextRequest } from "next/server";
 
 const LANGUAGES: Record<string, string> = {
@@ -83,9 +84,38 @@ export async function POST(request: NextRequest) {
   const { success, reset } = await aiTextLimit.limit(user.id);
   if (!success) return rateLimitResponse(reset);
 
-  const { text, sourceLang, targetLang } = await request.json();
+  let text: string;
+  let sourceLang: string;
+  let targetLang: string;
 
-  if (!text || !sourceLang || !targetLang) {
+  const contentType = request.headers.get("content-type") || "";
+
+  if (contentType.includes("multipart/form-data")) {
+    const formData = await request.formData();
+    const file = formData.get("file") as File | null;
+    sourceLang = (formData.get("sourceLang") as string) || "";
+    targetLang = (formData.get("targetLang") as string) || "";
+
+    if (!file) {
+      return new Response("Datoteka je obvezna", { status: 400 });
+    }
+
+    try {
+      const parsed = await parseFile(file);
+      text = parsed.text;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Napaka pri branju datoteke";
+      return new Response(message, { status: 400 });
+    }
+  } else {
+    const body = await request.json();
+    text = body.text;
+    sourceLang = body.sourceLang;
+    targetLang = body.targetLang;
+  }
+
+  if (!text?.trim() || !sourceLang || !targetLang) {
     return new Response("Besedilo in jeziki so obvezni", { status: 400 });
   }
 
