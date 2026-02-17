@@ -1,4 +1,4 @@
-import { stripe, getPlanByPriceId } from "@/lib/stripe";
+import { stripe, getPlanByPriceId, PLANS } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
   getAffiliateByCode,
@@ -7,8 +7,32 @@ import {
   getOriginalConversion,
   recordRecurringCommission,
 } from "@/lib/affiliate";
+import { sendNotification } from "@/lib/email/resend";
+import {
+  welcomeEmail,
+  paymentFailedEmail,
+  subscriptionCanceledEmail,
+  planChangedEmail,
+} from "@/lib/email/templates";
 import { NextRequest } from "next/server";
 import type Stripe from "stripe";
+
+async function getUserEmail(supabase: ReturnType<typeof createAdminClient>, userId: string) {
+  const { data } = await supabase.auth.admin.getUserById(userId);
+  return {
+    email: data?.user?.email || "",
+    name: data?.user?.user_metadata?.full_name || "",
+  };
+}
+
+async function getUserIdBySubscription(supabase: ReturnType<typeof createAdminClient>, subscriptionId: string) {
+  const { data } = await supabase
+    .from("subscriptions")
+    .select("user_id")
+    .eq("stripe_subscription_id", subscriptionId)
+    .maybeSingle();
+  return data?.user_id || null;
+}
 
 function getSubscriptionPeriod(subscription: Stripe.Subscription) {
   const item = subscription.items.data[0];
@@ -101,6 +125,20 @@ export async function POST(request: NextRequest) {
           }
         }
 
+        // Send welcome email
+        try {
+          const { email, name } = await getUserEmail(supabase, userId);
+          if (email) {
+            await sendNotification({
+              to: email,
+              subject: "Dobrodošli v 1984!",
+              html: welcomeEmail(name),
+            });
+          }
+        } catch {
+          // Email failure shouldn't block webhook
+        }
+
         // Record affiliate conversion if referred
         const affiliateCode = session.metadata?.affiliate_code;
         if (affiliateCode && userId) {
@@ -128,6 +166,13 @@ export async function POST(request: NextRequest) {
       const planId = getPlanByPriceId(priceId || "");
       const period = getSubscriptionPeriod(subscription);
 
+      // Check if plan actually changed (for sending email)
+      const { data: prevSub } = await supabase
+        .from("subscriptions")
+        .select("plan_id, user_id")
+        .eq("stripe_subscription_id", subscription.id)
+        .maybeSingle();
+
       await supabase
         .from("subscriptions")
         .update({
@@ -142,11 +187,33 @@ export async function POST(request: NextRequest) {
           updated_at: new Date().toISOString(),
         })
         .eq("stripe_subscription_id", subscription.id);
+
+      // Send plan change email if plan actually changed
+      if (prevSub?.user_id && prevSub.plan_id && prevSub.plan_id !== planId && planId !== "free") {
+        try {
+          const plan = PLANS[planId];
+          const { email, name } = await getUserEmail(supabase, prevSub.user_id);
+          if (email) {
+            await sendNotification({
+              to: email,
+              subject: `1984 — Paket spremenjen na ${plan.name}`,
+              html: planChangedEmail(name, plan.name, plan.priceEur),
+            });
+          }
+        } catch {
+          // Email failure shouldn't block webhook
+        }
+      }
       break;
     }
 
     case "customer.subscription.deleted": {
       const subscription = event.data.object as Stripe.Subscription;
+
+      // Get user info before updating
+      const deletedUserId = await getUserIdBySubscription(supabase, subscription.id);
+      const deletedPriceId = subscription.items.data[0]?.price.id;
+      const deletedPlanId = getPlanByPriceId(deletedPriceId || "");
 
       await supabase
         .from("subscriptions")
@@ -163,6 +230,23 @@ export async function POST(request: NextRequest) {
         .from("affiliate_conversions")
         .update({ status: "canceled" })
         .eq("stripe_subscription_id", subscription.id);
+
+      // Send cancellation email
+      if (deletedUserId) {
+        try {
+          const planName = PLANS[deletedPlanId]?.name || deletedPlanId;
+          const { email, name } = await getUserEmail(supabase, deletedUserId);
+          if (email) {
+            await sendNotification({
+              to: email,
+              subject: "1984 — Naročnina preklicana",
+              html: subscriptionCanceledEmail(name, planName),
+            });
+          }
+        } catch {
+          // Email failure shouldn't block webhook
+        }
+      }
       break;
     }
 
@@ -228,6 +312,30 @@ export async function POST(request: NextRequest) {
             updated_at: new Date().toISOString(),
           })
           .eq("stripe_subscription_id", subscriptionId);
+
+        // Send payment failure email
+        try {
+          const failedUserId = await getUserIdBySubscription(supabase, subscriptionId);
+          if (failedUserId) {
+            const { data: subData } = await supabase
+              .from("subscriptions")
+              .select("plan_id")
+              .eq("stripe_subscription_id", subscriptionId)
+              .maybeSingle();
+
+            const planName = PLANS[subData?.plan_id as keyof typeof PLANS]?.name || "vaš paket";
+            const { email, name } = await getUserEmail(supabase, failedUserId);
+            if (email) {
+              await sendNotification({
+                to: email,
+                subject: "1984 — Plačilo ni uspelo",
+                html: paymentFailedEmail(name, planName),
+              });
+            }
+          }
+        } catch {
+          // Email failure shouldn't block webhook
+        }
       }
       break;
     }

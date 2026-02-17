@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sendNotification } from "@/lib/email/resend";
+import { newAffiliateApplicationEmail } from "@/lib/email/templates";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -80,6 +82,21 @@ export async function POST(request: NextRequest) {
       { error: "Napaka pri ustvarjanju. Poskusite znova." },
       { status: 500 }
     );
+  }
+
+  // Notify admin about new application
+  try {
+    await sendNotification({
+      to: "anakinfunded@gmail.com",
+      subject: `1984 — Nova partnerska prijava: ${code.toLowerCase()}`,
+      html: newAffiliateApplicationEmail(
+        full_name || "",
+        code.toLowerCase(),
+        user.email || ""
+      ),
+    });
+  } catch {
+    // Email failure shouldn't block the application
   }
 
   return NextResponse.json({ affiliate: data });

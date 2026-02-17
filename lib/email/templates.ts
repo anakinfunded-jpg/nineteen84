@@ -280,3 +280,201 @@ Obdobje: <strong style="color:white">${period}</strong>
 <p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
 `);
 }
+
+// ==================== USER LIFECYCLE TEMPLATES ====================
+
+export function welcomeEmail(name: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Dobrodošli v <strong style="color:#FEB089">1984</strong>! Vaša naročnina je aktivna in pripravljeni ste na začetek.</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Tukaj je nekaj predlogov za začetek:</p>
+
+<table style="margin:0 0 24px;width:100%;border-collapse:collapse">
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:8px 8px 0 0;border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+<strong style="color:white">1.</strong> <a href="${appUrl}/ai-chat" style="color:#FEB089">AI Chat</a> — pogovarjajte se z AI v slovenščini
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+<strong style="color:white">2.</strong> <a href="${appUrl}/ai-dokumenti" style="color:#FEB089">AI Dokumenti</a> — naložite datoteko za izboljšavo ali lekturo
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+<strong style="color:white">3.</strong> <a href="${appUrl}/predloge" style="color:#FEB089">Predloge</a> — izberite med 120+ pripravljenimi predlogami
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:0 0 8px 8px;color:#E1E1E1">
+<strong style="color:white">4.</strong> <a href="${appUrl}/ai-prevajalnik" style="color:#FEB089">AI Prevajalnik</a> — prevajajte dokumente med 40+ jeziki
+</td>
+</tr>
+</table>
+
+<p style="margin:0 0 24px;text-align:center">
+<a href="${appUrl}/ai-chat" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Začnite z AI Chatom</a>
+</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Imate vprašanja? Pišite nam na <a href="mailto:info@1984.si" style="color:#FEB089">info@1984.si</a>.</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function paymentFailedEmail(name: string, planName: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Plačilo za vaš paket <strong style="color:white">${planName}</strong> ni uspelo. Vaš račun je trenutno v zaostanku.</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Prosimo, posodobite plačilno sredstvo, da preprečite prekinitev dostopa do AI orodij:</p>
+
+<p style="margin:0 0 24px;text-align:center">
+<a href="${appUrl}/narocnina" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Posodobite plačilno sredstvo</a>
+</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1;font-size:13px;opacity:0.7">Če je bila to začasna težava (npr. nezadostno stanje), bo Stripe samodejno ponovil plačilo v naslednjih dneh.</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function subscriptionCanceledEmail(name: string, planName: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Vaša naročnina <strong style="color:white">${planName}</strong> je bila preklicana.</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Vaš račun je bil preklopljen na brezplačni paket. Še vedno imate dostop do osnovnih funkcij z omejenimi krediti.</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Če ste si premislili ali imate vprašanja, se lahko kadar koli ponovno naročite:</p>
+
+<p style="margin:0 0 24px;text-align:center">
+<a href="${appUrl}/cenik" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Oglejte si pakete</a>
+</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function planChangedEmail(name: string, newPlanName: string, newPriceEur: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Vaš paket je bil spremenjen na <strong style="color:#FEB089">${newPlanName}</strong> (&euro;${newPriceEur}/mesec).</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Sprememba je takoj aktivna. Vaše nove omejitve in funkcije so že na voljo.</p>
+
+<p style="margin:0 0 24px;text-align:center">
+<a href="${appUrl}/ai-chat" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Nadaljujte z delom</a>
+</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function trialExpiringEmail(name: string, daysLeft: number) {
+  const urgency = daysLeft <= 0
+    ? `Vaše preizkusno obdobje se je <strong style="color:#ef4444">končalo</strong>.`
+    : daysLeft === 1
+      ? `Vaše preizkusno obdobje se konča <strong style="color:#f59e0b">jutri</strong>.`
+      : `Vaše preizkusno obdobje se konča čez <strong style="color:#f59e0b">${daysLeft} dni</strong>.`;
+
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">${urgency}</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Nadgradite na plačljivi paket, da ohranite dostop do vseh 13 AI orodij — besedila, prevodi, grafika, povzetki, učno gradivo in več.</p>
+
+<table style="margin:0 0 24px;width:100%;border-collapse:collapse">
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:8px 8px 0 0;border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+<strong style="color:white">Osnovno</strong> — &euro;16,90/mesec (20.000 besed, 200 slik)
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+<strong style="color:white">Profesionalno</strong> — &euro;39,90/mesec (50.000 besed, 400 slik)
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:0 0 8px 8px;color:#E1E1E1">
+<strong style="color:white">Poslovno</strong> — &euro;84,90/mesec (150.000 besed, 800 slik)
+</td>
+</tr>
+</table>
+
+<p style="margin:0 0 24px;text-align:center">
+<a href="${appUrl}/cenik" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Izberite paket</a>
+</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function usageWarningEmail(name: string, percent: number, wordsUsed: number, wordsLimit: number, imagesUsed: number, imagesLimit: number) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Porabili ste <strong style="color:#f59e0b">${percent}%</strong> mesečnih kreditov.</p>
+
+<table style="margin:0 0 24px;width:100%;border-collapse:collapse">
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:8px 8px 0 0;border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+Besede: <strong style="color:white">${wordsUsed.toLocaleString("sl")}</strong> / ${wordsLimit.toLocaleString("sl")}
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:0 0 8px 8px;color:#E1E1E1">
+Slike: <strong style="color:white">${imagesUsed}</strong> / ${imagesLimit}
+</td>
+</tr>
+</table>
+
+<p style="margin:0 0 16px;color:#E1E1E1">Če potrebujete več kreditov, nadgradite svoj paket:</p>
+
+<p style="margin:0 0 24px;text-align:center">
+<a href="${appUrl}/narocnina" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Nadgradite paket</a>
+</p>
+
+<p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
+<p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
+`);
+}
+
+export function newAffiliateApplicationEmail(affiliateName: string, code: string, email: string) {
+  return emailWrapper(`
+<p style="margin:0 0 16px;color:#E1E1E1">Nova prijava v partnerski program:</p>
+
+<table style="margin:0 0 24px;width:100%;border-collapse:collapse">
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:8px 8px 0 0;border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+Ime: <strong style="color:white">${affiliateName || "Ni podano"}</strong>
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
+E-pošta: <strong style="color:white">${email}</strong>
+</td>
+</tr>
+<tr>
+<td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:0 0 8px 8px;color:#E1E1E1">
+Koda: <strong style="color:white">${code}</strong>
+</td>
+</tr>
+</table>
+
+<p style="margin:0 0 24px;text-align:center">
+<a href="${appUrl}/admin/affiliates" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Preglej prijavo</a>
+</p>
+`);
+}
