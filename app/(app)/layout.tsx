@@ -3,7 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "@/components/app-sidebar";
 import { getUserPlan } from "@/lib/credits";
-import { PLANS } from "@/lib/stripe";
+import { PLANS, syncStripeSubscription } from "@/lib/stripe";
 
 export default async function AppLayout({
   children,
@@ -33,7 +33,15 @@ export default async function AppLayout({
     // Table may not exist yet or query failed — default to false
   }
 
-  const planId = await getUserPlan(user.id);
+  let planId = await getUserPlan(user.id);
+
+  // Self-healing: if DB shows free, check Stripe directly
+  if (planId === "free" && user.email) {
+    const admin = createAdminClient();
+    const synced = await syncStripeSubscription(user.id, user.email, admin);
+    if (synced) planId = synced;
+  }
+
   const planName = PLANS[planId].name;
 
   return (

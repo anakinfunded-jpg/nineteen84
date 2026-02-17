@@ -107,3 +107,58 @@ export function getPlanByPriceId(priceId: string): PlanId {
   }
   return "free";
 }
+
+/**
+ * Self-healing sync: if the DB shows "free" but Stripe has an active subscription,
+ * sync it to the database. Handles webhook failures gracefully.
+ */
+export async function syncStripeSubscription(
+  userId: string,
+  email: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: { from: (...args: any[]) => any }
+): Promise<PlanId | null> {
+  try {
+    const customers = await stripe.customers.list({ email, limit: 1 });
+    if (customers.data.length === 0) return null;
+
+    const customer = customers.data[0];
+    const subscriptions = await stripe.subscriptions.list({
+      customer: customer.id,
+      status: "active",
+      limit: 1,
+    });
+
+    if (subscriptions.data.length === 0) return null;
+
+    const subscription = subscriptions.data[0];
+    const priceId = subscription.items.data[0]?.price.id;
+    const planId = getPlanByPriceId(priceId || "");
+
+    if (planId === "free") return null;
+
+    const item = subscription.items.data[0];
+    await supabase.from("subscriptions").upsert(
+      {
+        user_id: userId,
+        stripe_customer_id: customer.id,
+        stripe_subscription_id: subscription.id,
+        plan_id: planId,
+        status: subscription.status,
+        current_period_start: item?.current_period_start
+          ? new Date(item.current_period_start * 1000).toISOString()
+          : null,
+        current_period_end: item?.current_period_end
+          ? new Date(item.current_period_end * 1000).toISOString()
+          : null,
+        cancel_at_period_end: subscription.cancel_at_period_end,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id" }
+    );
+
+    return planId;
+  } catch {
+    return null;
+  }
+}

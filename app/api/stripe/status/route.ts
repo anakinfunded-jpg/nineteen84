@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { PLANS } from "@/lib/stripe";
+import { PLANS, syncStripeSubscription } from "@/lib/stripe";
 import { getUserPlan, getUsage } from "@/lib/credits";
 import { NextResponse } from "next/server";
 
@@ -16,6 +16,16 @@ export async function GET() {
 
   const admin = createAdminClient();
 
+  let planId = await getUserPlan(user.id);
+
+  // Self-healing: if DB shows free, check Stripe directly
+  if (planId === "free" && user.email) {
+    const synced = await syncStripeSubscription(user.id, user.email, admin);
+    if (synced) {
+      planId = synced;
+    }
+  }
+
   const { data: subscription } = await admin
     .from("subscriptions")
     .select(
@@ -24,7 +34,6 @@ export async function GET() {
     .eq("user_id", user.id)
     .single();
 
-  const planId = await getUserPlan(user.id);
   const plan = PLANS[planId];
   const usage = await getUsage(user.id);
 
