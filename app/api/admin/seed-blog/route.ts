@@ -18,8 +18,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   }
 
-  const { action } = (await request.json()) as {
+  const { action, batch = 0 } = (await request.json()) as {
     action: "seed-posts" | "seed-topics";
+    batch?: number; // 0-based batch index, 5 posts per batch
   };
 
   const admin = createAdminClient();
@@ -28,10 +29,16 @@ export async function POST(request: NextRequest) {
     const { curatedPosts } = await import("@/lib/blog/curated-posts");
     const { curatedPosts2 } = await import("@/lib/blog/curated-posts-2");
     const allPosts = [...curatedPosts, ...curatedPosts2];
+    const BATCH_SIZE = 5;
+    const batchPosts = allPosts.slice(batch * BATCH_SIZE, (batch + 1) * BATCH_SIZE);
+
+    if (batchPosts.length === 0) {
+      return NextResponse.json({ message: "All batches done", total: allPosts.length });
+    }
 
     const results: { slug: string; status: string; error?: string }[] = [];
 
-    for (const post of allPosts) {
+    for (const post of batchPosts) {
       try {
         // Check if already seeded
         const { data: existing } = await admin
@@ -82,7 +89,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ results });
+    const nextBatch = (batch + 1) * BATCH_SIZE < allPosts.length ? batch + 1 : null;
+    return NextResponse.json({ results, nextBatch, total: allPosts.length });
   }
 
   if (action === "seed-topics") {
