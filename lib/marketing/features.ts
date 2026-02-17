@@ -319,7 +319,7 @@ export const features: Feature[] = [
       },
     ],
     faq: [
-      { q: "Katere formate slik podpirate?", a: "Podpiramo JPG, PNG, WebP in GIF formate do 20 MB." },
+      { q: "Katere formate slik podpirate?", a: "Podpiramo JPG, PNG, WebP in GIF formate do 4 MB." },
       { q: "Kako natančno je izvlečenje besedila?", a: "AI uporablja napredne vizualne modele za zelo natančno prepoznavanje besedila, tudi iz fotografij pod kotom." },
     ],
   },

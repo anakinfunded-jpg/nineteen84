@@ -1,4 +1,4 @@
-const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
+const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 MB (Vercel serverless limit is 4.5 MB)
 const MAX_OUTPUT_CHARS = 200_000;
 
 type ParseResult = {
@@ -23,7 +23,7 @@ export function getSupportedExtensions(): string[] {
 
 export async function parseFile(file: File): Promise<ParseResult> {
   if (file.size > MAX_FILE_SIZE) {
-    throw new Error("Datoteka je prevelika. Največja velikost je 20 MB.");
+    throw new Error("Datoteka je prevelika. Največja velikost je 4 MB.");
   }
 
   const name = file.name.toLowerCase();
@@ -70,13 +70,18 @@ export async function parseFile(file: File): Promise<ParseResult> {
 
 async function parsePdf(buffer: Buffer): Promise<ParseResult> {
   try {
-    // pdf-parse uses `export =` (CJS) — dynamic import gives { default: fn }
+    // pdf-parse v2 uses class-based API
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const pdfParse = require("pdf-parse") as (
-      buf: Buffer
-    ) => Promise<{ text: string; numpages: number }>;
-    const data = await pdfParse(buffer);
-    return { text: data.text, pageCount: data.numpages };
+    const { PDFParse } = require("pdf-parse") as {
+      PDFParse: new (opts: { data: Buffer }) => {
+        getText(): Promise<{ text: string; total: number }>;
+        destroy(): Promise<void>;
+      };
+    };
+    const parser = new PDFParse({ data: buffer });
+    const result = await parser.getText();
+    await parser.destroy();
+    return { text: result.text, pageCount: result.total };
   } catch {
     throw new Error(
       "Napaka pri branju PDF datoteke. Preverite, da datoteka ni zaščitena ali poškodovana."

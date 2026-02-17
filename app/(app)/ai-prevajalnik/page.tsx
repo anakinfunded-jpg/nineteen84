@@ -135,8 +135,8 @@ function PrevajalnikPageInner() {
   }, [searchParams]);
 
   function handleFile(f: File) {
-    if (f.size > 20 * 1024 * 1024) {
-      setError("Datoteka je prevelika. Največja velikost je 20 MB.");
+    if (f.size > 4 * 1024 * 1024) {
+      setError("Datoteka je prevelika. Največja velikost je 4 MB.");
       return;
     }
     setFile(f);
@@ -385,7 +385,7 @@ function PrevajalnikPageInner() {
                       Povlecite datoteko sem ali kliknite za nalaganje
                     </p>
                     <p className="text-xs text-[#E1E1E1]/30 mt-1">
-                      PDF, DOCX, PPTX, XLSX, TXT, MD — do 20 MB
+                      PDF, DOCX, PPTX, XLSX, TXT, MD — do 4 MB
                     </p>
                   </>
                 )}

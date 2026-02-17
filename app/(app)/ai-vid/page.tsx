@@ -31,8 +31,8 @@ export default function VisionPage() {
       setError("Prosimo, naložite slikovno datoteko.");
       return;
     }
-    if (f.size > 20 * 1024 * 1024) {
-      setError("Slika je prevelika. Največja velikost je 20 MB.");
+    if (f.size > 4 * 1024 * 1024) {
+      setError("Slika je prevelika. Največja velikost je 4 MB.");
       return;
     }
     setFile(f);
@@ -157,7 +157,7 @@ export default function VisionPage() {
                   Povlecite sliko sem ali kliknite za nalaganje
                 </p>
                 <p className="text-xs text-[#E1E1E1]/30 mt-1">
-                  JPG, PNG, WebP, GIF — do 20 MB
+                  JPG, PNG, WebP, GIF — do 4 MB
                 </p>
               </>
             )}
