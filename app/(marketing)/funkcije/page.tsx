@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Funkcije | 1984 — AI, ki piše slovensko",
   description:
-    "11 AI orodij za ustvarjanje vsebin v slovenščini. Chat, besedila, slike, zvok, prevodi, dokumenti in več.",
+    "13 AI orodij za ustvarjanje vsebin v slovenščini. Chat, besedila, slike, zvok, prevodi, dokumenti, povzetki, učno gradivo in več.",
 };
 
 export default function FunkcijePage() {
@@ -23,7 +23,7 @@ export default function FunkcijePage() {
           </AnimateOnScroll>
           <AnimateOnScroll delay={100}>
             <h1 className="mt-6 text-5xl md:text-6xl font-serif tracking-[0.01em] leading-[1.1]">
-              11 AI orodij.
+              13 AI orodij.
               <br />
               Ena platforma.
             </h1>

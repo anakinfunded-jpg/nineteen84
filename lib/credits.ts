@@ -11,11 +11,17 @@ export async function getUserPlan(userId: string): Promise<PlanId> {
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("subscriptions")
-    .select("plan_id, status")
+    .select("plan_id, status, trial_end")
     .eq("user_id", userId)
     .single();
 
   if (!data) return "free";
+
+  if (data.status === "trialing" && data.trial_end) {
+    if (new Date(data.trial_end) < new Date()) {
+      return "free";
+    }
+  }
 
   if (data.status === "active" || data.status === "trialing") {
     return data.plan_id as PlanId;

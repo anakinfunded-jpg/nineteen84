@@ -75,24 +75,31 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  const session = await stripe.checkout.sessions.create({
-    customer: customerId,
-    mode: "subscription",
-    payment_method_types: ["card"],
-    line_items: [{ price: plan.priceId, quantity: 1 }],
-    ...(discounts.length > 0 ? { discounts } : {}),
-    subscription_data: {
-      trial_period_days: isAffiliateReferred ? 21 : 5,
-      metadata: { user_id: user.id },
-    },
-    metadata: {
-      user_id: user.id,
-      ...(affiliateId ? { affiliate_id: affiliateId, affiliate_code: affiliateCode } : {}),
-      ...(inviteReferrerId ? { invite_referrer_id: inviteReferrerId } : {}),
-    },
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina?success=true`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina?canceled=true`,
-  });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      customer: customerId,
+      mode: "subscription",
+      payment_method_types: ["card"],
+      line_items: [{ price: plan.priceId, quantity: 1 }],
+      ...(discounts.length > 0 ? { discounts } : {}),
+      subscription_data: {
+        trial_period_days: isAffiliateReferred ? 21 : 5,
+        metadata: { user_id: user.id },
+      },
+      metadata: {
+        user_id: user.id,
+        ...(affiliateId ? { affiliate_id: affiliateId, affiliate_code: affiliateCode } : {}),
+        ...(inviteReferrerId ? { invite_referrer_id: inviteReferrerId } : {}),
+      },
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina?canceled=true`,
+    });
 
-  return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session.url });
+  } catch {
+    return NextResponse.json(
+      { error: "Napaka pri ustvarjanju plačilne seje. Prosimo, poskusite znova." },
+      { status: 500 }
+    );
+  }
 }

@@ -53,6 +53,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
+  if (Number(amount) < 50) {
+    return NextResponse.json(
+      { error: "Minimalno izplačilo je €50" },
+      { status: 400 }
+    );
+  }
+
   const admin = createAdminClient();
 
   // Create payout record

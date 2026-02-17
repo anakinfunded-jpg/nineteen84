@@ -18,7 +18,7 @@ export async function POST() {
     .from("subscriptions")
     .select("stripe_customer_id")
     .eq("user_id", user.id)
-    .single();
+    .maybeSingle();
 
   if (!subscription?.stripe_customer_id) {
     return NextResponse.json(
@@ -27,10 +27,17 @@ export async function POST() {
     );
   }
 
-  const session = await stripe.billingPortal.sessions.create({
-    customer: subscription.stripe_customer_id,
-    return_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina`,
-  });
+  try {
+    const session = await stripe.billingPortal.sessions.create({
+      customer: subscription.stripe_customer_id,
+      return_url: `${process.env.NEXT_PUBLIC_APP_URL}/narocnina`,
+    });
 
-  return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session.url });
+  } catch {
+    return NextResponse.json(
+      { error: "Napaka pri odpiranju plačilnega portala. Prosimo, poskusite znova." },
+      { status: 500 }
+    );
+  }
 }

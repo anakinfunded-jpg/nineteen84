@@ -12,7 +12,6 @@ import {
   Trophy,
   Star,
   Crown,
-  Gem,
   Medal,
 } from "lucide-react";
 import Link from "next/link";
@@ -70,21 +69,21 @@ const milestones = [
     icon: Medal,
     level: "Bronasti",
     min: 5,
-    reward: "Prioritetna podpora",
+    reward: "Uvrstitev med uradne partnerje 1984",
     color: "from-amber-700 to-amber-600",
   },
   {
     icon: Star,
     level: "Srebrni",
     min: 15,
-    reward: "1 mesec brezplačno Profesionalno",
+    reward: "Prednostna podpora za partnerje",
     color: "from-gray-400 to-gray-300",
   },
   {
     icon: Trophy,
     level: "Zlati",
     min: 50,
-    reward: "Prilagojena pristajalna stran",
+    reward: "Neposredni kontakt z ekipo 1984",
     color: "from-yellow-500 to-yellow-400",
   },
   {
@@ -93,13 +92,6 @@ const milestones = [
     min: 100,
     reward: "Nadgradnja na 25% provizijo",
     color: "from-blue-400 to-blue-300",
-  },
-  {
-    icon: Gem,
-    level: "Diamantni",
-    min: 250,
-    reward: "Ekskluzivne funkcije + neposredni kontakt",
-    color: "from-purple-400 to-purple-300",
   },
 ];
 
