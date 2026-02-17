@@ -13,7 +13,7 @@ export async function generateApiKey(
   userId: string,
   name: string
 ): Promise<{ key: string; prefix: string; id: string }> {
-  const raw = "1984_" + randomBytes(20).toString("hex");
+  const raw = "1984_" + randomBytes(32).toString("hex");
   const prefix = raw.slice(0, 9);
   const hash = createHash("sha256").update(raw).digest("hex");
 

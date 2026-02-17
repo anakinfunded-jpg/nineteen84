@@ -2,11 +2,11 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { PLANS, type PlanId } from "@/lib/stripe";
 import { sendNotification } from "@/lib/email/resend";
 import { usageWarningEmail } from "@/lib/email/templates";
+import { verifyCronSecret } from "@/lib/cron-auth";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!verifyCronSecret(request.headers.get("authorization"))) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   const period = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   let sent = 0;
 
-  // Get all active/trialing subscriptions (skip free users)
+  // Get all active subscriptions (skip free users)
   const { data: subs } = await supabase
     .from("subscriptions")
     .select("user_id, plan_id")

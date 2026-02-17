@@ -1,14 +1,13 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendNotification } from "@/lib/email/resend";
 import { payoutCreatedEmail } from "@/lib/email/templates";
+import { verifyCronSecret } from "@/lib/cron-auth";
 import { NextRequest } from "next/server";
 
 const MIN_PAYOUT = 50;
 
 export async function GET(request: NextRequest) {
-  // Verify cron secret (Vercel sends this header)
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!verifyCronSecret(request.headers.get("authorization"))) {
     return new Response("Unauthorized", { status: 401 });
   }
 

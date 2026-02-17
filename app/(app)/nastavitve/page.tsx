@@ -16,6 +16,7 @@ import {
   Eye,
   EyeOff,
   AlertTriangle,
+  Download,
 } from "lucide-react";
 
 export default function NastavitvePage() {
@@ -40,6 +41,9 @@ export default function NastavitvePage() {
   const [changingPassword, setChangingPassword] = useState(false);
   const [passwordChanged, setPasswordChanged] = useState(false);
   const [passwordError, setPasswordError] = useState("");
+
+  // Data export
+  const [exporting, setExporting] = useState(false);
 
   // Delete account
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -200,6 +204,25 @@ export default function NastavitvePage() {
     }
 
     setChangingPassword(false);
+  }
+
+  async function handleExportData() {
+    if (exporting) return;
+    setExporting(true);
+    try {
+      const res = await fetch("/api/account/export");
+      if (!res.ok) throw new Error();
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `1984-export.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      // Silently fail
+    }
+    setExporting(false);
   }
 
   async function handleDeleteAccount() {
@@ -465,6 +488,25 @@ export default function NastavitvePage() {
             )}
           </div>
         )}
+
+        {/* Data export (GDPR) */}
+        <div className="glass-card rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-2">
+            <Download className="w-5 h-5 text-[#FEB089]/60" />
+            <h2 className="text-sm font-semibold text-white">Izvoz podatkov</h2>
+          </div>
+          <p className="text-xs text-[#E1E1E1]/40 mb-4">
+            Prenesite kopijo vseh svojih podatkov (profil, pogovori, dokumenti, uporaba) v formatu JSON.
+          </p>
+          <button
+            onClick={handleExportData}
+            disabled={exporting}
+            className="px-4 py-2.5 rounded-xl text-sm text-[#E1E1E1] bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] transition-colors flex items-center gap-2 disabled:opacity-50"
+          >
+            {exporting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+            {exporting ? "Izvažam..." : "Prenesi moje podatke"}
+          </button>
+        </div>
 
         {/* Delete account */}
         <div className="glass-card rounded-xl p-6 border-red-500/10">
