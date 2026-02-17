@@ -47,7 +47,7 @@ export default async function AppLayout({
   return (
     <div className="flex h-screen bg-[#171717]">
       <AppSidebar user={user} isAffiliate={isAffiliate} planName={planName} />
-      <main className="flex-1 overflow-y-auto pt-14 lg:pt-0">{children}</main>
+      <main className="flex-1 min-w-0 overflow-y-auto pt-14 lg:pt-0">{children}</main>
     </div>
   );
 }

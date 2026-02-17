@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { DropdownMenu } from "radix-ui";
+import { useSidebar } from "@/hooks/use-sidebar";
 import {
   LayoutDashboard,
   MessageSquare,
@@ -26,6 +28,10 @@ import {
   Menu,
   X,
   Settings,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Plus,
+  ChevronUp,
   type LucideIcon,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
@@ -53,9 +59,7 @@ const navGroups: NavGroup[] = [
   },
   {
     title: "Zvok",
-    items: [
-      { label: "AI Zvok", href: "/ai-zvok", icon: Volume2 },
-    ],
+    items: [{ label: "AI Zvok", href: "/ai-zvok", icon: Volume2 }],
   },
   {
     title: "Analiza",
@@ -78,20 +82,21 @@ const navGroups: NavGroup[] = [
       { label: "Knjižnica predlog", href: "/predloge", icon: BookOpen },
     ],
   },
-  {
-    title: "Račun",
-    items: [
-      { label: "Nadzorna plošča", href: "/dashboard", icon: LayoutDashboard },
-      { label: "Naročnina", href: "/narocnina", icon: CreditCard },
-      { label: "Nastavitve", href: "/nastavitve", icon: Settings },
-    ],
-  },
 ];
 
-export function AppSidebar({ user, isAffiliate = false, planName }: { user: User; isAffiliate?: boolean; planName?: string }) {
+export function AppSidebar({
+  user,
+  isAffiliate = false,
+  planName,
+}: {
+  user: User;
+  isAffiliate?: boolean;
+  planName?: string;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { isOpen, isHydrated, toggle } = useSidebar();
 
   // Close mobile sidebar on route change
   useEffect(() => {
@@ -110,17 +115,28 @@ export function AppSidebar({ user, isAffiliate = false, planName }: { user: User
     };
   }, [mobileOpen]);
 
+  // Keyboard shortcut: Ctrl+B / Cmd+B to toggle sidebar
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.ctrlKey || e.metaKey) && e.key === "b") {
+        e.preventDefault();
+        toggle();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [toggle]);
+
   // Conditionally add Partnerji group for affiliates
   const allGroups = isAffiliate
     ? [
-        ...navGroups.slice(0, -1), // all except Račun
+        ...navGroups,
         {
           title: "Partnerji",
           items: [
             { label: "Partnerska plošča", href: "/partnerji", icon: Handshake },
           ],
         },
-        navGroups[navGroups.length - 1], // Račun
       ]
     : navGroups;
 
@@ -143,35 +159,49 @@ export function AppSidebar({ user, isAffiliate = false, planName }: { user: User
     .toUpperCase()
     .slice(0, 2);
 
-  const sidebarContent = (
+  const sidebarInner = (isMobile: boolean) => (
     <>
-      {/* Logo */}
-      <div className="h-16 flex items-center justify-between px-6 border-b border-white/[0.06]">
-        <div className="flex items-center gap-2.5">
-          <Link
-            href="/dashboard"
-            className="text-2xl font-serif tracking-[0.01em] logo-gradient"
-          >
-            1984
-          </Link>
-          {planName && (
-            <span className="text-[10px] font-medium bg-[#FEB089]/10 text-[#FEB089] px-2 py-0.5 rounded-full">
-              {planName}
-            </span>
-          )}
-        </div>
-        <button
-          onClick={() => setMobileOpen(false)}
-          className="lg:hidden p-1.5 rounded-lg text-[#E1E1E1]/40 hover:text-[#E1E1E1] hover:bg-white/[0.04] transition-colors"
+      {/* Header */}
+      <div className="h-14 flex items-center justify-between px-4 border-b border-white/[0.06] shrink-0">
+        <Link
+          href="/dashboard"
+          className="text-2xl font-serif tracking-[0.01em] logo-gradient"
         >
-          <X className="w-5 h-5" />
-        </button>
+          1984
+        </Link>
+        {isMobile ? (
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="p-1.5 rounded-lg text-[#E1E1E1]/40 hover:text-[#E1E1E1] hover:bg-white/[0.04] transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        ) : (
+          <button
+            onClick={toggle}
+            title="Skrij stransko vrstico (Ctrl+B)"
+            className="p-1.5 rounded-lg text-[#E1E1E1]/30 hover:text-[#E1E1E1]/70 hover:bg-white/[0.04] transition-colors"
+          >
+            <PanelLeftClose className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+
+      {/* New chat CTA */}
+      <div className="px-3 pt-3 pb-1 shrink-0">
+        <Link
+          href="/ai-chat"
+          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold text-[#171717] cta-gradient hover:opacity-90 transition-opacity"
+        >
+          <Plus className="w-4 h-4" />
+          Nov pogovor
+        </Link>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-3 px-3 overflow-y-auto">
+      <nav className="flex-1 py-2 px-3 overflow-y-auto">
         {allGroups.map((group) => (
-          <div key={group.title} className="mb-3">
+          <div key={group.title} className="mb-2">
             <p className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#E1E1E1]/25">
               {group.title}
             </p>
@@ -203,24 +233,93 @@ export function AppSidebar({ user, isAffiliate = false, planName }: { user: User
         ))}
       </nav>
 
-      {/* User section */}
-      <div className="p-3 border-t border-white/[0.06]">
-        <div className="flex items-center gap-3 px-3 py-2">
-          <div className="w-8 h-8 rounded-full cta-gradient flex items-center justify-center text-xs font-bold text-[#171717] shrink-0">
-            {initials}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm text-white truncate">{displayName}</p>
-            <p className="text-xs text-[#E1E1E1]/30 truncate">{user.email}</p>
-          </div>
-          <button
-            onClick={handleLogout}
-            title="Odjava"
-            className="p-1.5 rounded-lg text-[#E1E1E1]/30 hover:text-[#E1E1E1]/70 hover:bg-white/[0.04] transition-colors duration-200"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
-        </div>
+      {/* Profile dropdown */}
+      <div className="p-3 border-t border-white/[0.06] shrink-0">
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild>
+            <button className="flex items-center gap-3 w-full px-3 py-2 rounded-xl hover:bg-white/[0.04] transition-colors text-left">
+              <div className="w-8 h-8 rounded-full cta-gradient flex items-center justify-center text-xs font-bold text-[#171717] shrink-0">
+                {initials}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-white truncate">{displayName}</p>
+                <p className="text-[10px] text-[#E1E1E1]/30 truncate">
+                  {planName || "Brezplačno"}
+                </p>
+              </div>
+              <ChevronUp className="w-4 h-4 text-[#E1E1E1]/30 shrink-0" />
+            </button>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Portal>
+            <DropdownMenu.Content
+              side="top"
+              align="start"
+              sideOffset={8}
+              className="w-[232px] rounded-xl bg-[#1e1e1e] border border-white/[0.08] shadow-xl p-1 z-[100] animate-in fade-in slide-in-from-bottom-2 duration-150"
+            >
+              {/* User info header */}
+              <div className="px-3 py-2.5 border-b border-white/[0.06] mb-1">
+                <p className="text-sm text-white truncate">{displayName}</p>
+                <p className="text-xs text-[#E1E1E1]/40 truncate">
+                  {user.email}
+                </p>
+              </div>
+
+              <DropdownMenu.Item asChild>
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#E1E1E1]/70 hover:text-white hover:bg-white/[0.04] outline-none cursor-pointer transition-colors"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Nadzorna plošča
+                </Link>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item asChild>
+                <Link
+                  href="/narocnina"
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#E1E1E1]/70 hover:text-white hover:bg-white/[0.04] outline-none cursor-pointer transition-colors"
+                >
+                  <CreditCard className="w-4 h-4" />
+                  Naročnina
+                </Link>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item asChild>
+                <Link
+                  href="/nastavitve"
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#E1E1E1]/70 hover:text-white hover:bg-white/[0.04] outline-none cursor-pointer transition-colors"
+                >
+                  <Settings className="w-4 h-4" />
+                  Nastavitve
+                </Link>
+              </DropdownMenu.Item>
+
+              {isAffiliate && (
+                <>
+                  <DropdownMenu.Separator className="h-px bg-white/[0.06] my-1" />
+                  <DropdownMenu.Item asChild>
+                    <Link
+                      href="/partnerji"
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#E1E1E1]/70 hover:text-white hover:bg-white/[0.04] outline-none cursor-pointer transition-colors"
+                    >
+                      <Handshake className="w-4 h-4" />
+                      Partnerska plošča
+                    </Link>
+                  </DropdownMenu.Item>
+                </>
+              )}
+
+              <DropdownMenu.Separator className="h-px bg-white/[0.06] my-1" />
+              <DropdownMenu.Item
+                onSelect={handleLogout}
+                className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#E1E1E1]/70 hover:text-white hover:bg-white/[0.04] outline-none cursor-pointer transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                Odjava
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        </DropdownMenu.Root>
       </div>
     </>
   );
@@ -235,20 +334,13 @@ export function AppSidebar({ user, isAffiliate = false, planName }: { user: User
         >
           <Menu className="w-5 h-5" />
         </button>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/dashboard"
-            className="text-xl font-serif tracking-[0.01em] logo-gradient"
-          >
-            1984
-          </Link>
-          {planName && (
-            <span className="text-[10px] font-medium bg-[#FEB089]/10 text-[#FEB089] px-2 py-0.5 rounded-full">
-              {planName}
-            </span>
-          )}
-        </div>
-        <div className="w-9" /> {/* Spacer for centering */}
+        <Link
+          href="/dashboard"
+          className="text-xl font-serif tracking-[0.01em] logo-gradient"
+        >
+          1984
+        </Link>
+        <div className="w-9" />
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -261,15 +353,32 @@ export function AppSidebar({ user, isAffiliate = false, planName }: { user: User
             className="w-72 h-full flex flex-col bg-[#191919] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {sidebarContent}
+            {sidebarInner(true)}
           </aside>
         </div>
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex w-64 h-screen flex-col bg-[#191919] border-r border-white/[0.06] shrink-0">
-        {sidebarContent}
+      <aside
+        className={`hidden lg:flex h-screen flex-col bg-[#191919] border-r border-white/[0.06] shrink-0 overflow-hidden ${
+          isHydrated ? "transition-[width] duration-200" : ""
+        } ${isOpen ? "w-64" : "w-0 border-r-0"}`}
+      >
+        <div className="w-64 h-full flex flex-col">
+          {sidebarInner(false)}
+        </div>
       </aside>
+
+      {/* Floating open button when collapsed (desktop) */}
+      {isHydrated && !isOpen && (
+        <button
+          onClick={toggle}
+          title="Prikaži stransko vrstico (Ctrl+B)"
+          className="hidden lg:flex fixed top-3 left-3 z-30 p-2 rounded-xl bg-[#191919] border border-white/[0.06] text-[#E1E1E1]/40 hover:text-[#E1E1E1] hover:bg-[#242424] transition-colors shadow-lg"
+        >
+          <PanelLeftOpen className="w-4 h-4" />
+        </button>
+      )}
     </>
   );
 }
