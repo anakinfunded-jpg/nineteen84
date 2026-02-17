@@ -18,7 +18,10 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "1984 | AI, ki piše slovensko",
+  title: {
+    default: "1984 | AI, ki piše slovensko",
+    template: "%s | 1984",
+  },
   description:
     "Prva slovenska AI platforma za ustvarjanje marketinških vsebin. Opisi izdelkov, objave za družbena omrežja, e-maili, blogi — vse v brezhibni slovenščini.",
   metadataBase: new URL("https://www.1984.si"),

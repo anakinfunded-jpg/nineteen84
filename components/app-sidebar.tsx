@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -22,6 +23,9 @@ import {
   Handshake,
   GraduationCap,
   BookOpenText,
+  Menu,
+  X,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
@@ -79,6 +83,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Nadzorna plošča", href: "/dashboard", icon: LayoutDashboard },
       { label: "Naročnina", href: "/narocnina", icon: CreditCard },
+      { label: "Nastavitve", href: "/nastavitve", icon: Settings },
     ],
   },
 ];
@@ -86,6 +91,24 @@ const navGroups: NavGroup[] = [
 export function AppSidebar({ user, isAffiliate = false }: { user: User; isAffiliate?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Close mobile sidebar on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  // Prevent body scroll when mobile sidebar is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   // Conditionally add Partnerji group for affiliates
   const allGroups = isAffiliate
@@ -120,16 +143,22 @@ export function AppSidebar({ user, isAffiliate = false }: { user: User; isAffili
     .toUpperCase()
     .slice(0, 2);
 
-  return (
-    <aside className="w-64 h-screen flex flex-col bg-[#191919] border-r border-white/[0.06] shrink-0">
+  const sidebarContent = (
+    <>
       {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-white/[0.06]">
+      <div className="h-16 flex items-center justify-between px-6 border-b border-white/[0.06]">
         <Link
           href="/dashboard"
           className="text-2xl font-serif tracking-[0.01em] logo-gradient"
         >
           1984
         </Link>
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="lg:hidden p-1.5 rounded-lg text-[#E1E1E1]/40 hover:text-[#E1E1E1] hover:bg-white/[0.04] transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
       </div>
 
       {/* Navigation */}
@@ -186,6 +215,47 @@ export function AppSidebar({ user, isAffiliate = false }: { user: User; isAffili
           </button>
         </div>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile header bar */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 h-14 bg-[#191919] border-b border-white/[0.06] flex items-center justify-between px-4">
+        <button
+          onClick={() => setMobileOpen(true)}
+          className="p-2 rounded-xl text-[#E1E1E1]/60 hover:text-[#E1E1E1] hover:bg-white/[0.04] transition-colors"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <Link
+          href="/dashboard"
+          className="text-xl font-serif tracking-[0.01em] logo-gradient"
+        >
+          1984
+        </Link>
+        <div className="w-9" /> {/* Spacer for centering */}
+      </div>
+
+      {/* Mobile sidebar overlay */}
+      {mobileOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+          onClick={() => setMobileOpen(false)}
+        >
+          <aside
+            className="w-72 h-full flex flex-col bg-[#191919] shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+
+      {/* Desktop sidebar */}
+      <aside className="hidden lg:flex w-64 h-screen flex-col bg-[#191919] border-r border-white/[0.06] shrink-0">
+        {sidebarContent}
+      </aside>
+    </>
   );
 }
