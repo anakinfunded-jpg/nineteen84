@@ -166,7 +166,7 @@ function PredlogePage() {
       {/* Results count */}
       <p className="mt-4 text-xs text-[#E1E1E1]/30">
         {filteredPrompts.length}{" "}
-        {filteredPrompts.length === 1 ? "predloga" : "predlog"}
+        {filteredPrompts.length === 1 ? "predloga" : filteredPrompts.length === 2 ? "predlogi" : filteredPrompts.length <= 4 ? "predloge" : "predlog"}
         {searchQuery && ` za "${searchQuery}"`}
       </p>
 

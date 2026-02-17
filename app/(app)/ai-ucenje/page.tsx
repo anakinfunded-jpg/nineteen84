@@ -354,7 +354,7 @@ function FlashcardsView({
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-sm text-[#E1E1E1]/60">
-          {cards.length} kartic
+          {cards.length} {cards.length === 1 ? "kartica" : cards.length === 2 ? "kartici" : cards.length <= 4 ? "kartice" : "kartic"}
         </p>
         <button
           onClick={(e) => {
@@ -419,7 +419,7 @@ function QuizView({
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-sm text-[#E1E1E1]/60">
-          {questions.length} vprašanj
+          {questions.length} {questions.length === 1 ? "vprašanje" : questions.length === 2 ? "vprašanji" : questions.length <= 4 ? "vprašanja" : "vprašanj"}
           {showResults && (
             <span className="ml-2 text-[#FEB089]">
               {correctCount}/{questions.length} pravilnih
@@ -534,7 +534,7 @@ function TestView({
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-sm text-[#E1E1E1]/60">
-          {questions.length} vprašanj
+          {questions.length} {questions.length === 1 ? "vprašanje" : questions.length === 2 ? "vprašanji" : questions.length <= 4 ? "vprašanja" : "vprašanj"}
         </p>
         <button
           onClick={(e) => {
