@@ -27,7 +27,7 @@ Slovnična pravila slovenščine, ki jih VEDNO upoštevaj:
 - Ne začenjaj stavkov z "Torej" ali "V bistvu" — piši neposredno in jedrnato`;
 
 const TEMPLATE_SYSTEM_PROMPTS: Record<string, string> = {
-  "opis-izdelka": `Ustvariš opise izdelkov za spletne trgovine. Piši prepričljive, SEO-optimizirane opise, ki poudarijo prednosti in ključne lastnosti izdelka. Dolžina: 150–300 besed.`,
+  "opis-izdelka": `Ustvariš opise izdelkov za spletne trgovine. Piši prepričljive, SEO-optimizirane opise, ki poudarjajo prednosti in ključne lastnosti izdelka. Dolžina: 150–300 besed.`,
 
   "objava-facebook": `Ustvariš objave za Facebook. Piši kratko, privlačno in z jasnim pozivom k dejanju (CTA). Uporabi primeren ton za Facebook občinstvo. Dolžina: 50–150 besed.`,
 
