@@ -8,65 +8,166 @@ import {
   FileText,
   Image as ImageIcon,
   FileJson,
+  FileSpreadsheet,
+  Code,
   Loader2,
 } from "lucide-react";
 
 type ConversionType =
   | "img-format"
+  | "svg-png"
   | "txt-pdf"
   | "md-html"
+  | "html-txt"
   | "json-csv"
-  | "csv-json";
+  | "csv-json"
+  | "xlsx-csv"
+  | "csv-xlsx"
+  | "xlsx-json"
+  | "json-xlsx"
+  | "xml-json"
+  | "json-xml";
 
-const conversions: {
-  id: ConversionType;
+type ConversionGroup = {
   label: string;
-  from: string;
-  to: string;
-  accept: string;
-  icon: typeof FileText;
-}[] = [
+  items: {
+    id: ConversionType;
+    label: string;
+    from: string;
+    to: string;
+    accept: string;
+    icon: typeof FileText;
+  }[];
+};
+
+const groups: ConversionGroup[] = [
   {
-    id: "img-format",
-    label: "Pretvorba slike",
-    from: "PNG/JPG/WebP",
-    to: "PNG/JPG/WebP",
-    accept: "image/png,image/jpeg,image/webp",
-    icon: ImageIcon,
+    label: "Slike",
+    items: [
+      {
+        id: "img-format",
+        label: "Pretvorba slike",
+        from: "PNG/JPG/WebP",
+        to: "PNG/JPG/WebP",
+        accept: "image/png,image/jpeg,image/webp",
+        icon: ImageIcon,
+      },
+      {
+        id: "svg-png",
+        label: "SVG v PNG",
+        from: "SVG",
+        to: "PNG",
+        accept: ".svg",
+        icon: ImageIcon,
+      },
+    ],
   },
   {
-    id: "txt-pdf",
-    label: "Besedilo v PDF",
-    from: "TXT",
-    to: "PDF",
-    accept: ".txt",
-    icon: FileText,
+    label: "Dokumenti",
+    items: [
+      {
+        id: "txt-pdf",
+        label: "Besedilo v PDF",
+        from: "TXT",
+        to: "PDF",
+        accept: ".txt",
+        icon: FileText,
+      },
+      {
+        id: "md-html",
+        label: "Markdown v HTML",
+        from: "MD",
+        to: "HTML",
+        accept: ".md",
+        icon: FileText,
+      },
+      {
+        id: "html-txt",
+        label: "HTML v besedilo",
+        from: "HTML",
+        to: "TXT",
+        accept: ".html,.htm",
+        icon: FileText,
+      },
+    ],
   },
   {
-    id: "md-html",
-    label: "Markdown v HTML",
-    from: "MD",
-    to: "HTML",
-    accept: ".md",
-    icon: FileText,
+    label: "Tabele",
+    items: [
+      {
+        id: "xlsx-csv",
+        label: "Excel v CSV",
+        from: "XLSX",
+        to: "CSV",
+        accept: ".xlsx,.xls",
+        icon: FileSpreadsheet,
+      },
+      {
+        id: "csv-xlsx",
+        label: "CSV v Excel",
+        from: "CSV",
+        to: "XLSX",
+        accept: ".csv",
+        icon: FileSpreadsheet,
+      },
+      {
+        id: "xlsx-json",
+        label: "Excel v JSON",
+        from: "XLSX",
+        to: "JSON",
+        accept: ".xlsx,.xls",
+        icon: FileSpreadsheet,
+      },
+      {
+        id: "json-xlsx",
+        label: "JSON v Excel",
+        from: "JSON",
+        to: "XLSX",
+        accept: ".json",
+        icon: FileSpreadsheet,
+      },
+    ],
   },
   {
-    id: "json-csv",
-    label: "JSON v CSV",
-    from: "JSON",
-    to: "CSV",
-    accept: ".json",
-    icon: FileJson,
-  },
-  {
-    id: "csv-json",
-    label: "CSV v JSON",
-    from: "CSV",
-    to: "JSON",
-    accept: ".csv",
-    icon: FileJson,
+    label: "Podatki",
+    items: [
+      {
+        id: "json-csv",
+        label: "JSON v CSV",
+        from: "JSON",
+        to: "CSV",
+        accept: ".json",
+        icon: FileJson,
+      },
+      {
+        id: "csv-json",
+        label: "CSV v JSON",
+        from: "CSV",
+        to: "JSON",
+        accept: ".csv",
+        icon: FileJson,
+      },
+      {
+        id: "xml-json",
+        label: "XML v JSON",
+        from: "XML",
+        to: "JSON",
+        accept: ".xml",
+        icon: Code,
+      },
+      {
+        id: "json-xml",
+        label: "JSON v XML",
+        from: "JSON",
+        to: "XML",
+        accept: ".json",
+        icon: Code,
+      },
+    ],
   },
 ];
+
+const allConversions = groups.flatMap((g) => g.items);
 
 export default function PretvornikiPage() {
   const [selected, setSelected] = useState<ConversionType>("img-format");
@@ -79,7 +180,7 @@ export default function PretvornikiPage() {
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const current = conversions.find((c) => c.id === selected)!;
+  const current = allConversions.find((c) => c.id === selected)!;
 
   function handleFile(f: File) {
     setFile(f);
@@ -106,17 +207,41 @@ export default function PretvornikiPage() {
         case "img-format":
           await convertImage();
           break;
+        case "svg-png":
+          await convertSvgToPng();
+          break;
         case "txt-pdf":
           await convertTxtToPdf();
           break;
         case "md-html":
           await convertMdToHtml();
           break;
+        case "html-txt":
+          await convertHtmlToTxt();
+          break;
         case "json-csv":
           await convertJsonToCsv();
           break;
         case "csv-json":
           await convertCsvToJson();
+          break;
+        case "xlsx-csv":
+          await convertXlsxToCsv();
+          break;
+        case "csv-xlsx":
+          await convertCsvToXlsx();
+          break;
+        case "xlsx-json":
+          await convertXlsxToJson();
+          break;
+        case "json-xlsx":
+          await convertJsonToXlsx();
+          break;
+        case "xml-json":
+          await convertXmlToJson();
+          break;
+        case "json-xml":
+          await convertJsonToXml();
           break;
       }
     } catch (err) {
@@ -127,6 +252,8 @@ export default function PretvornikiPage() {
 
     setLoading(false);
   }
+
+  // --- Image conversions ---
 
   async function convertImage() {
     const img = new Image();
@@ -160,6 +287,54 @@ export default function PretvornikiPage() {
     URL.revokeObjectURL(url);
   }
 
+  async function convertSvgToPng() {
+    const svgText = await file!.text();
+    const img = new Image();
+
+    // Parse SVG dimensions
+    const widthMatch = svgText.match(/width="(\d+)"/);
+    const heightMatch = svgText.match(/height="(\d+)"/);
+    const viewBoxMatch = svgText.match(
+      /viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"/
+    );
+
+    let w = 800,
+      h = 600;
+    if (widthMatch && heightMatch) {
+      w = parseInt(widthMatch[1]);
+      h = parseInt(heightMatch[1]);
+    } else if (viewBoxMatch) {
+      w = Math.round(parseFloat(viewBoxMatch[1]));
+      h = Math.round(parseFloat(viewBoxMatch[2]));
+    }
+
+    const blob = new Blob([svgText], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+
+    await new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve();
+      img.onerror = () => reject(new Error("Napaka pri nalaganju SVG"));
+      img.src = url;
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d")!;
+    ctx.drawImage(img, 0, 0, w, h);
+
+    const pngBlob = await new Promise<Blob>((resolve) =>
+      canvas.toBlob((b) => resolve(b!), "image/png")
+    );
+
+    const name = file!.name.replace(/\.[^.]+$/, ".png");
+    setResultUrl(URL.createObjectURL(pngBlob));
+    setResultName(name);
+    URL.revokeObjectURL(url);
+  }
+
+  // --- Document conversions ---
+
   async function convertTxtToPdf() {
     const { jsPDF } = await import("jspdf");
     const text = await file!.text();
@@ -186,21 +361,15 @@ export default function PretvornikiPage() {
   async function convertMdToHtml() {
     const md = await file!.text();
 
-    // Simple markdown to HTML conversion
     let html = md
-      // Headers
       .replace(/^### (.+)$/gm, "<h3>$1</h3>")
       .replace(/^## (.+)$/gm, "<h2>$1</h2>")
       .replace(/^# (.+)$/gm, "<h1>$1</h1>")
-      // Bold and italic
       .replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>")
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.+?)\*/g, "<em>$1</em>")
-      // Code
       .replace(/`([^`]+)`/g, "<code>$1</code>")
-      // Links
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-      // Line breaks
       .replace(/\n\n/g, "</p><p>")
       .replace(/\n/g, "<br>");
 
@@ -225,6 +394,98 @@ code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
     setResultUrl(URL.createObjectURL(blob));
     setResultName(name);
   }
+
+  async function convertHtmlToTxt() {
+    const html = await file!.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const text = doc.body.textContent || doc.body.innerText || "";
+
+    const blob = new Blob([text.trim()], { type: "text/plain" });
+    const name = file!.name.replace(/\.[^.]+$/, ".txt");
+    setResultUrl(URL.createObjectURL(blob));
+    setResultName(name);
+  }
+
+  // --- Spreadsheet conversions ---
+
+  async function convertXlsxToCsv() {
+    const XLSX = await import("xlsx");
+    const buffer = await file!.arrayBuffer();
+    const workbook = XLSX.read(buffer, { type: "array" });
+    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+    const csv = XLSX.utils.sheet_to_csv(firstSheet);
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const name = file!.name.replace(/\.[^.]+$/, ".csv");
+    setResultUrl(URL.createObjectURL(blob));
+    setResultName(name);
+  }
+
+  async function convertCsvToXlsx() {
+    const XLSX = await import("xlsx");
+    const text = await file!.text();
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.aoa_to_sheet(
+      text
+        .trim()
+        .split("\n")
+        .map((row) => parseCsvLine(row))
+    );
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    const xlsxBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const blob = new Blob([xlsxBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const name = file!.name.replace(/\.[^.]+$/, ".xlsx");
+    setResultUrl(URL.createObjectURL(blob));
+    setResultName(name);
+  }
+
+  async function convertXlsxToJson() {
+    const XLSX = await import("xlsx");
+    const buffer = await file!.arrayBuffer();
+    const workbook = XLSX.read(buffer, { type: "array" });
+    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+    const data = XLSX.utils.sheet_to_json(firstSheet);
+
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const name = file!.name.replace(/\.[^.]+$/, ".json");
+    setResultUrl(URL.createObjectURL(blob));
+    setResultName(name);
+  }
+
+  async function convertJsonToXlsx() {
+    const XLSX = await import("xlsx");
+    const text = await file!.text();
+    const data = JSON.parse(text);
+
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error("JSON mora biti polje objektov");
+    }
+
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    const xlsxBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const blob = new Blob([xlsxBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const name = file!.name.replace(/\.[^.]+$/, ".xlsx");
+    setResultUrl(URL.createObjectURL(blob));
+    setResultName(name);
+  }
+
+  // --- Data conversions ---
 
   async function convertJsonToCsv() {
     const text = await file!.text();
@@ -281,6 +542,128 @@ code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
     setResultUrl(URL.createObjectURL(blob));
     setResultName(name);
   }
+
+  async function convertXmlToJson() {
+    const xml = await file!.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, "text/xml");
+
+    const errorNode = doc.querySelector("parsererror");
+    if (errorNode) {
+      throw new Error("Neveljavna XML datoteka");
+    }
+
+    function nodeToObj(node: Element): Record<string, unknown> {
+      const obj: Record<string, unknown> = {};
+
+      // Attributes
+      if (node.attributes.length > 0) {
+        const attrs: Record<string, string> = {};
+        for (let i = 0; i < node.attributes.length; i++) {
+          attrs[node.attributes[i].name] = node.attributes[i].value;
+        }
+        obj["@attributes"] = attrs;
+      }
+
+      // Child nodes
+      const children = Array.from(node.children);
+      if (children.length === 0) {
+        const text = node.textContent?.trim();
+        if (text) obj["#text"] = text;
+      } else {
+        for (const child of children) {
+          const childName = child.tagName;
+          const childObj = nodeToObj(child);
+          const simplified =
+            Object.keys(childObj).length === 1 && "#text" in childObj
+              ? childObj["#text"]
+              : childObj;
+
+          if (childName in obj) {
+            const existing = obj[childName];
+            if (Array.isArray(existing)) {
+              existing.push(simplified);
+            } else {
+              obj[childName] = [existing, simplified];
+            }
+          } else {
+            obj[childName] = simplified;
+          }
+        }
+      }
+
+      return obj;
+    }
+
+    const result = { [doc.documentElement.tagName]: nodeToObj(doc.documentElement) };
+    const json = JSON.stringify(result, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const name = file!.name.replace(/\.[^.]+$/, ".json");
+    setResultUrl(URL.createObjectURL(blob));
+    setResultName(name);
+  }
+
+  async function convertJsonToXml() {
+    const text = await file!.text();
+    const data = JSON.parse(text);
+
+    function objToXml(obj: unknown, indent = ""): string {
+      if (obj === null || obj === undefined) return "";
+      if (typeof obj !== "object") return escapeXml(String(obj));
+
+      if (Array.isArray(obj)) {
+        return obj.map((item) => objToXml(item, indent)).join("\n");
+      }
+
+      const lines: string[] = [];
+      for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+        if (key === "@attributes" || key === "#text") continue;
+
+        if (Array.isArray(value)) {
+          for (const item of value) {
+            const inner = objToXml(item, indent + "  ");
+            if (typeof item === "object" && item !== null) {
+              lines.push(`${indent}<${key}>\n${inner}\n${indent}</${key}>`);
+            } else {
+              lines.push(`${indent}<${key}>${inner}</${key}>`);
+            }
+          }
+        } else if (typeof value === "object" && value !== null) {
+          const inner = objToXml(value, indent + "  ");
+          lines.push(`${indent}<${key}>\n${inner}\n${indent}</${key}>`);
+        } else {
+          lines.push(
+            `${indent}<${key}>${escapeXml(String(value ?? ""))}</${key}>`
+          );
+        }
+      }
+      return lines.join("\n");
+    }
+
+    function escapeXml(s: string): string {
+      return s
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    // Determine root element
+    const keys = Object.keys(data);
+    let xml: string;
+    if (keys.length === 1 && typeof data[keys[0]] === "object") {
+      xml = `<?xml version="1.0" encoding="UTF-8"?>\n<${keys[0]}>\n${objToXml(data[keys[0]], "  ")}\n</${keys[0]}>`;
+    } else {
+      xml = `<?xml version="1.0" encoding="UTF-8"?>\n<root>\n${objToXml(data, "  ")}\n</root>`;
+    }
+
+    const blob = new Blob([xml], { type: "application/xml" });
+    const name = file!.name.replace(/\.[^.]+$/, ".xml");
+    setResultUrl(URL.createObjectURL(blob));
+    setResultName(name);
+  }
+
+  // --- Helpers ---
 
   function parseCsvLine(line: string): string[] {
     const result: string[] = [];
@@ -363,30 +746,39 @@ code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
 
       <h1 className="text-2xl font-semibold text-white">Pretvorniki</h1>
       <p className="mt-1 text-sm text-[#E1E1E1]/50">
-        Pretvorite datoteke med različnimi formati
+        Pretvorite datoteke med različnimi formati — 13 pretvorb, vse brezplačno
       </p>
 
-      {/* Conversion type selector */}
-      <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
-        {conversions.map((c) => (
-          <button
-            key={c.id}
-            onClick={() => {
-              setSelected(c.id);
-              resetState();
-            }}
-            className={`flex flex-col items-center gap-2 px-3 py-4 rounded-xl text-center transition-colors duration-200 ${
-              selected === c.id
-                ? "bg-white/[0.08] text-white border border-[#FEB089]/30"
-                : "bg-white/[0.03] text-[#E1E1E1]/50 border border-white/[0.06] hover:bg-white/[0.05]"
-            }`}
-          >
-            <c.icon className="w-5 h-5" />
-            <span className="text-xs">{c.label}</span>
-            <span className="text-[10px] text-[#E1E1E1]/30">
-              {c.from} → {c.to}
-            </span>
-          </button>
+      {/* Conversion type selector — grouped */}
+      <div className="mt-8 space-y-4">
+        {groups.map((group) => (
+          <div key={group.label}>
+            <p className="text-xs text-[#E1E1E1]/30 uppercase tracking-wider mb-2">
+              {group.label}
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+              {group.items.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => {
+                    setSelected(c.id);
+                    resetState();
+                  }}
+                  className={`flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl text-center transition-colors duration-200 ${
+                    selected === c.id
+                      ? "bg-white/[0.08] text-white border border-[#FEB089]/30"
+                      : "bg-white/[0.03] text-[#E1E1E1]/50 border border-white/[0.06] hover:bg-white/[0.05]"
+                  }`}
+                >
+                  <c.icon className="w-4 h-4" />
+                  <span className="text-xs">{c.label}</span>
+                  <span className="text-[10px] text-[#E1E1E1]/30">
+                    {c.from} → {c.to}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
 
