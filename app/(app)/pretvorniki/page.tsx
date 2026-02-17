@@ -392,25 +392,42 @@ code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
 
       {/* Upload & Convert */}
       <div className="mt-6 glass-card rounded-xl p-6 space-y-4">
-        <div className="flex items-center gap-4">
-          <button
+        {file ? (
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => inputRef.current?.click()}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.06] transition-colors text-sm"
+            >
+              <Upload className="w-4 h-4" />
+              {file.name}
+            </button>
+          </div>
+        ) : (
+          <div
             onClick={() => inputRef.current?.click()}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.06] transition-colors text-sm"
+            className="flex flex-col items-center justify-center gap-3 px-4 py-8 rounded-xl bg-white/[0.02] border border-dashed border-white/[0.08] cursor-pointer hover:bg-white/[0.04] hover:border-[#FEB089]/30 transition-colors"
           >
-            <Upload className="w-4 h-4" />
-            {file ? file.name : `Naložite ${current.from} datoteko`}
-          </button>
-          <input
-            ref={inputRef}
-            type="file"
-            accept={current.accept}
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) handleFile(f);
-            }}
-            className="hidden"
-          />
-        </div>
+            <div className="w-12 h-12 rounded-2xl bg-white/[0.04] flex items-center justify-center">
+              <Upload className="w-6 h-6 text-[#FEB089]/50" />
+            </div>
+            <p className="text-sm text-[#E1E1E1]/50 text-center">
+              Povlecite datoteko sem ali kliknite za nalaganje
+            </p>
+            <p className="text-xs text-[#E1E1E1]/30">
+              {current.from} datoteka
+            </p>
+          </div>
+        )}
+        <input
+          ref={inputRef}
+          type="file"
+          accept={current.accept}
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) handleFile(f);
+          }}
+          className="hidden"
+        />
 
         {/* Output format selector for image conversions */}
         {selected === "img-format" && file && (

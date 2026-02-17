@@ -232,7 +232,8 @@ export default function SpominPage() {
 
       <h1 className="text-2xl font-semibold text-white">AI Spomin</h1>
       <p className="mt-1 text-sm text-[#E1E1E1]/50">
-        Naložite dokumente in postavljajte vprašanja na podlagi vaše baze znanja
+        Naložite dokumente in postavljajte vprašanja na podlagi vaše baze
+        znanja. Datoteke lahko tudi povlečete na stran.
       </p>
 
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
@@ -416,6 +417,9 @@ export default function SpominPage() {
               <FileText className="w-8 h-8 text-[#E1E1E1]/20 mx-auto mb-2" />
               <p className="text-xs text-[#E1E1E1]/30">
                 Še niste naložili dokumentov
+              </p>
+              <p className="text-[10px] text-[#E1E1E1]/20 mt-1">
+                Povlecite datoteko sem ali kliknite Dodaj
               </p>
             </div>
           ) : (

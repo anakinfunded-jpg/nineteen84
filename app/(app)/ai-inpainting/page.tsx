@@ -311,14 +311,14 @@ export default function InpaintingPage() {
               onClick={() => inputRef.current?.click()}
               className="glass-card rounded-xl p-12 flex flex-col items-center justify-center min-h-[400px] cursor-pointer hover:bg-white/[0.03] transition-colors"
             >
-              <div className="w-16 h-16 rounded-2xl bg-white/[0.04] flex items-center justify-center mb-4">
-                <Upload className="w-8 h-8 text-[#FEB089]/40" />
+              <div className="w-14 h-14 rounded-2xl bg-white/[0.04] flex items-center justify-center mb-4">
+                <Upload className="w-7 h-7 text-[#FEB089]/50" />
               </div>
-              <p className="text-sm text-[#E1E1E1]/50">
-                Kliknite za nalaganje slike
+              <p className="text-sm text-[#E1E1E1]/50 text-center">
+                Povlecite sliko sem ali kliknite za nalaganje
               </p>
               <p className="text-xs text-[#E1E1E1]/30 mt-1">
-                Slika bo prilagojena na 1024×1024
+                PNG, JPG, WebP — slika bo prilagojena na 1024×1024
               </p>
             </div>
           )}

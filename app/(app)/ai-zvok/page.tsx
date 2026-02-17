@@ -370,37 +370,77 @@ function STTTab() {
           <label className="block text-sm text-[#E1E1E1]/60 mb-2">
             Zvočna datoteka
           </label>
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => inputRef.current?.click()}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.06] transition-colors text-sm"
-            >
-              <Upload className="w-4 h-4" />
-              {file ? file.name : "Naložite datoteko"}
-            </button>
-            <button
-              type="button"
-              onClick={recording ? stopRecording : startRecording}
-              className={`px-4 py-3 rounded-xl border text-sm flex items-center gap-2 transition-colors ${
-                recording
-                  ? "bg-red-500/20 border-red-500/40 text-red-400"
-                  : "bg-white/[0.04] border-white/[0.06] text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.06]"
-              }`}
-            >
-              {recording ? (
-                <>
-                  <Square className="w-4 h-4" />
-                  Ustavi
-                </>
-              ) : (
-                <>
-                  <Mic className="w-4 h-4" />
-                  Snemaj
-                </>
-              )}
-            </button>
-          </div>
+          {file ? (
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => inputRef.current?.click()}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.06] transition-colors text-sm"
+              >
+                <Upload className="w-4 h-4" />
+                {file.name}
+              </button>
+              <button
+                type="button"
+                onClick={recording ? stopRecording : startRecording}
+                className={`px-4 py-3 rounded-xl border text-sm flex items-center gap-2 transition-colors ${
+                  recording
+                    ? "bg-red-500/20 border-red-500/40 text-red-400"
+                    : "bg-white/[0.04] border-white/[0.06] text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.06]"
+                }`}
+              >
+                {recording ? (
+                  <>
+                    <Square className="w-4 h-4" />
+                    Ustavi
+                  </>
+                ) : (
+                  <>
+                    <Mic className="w-4 h-4" />
+                    Snemaj
+                  </>
+                )}
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-3">
+              <div
+                onClick={() => inputRef.current?.click()}
+                className="flex-1 flex flex-col items-center justify-center gap-3 px-4 py-8 rounded-xl bg-white/[0.02] border border-dashed border-white/[0.08] cursor-pointer hover:bg-white/[0.04] hover:border-[#FEB089]/30 transition-colors"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white/[0.04] flex items-center justify-center">
+                  <Upload className="w-6 h-6 text-[#FEB089]/50" />
+                </div>
+                <p className="text-sm text-[#E1E1E1]/50 text-center">
+                  Povlecite zvočno datoteko sem ali kliknite za nalaganje
+                </p>
+                <p className="text-xs text-[#E1E1E1]/30">
+                  MP3, WAV, M4A, WebM — do 25 MB
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={recording ? stopRecording : startRecording}
+                className={`px-4 rounded-xl border text-sm flex flex-col items-center justify-center gap-2 transition-colors ${
+                  recording
+                    ? "bg-red-500/20 border-red-500/40 text-red-400"
+                    : "bg-white/[0.04] border-white/[0.06] text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.06]"
+                }`}
+              >
+                {recording ? (
+                  <>
+                    <Square className="w-5 h-5" />
+                    <span className="text-xs">Ustavi</span>
+                  </>
+                ) : (
+                  <>
+                    <Mic className="w-5 h-5" />
+                    <span className="text-xs">Snemaj</span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
           <input
             ref={inputRef}
             type="file"
@@ -411,9 +451,6 @@ function STTTab() {
             }}
             className="hidden"
           />
-          <p className="mt-1.5 text-xs text-[#E1E1E1]/30">
-            MP3, WAV, M4A, WebM — do 25 MB
-          </p>
         </div>
 
         {error && <p className="text-sm text-red-400">{error}</p>}
