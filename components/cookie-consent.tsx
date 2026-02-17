@@ -3,6 +3,17 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+function loadAnalytics() {
+  const id = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+  if (!id || document.getElementById("umami-script")) return;
+  const s = document.createElement("script");
+  s.id = "umami-script";
+  s.async = true;
+  s.src = "https://cloud.umami.is/script.js";
+  s.dataset.websiteId = id;
+  document.body.appendChild(s);
+}
+
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
@@ -10,12 +21,15 @@ export function CookieConsent() {
     const consent = localStorage.getItem("cookie-consent");
     if (!consent) {
       setVisible(true);
+    } else if (consent === "accepted") {
+      loadAnalytics();
     }
   }, []);
 
   function accept() {
     localStorage.setItem("cookie-consent", "accepted");
     setVisible(false);
+    loadAnalytics();
   }
 
   function decline() {

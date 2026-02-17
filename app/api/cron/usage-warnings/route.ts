@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   const { data: subs } = await supabase
     .from("subscriptions")
     .select("user_id, plan_id")
-    .in("status", ["active", "trialing"])
+    .eq("status", "active")
     .neq("plan_id", "free");
 
   if (!subs || subs.length === 0) {

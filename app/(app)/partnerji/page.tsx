@@ -160,7 +160,7 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { icon: TrendingUp, title: "20% ponavljajoča se provizija", desc: "Za vsako plačljivo naročnino (12 mesecev)" },
-          { icon: Gift, title: "21-dnevni preizkus za občinstvo", desc: "Vaši sledilci dobijo podaljšan preizkus" },
+          { icon: Gift, title: "Brezplačni paket za občinstvo", desc: "Vaši sledilci začnejo brezplačno — brez obveznosti" },
           { icon: Clock, title: "90-dnevno sledenje", desc: "Dolga doba za konverzijo" },
           { icon: BarChart3, title: "Analitika v realnem času", desc: "Spremljajte vse na enem mestu" },
         ].map((b) => (

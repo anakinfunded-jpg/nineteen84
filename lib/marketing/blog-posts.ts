@@ -54,7 +54,7 @@ Pisanje kakovostnega marketinškega besedila zahteva čas. Opis izdelka, ki bi g
 3. Vnesite kratka navodila v slovenščini
 4. Pridobite rezultat v sekundah
 
-Brezplačni preizkus vključuje 2.000 besed in 10 slik — dovolj za preizkus vseh funkcij.
+Brezplačni paket vključuje 2.000 besed in 10 slik vsak mesec — dovolj za preizkus vseh funkcij.
 
 ## Zaključek
 

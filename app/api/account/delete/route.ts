@@ -15,17 +15,33 @@ export async function POST() {
   try {
     const admin = createAdminClient();
 
-    // Delete user data from all tables
-    await admin.from("messages").delete().eq("conversation_id",
-      admin.from("conversations").select("id").eq("user_id", user.id)
-    );
+    // Get conversation IDs first, then delete messages
+    const { data: convos } = await admin
+      .from("conversations")
+      .select("id")
+      .eq("user_id", user.id);
+    const convoIds = convos?.map((c) => c.id) || [];
+    if (convoIds.length > 0) {
+      await admin.from("messages").delete().in("conversation_id", convoIds);
+    }
     await admin.from("conversations").delete().eq("user_id", user.id);
-    await admin.from("document_chunks").delete().in("document_id",
-      (await admin.from("documents").select("id").eq("user_id", user.id)).data?.map(d => d.id) || []
-    );
+
+    // Get document IDs first, then delete chunks
+    const { data: docs } = await admin
+      .from("documents")
+      .select("id")
+      .eq("user_id", user.id);
+    const docIds = docs?.map((d) => d.id) || [];
+    if (docIds.length > 0) {
+      await admin.from("document_chunks").delete().in("document_id", docIds);
+    }
     await admin.from("documents").delete().eq("user_id", user.id);
+
+    // Delete remaining user data
     await admin.from("user_usage").delete().eq("user_id", user.id);
+    await admin.from("api_keys").delete().eq("user_id", user.id);
     await admin.from("subscriptions").delete().eq("user_id", user.id);
+    await admin.from("notification_log").delete().eq("user_id", user.id);
 
     // Delete the auth user
     await admin.auth.admin.deleteUser(user.id);

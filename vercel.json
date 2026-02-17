@@ -9,10 +9,6 @@
       "schedule": "0 9 1 * *"
     },
     {
-      "path": "/api/cron/trial-warnings",
-      "schedule": "0 7 * * *"
-    },
-    {
       "path": "/api/cron/usage-warnings",
       "schedule": "0 10 * * *"
     }

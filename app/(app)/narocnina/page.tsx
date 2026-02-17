@@ -27,7 +27,6 @@ type StatusData = {
   };
   subscription: {
     status: string;
-    trialEnd: string | null;
     currentPeriodEnd: string | null;
     cancelAtPeriodEnd: boolean;
   } | null;
@@ -92,10 +91,6 @@ function StatusBadge({ status }: { status: string }) {
     active: {
       label: "Aktivno",
       cls: "bg-green-500/10 text-green-400 border-green-500/20",
-    },
-    trialing: {
-      label: "Preizkusno obdobje",
-      cls: "bg-[#FEB089]/10 text-[#FEB089] border-[#FEB089]/20",
     },
     past_due: {
       label: "Zamuda s plačilom",
@@ -227,17 +222,7 @@ export default function NarocninaPage() {
   }
 
   const sub = status?.subscription;
-  const isActive = sub?.status === "active" || sub?.status === "trialing";
-  const isTrial = sub?.status === "trialing";
-  const trialDaysLeft =
-    isTrial && sub?.trialEnd
-      ? Math.max(
-          0,
-          Math.ceil(
-            (new Date(sub.trialEnd).getTime() - Date.now()) / 86_400_000
-          )
-        )
-      : 0;
+  const isActive = sub?.status === "active";
 
   return (
     <div className="p-8 max-w-5xl">
@@ -251,8 +236,7 @@ export default function NarocninaPage() {
         <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-green-500/10 border border-green-500/20">
           <PartyPopper className="w-5 h-5 text-green-400 shrink-0" />
           <p className="text-sm text-green-300">
-            Naročnina je bila uspešno aktivirana! Vaše 14-dnevno brezplačno
-            obdobje se je začelo.
+            Naročnina je bila uspešno aktivirana!
           </p>
         </div>
       )}
@@ -277,20 +261,7 @@ export default function NarocninaPage() {
               {!sub && <StatusBadge status="inactive" />}
             </div>
 
-            {isTrial && trialDaysLeft > 0 && (
-              <p className="mt-2 text-sm text-[#FEB089]/80">
-                Preizkusno obdobje: še {trialDaysLeft}{" "}
-                {trialDaysLeft === 1
-                  ? "dan"
-                  : trialDaysLeft === 2
-                    ? "dneva"
-                    : trialDaysLeft <= 4
-                      ? "dnevi"
-                      : "dni"}
-              </p>
-            )}
-
-            {isActive && sub?.currentPeriodEnd && !isTrial && (
+            {isActive && sub?.currentPeriodEnd && (
               <p className="mt-2 text-sm text-[#E1E1E1]/40">
                 Naslednje obračunavanje: {formatDate(sub.currentPeriodEnd)}
               </p>
@@ -350,7 +321,7 @@ export default function NarocninaPage() {
       <div className="mt-10">
         <h2 className="text-lg font-semibold text-white mb-6">Paketi</h2>
         <p className="text-sm text-[#E1E1E1]/40 mb-6">
-          Vsi paketi vključujejo 14-dnevno brezplačno preizkusno obdobje.
+          Nadgradite za več besed, slik in naprednih funkcij.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

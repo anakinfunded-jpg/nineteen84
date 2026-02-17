@@ -23,6 +23,22 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(self), geolocation=()",
           },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cloud.umami.is https://js.stripe.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "img-src 'self' data: blob: https://*.supabase.co https://*.stripe.com",
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://cloud.umami.is https://*.sentry.io https://*.ingest.sentry.io",
+              "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+            ].join("; "),
+          },
         ],
       },
     ];

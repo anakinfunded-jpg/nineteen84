@@ -49,8 +49,8 @@ const benefits = [
   },
   {
     icon: Gift,
-    title: "21-dnevni brezplačni preizkus",
-    desc: "Vaši sledilci dobijo podaljšan 21-dnevni preizkus namesto standardnih 14 dni — lažje priporočanje.",
+    title: "Brezplačni paket za občinstvo",
+    desc: "Vaši sledilci lahko začnejo brezplačno — 2.000 besed in 10 slik vsak mesec, brez obveznosti.",
   },
   {
     icon: Clock,
@@ -123,7 +123,7 @@ export default async function AffiliatePage() {
               Pridružite se našemu partnerskemu programu in zaslužite{" "}
               <span className="text-white font-semibold">20% ponavljajočo provizijo</span>{" "}
               za vsako priporočilo. Vaše občinstvo dobi{" "}
-              <span className="text-white font-semibold">21-dnevni brezplačni preizkus</span>.
+              <span className="text-white font-semibold">brezplačni paket</span>.
             </p>
           </AnimateOnScroll>
           <AnimateOnScroll delay={300}>

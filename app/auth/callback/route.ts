@@ -12,10 +12,24 @@ function getBaseUrl(request: Request): string {
   return new URL(request.url).origin;
 }
 
+function sanitizeRedirect(path: string | null): string {
+  if (!path) return "/dashboard";
+  // Only allow relative paths starting with / (not // which is protocol-relative)
+  if (!path.startsWith("/") || path.startsWith("//")) return "/dashboard";
+  // Block any URL with a host component
+  try {
+    const url = new URL(path, "http://dummy");
+    if (url.hostname !== "dummy") return "/dashboard";
+  } catch {
+    return "/dashboard";
+  }
+  return path;
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/dashboard";
+  const next = sanitizeRedirect(searchParams.get("next"));
   const baseUrl = getBaseUrl(request);
 
   if (code) {

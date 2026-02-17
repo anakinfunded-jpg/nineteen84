@@ -13,7 +13,7 @@ const plans = [
   {
     name: "Brezplačno",
     price: "0",
-    desc: "14-dnevni preizkus",
+    desc: "Za vedno brezplačno",
     popular: false,
     features: [
       "2.000 besed",
@@ -28,7 +28,7 @@ const plans = [
       "Pretvorba datotek",
       "E-poštna podpora",
     ],
-    cta: "Preizkusite 14 dni brezplačno",
+    cta: "Začnite brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -49,7 +49,7 @@ const plans = [
       "Pretvorba datotek",
       "E-poštna podpora",
     ],
-    cta: "Preizkusite 14 dni brezplačno",
+    cta: "Izberite paket",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -71,7 +71,7 @@ const plans = [
       "Pretvorba datotek",
       "Prednostna podpora",
     ],
-    cta: "Preizkusite 14 dni brezplačno",
+    cta: "Izberite paket",
     ctaStyle: "cta-button",
   },
   {
@@ -93,7 +93,7 @@ const plans = [
       "API dostop",
       "Telefonska podpora",
     ],
-    cta: "Preizkusite 14 dni brezplačno",
+    cta: "Izberite paket",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
 ];
@@ -101,7 +101,7 @@ const plans = [
 const faq = [
   {
     q: "Ali res lahko začnem brezplačno?",
-    a: "Da! Brezplačen 14-dnevni preizkus vključuje 2.000 besed in 10 slik. Kreditna kartica ni potrebna.",
+    a: "Da! Brezplačni paket vključuje 2.000 besed in 10 slik vsak mesec. Kreditna kartica ni potrebna.",
   },
   {
     q: "Kako deluje obračunavanje?",
@@ -117,7 +117,7 @@ const faq = [
   },
   {
     q: "Kakšna je razlika med AI modeli?",
-    a: "Brezplačni preizkus in Osnovni paket uporabljata model Sonnet — hiter in zanesljiv. Profesionalni in Poslovni paket uporabljata najzmogljivejši model Opus, ki daje vrhunske rezultate primerljive s ChatGPT in Claude.",
+    a: "Brezplačni in Osnovni paket uporabljata model Sonnet — hiter in zanesljiv. Profesionalni in Poslovni paket uporabljata najzmogljivejši model Opus, ki daje vrhunske rezultate primerljive s ChatGPT in Claude.",
   },
   {
     q: "Ali lahko kadarkoli prekličem naročnino?",

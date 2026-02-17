@@ -33,7 +33,7 @@ const plans = [
   {
     name: "Brezplačno",
     price: "0",
-    desc: "14-dnevni preizkus",
+    desc: "Za vedno brezplačno",
     popular: false,
     features: [
       "2.000 besed",
@@ -45,7 +45,7 @@ const plans = [
       "10 analiz slik (OCR)",
       "E-poštna podpora",
     ],
-    cta: "Preizkusite 14 dni brezplačno",
+    cta: "Začnite brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -63,7 +63,7 @@ const plans = [
       "100 analiz slik (OCR)",
       "E-poštna podpora",
     ],
-    cta: "Preizkusite 14 dni brezplačno",
+    cta: "Izberite paket",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -83,7 +83,7 @@ const plans = [
       "100 dokumentov v AI Spominu",
       "Prednostna podpora",
     ],
-    cta: "Preizkusite 14 dni brezplačno",
+    cta: "Izberite paket",
     ctaStyle: "cta-button",
   },
   {
@@ -103,7 +103,7 @@ const plans = [
       "API dostop",
       "Telefonska podpora",
     ],
-    cta: "Preizkusite 14 dni brezplačno",
+    cta: "Izberite paket",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
 ];
@@ -292,7 +292,7 @@ export default function HomePage() {
 
           <AnimateOnScroll delay={400}>
             <p className="mt-6 text-sm text-[#E1E1E1]/30">
-              14-dnevni brezplačni preizkus — brez kreditne kartice
+              Brezplačni paket — brez kreditne kartice
             </p>
           </AnimateOnScroll>
         </div>
@@ -681,7 +681,7 @@ export default function HomePage() {
                 Preprosti in transparentni paketi
               </h2>
               <p className="mt-4 text-[#E1E1E1]/50">
-                Vsi paketi vključujejo brezplačno preizkusno obdobje. Brez vezave.
+                Začnite z brezplačnim paketom. Nadgradite kadarkoli. Brez vezave.
               </p>
             </AnimateOnScroll>
           </div>
@@ -781,7 +781,7 @@ export default function HomePage() {
                 Preizkusite 1984 brezplačno
               </Link>
               <p className="mt-4 text-sm text-[#E1E1E1]/30">
-                14-dnevni brezplačni preizkus — brez kreditne kartice — odpoved kadarkoli
+                Brezplačni paket — brez kreditne kartice — odpoved kadarkoli
               </p>
             </div>
           </AnimateOnScroll>

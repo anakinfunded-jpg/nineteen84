@@ -76,7 +76,7 @@ export const outreachTemplates: OutreachTemplate[] = [
 <li style="margin-bottom:8px">AI grafika in dokumenti</li>
 </ul>
 
-<p style="margin:0 0 24px;color:#E1E1E1">Ponujamo <strong style="color:white">14-dnevno brezplačno preizkusno obdobje</strong> brez obveznosti.</p>
+<p style="margin:0 0 24px;color:#E1E1E1">Ponujamo <strong style="color:white">brezplačni paket</strong> z 2.000 besedami in 10 slikami mesečno — brez obveznosti.</p>
 
 <p style="margin:0 0 24px">
 ${trackedLink(v.appUrl, v.sendId, `${v.appUrl}/registracija`, "Preizkusite brezplačno →")}
@@ -94,7 +94,7 @@ ${trackingPixel(v.appUrl, v.sendId)}
     id: "sledilni",
     name: "Sledilni email",
     description: "Sledenje po prvem kontaktu brez odgovora",
-    subject: "Hitro sledenje — brezplačen preizkus 1984",
+    subject: "Hitro sledenje — 1984 AI platforma",
     body: (v) =>
       emailWrapper(`
 <p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${v.name ? ` ${v.name}` : ""},</p>
@@ -105,10 +105,10 @@ ${trackingPixel(v.appUrl, v.sendId)}
 
 <p style="margin:0 0 16px;color:#E1E1E1">Naši uporabniki poročajo, da s 1984 prihranijo v povprečju <strong style="color:white">5–10 ur na teden</strong>, kar je čas, ki ga lahko namenijo za rast poslovanja.</p>
 
-<p style="margin:0 0 24px;color:#E1E1E1">Preizkus je brezplačen in traja 14 dni — brez kartice, brez obveznosti.</p>
+<p style="margin:0 0 24px;color:#E1E1E1">Začnite z brezplačnim paketom — brez kartice, brez obveznosti.</p>
 
 <p style="margin:0 0 24px">
-${trackedLink(v.appUrl, v.sendId, `${v.appUrl}/registracija`, "Začnite brezplačni preizkus →")}
+${trackedLink(v.appUrl, v.sendId, `${v.appUrl}/registracija`, "Začnite brezplačno →")}
 </p>
 
 <p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
@@ -203,7 +203,7 @@ export function affiliateApprovedEmail(name: string, code: string) {
 <ul style="margin:0 0 16px;padding-left:20px;color:#E1E1E1">
 <li style="margin-bottom:8px">Delite povezavo na družbenih omrežjih, blogu ali neposredno</li>
 <li style="margin-bottom:8px">Zaslužite <strong style="color:white">20% provizije</strong> za vsakega plačljivega uporabnika</li>
-<li style="margin-bottom:8px">Vaši sledilci dobijo <strong style="color:white">21-dnevni brezplačni preizkus</strong></li>
+<li style="margin-bottom:8px">Vaši sledilci lahko začnejo z <strong style="color:white">brezplačnim paketom</strong></li>
 <li style="margin-bottom:8px">Spremljajte statistiko na <a href="${appUrl}/partnerji" style="color:#FEB089">partnerski nadzorni plošči</a></li>
 </ul>
 

@@ -78,7 +78,7 @@ export const features: Feature[] = [
     faq: [
       { q: "Katere AI modele uporablja AI Chat?", a: "AI Chat uporablja Claude Sonnet 4.5 za hitrejše odgovore in Claude Opus 4.6 za zahtevnejše naloge. Profesionalni in poslovni paketi imajo dostop do najzmogljivejšega modela." },
       { q: "Ali AI Chat razume slovenščino?", a: "Da, AI Chat je optimiziran za slovenščino. Razume kontekst, slovnico in kulturne posebnosti slovenskega jezika." },
-      { q: "Koliko sporočil lahko pošljem?", a: "Število sporočil je omejeno z Vašo mesečno kvoto besed. Brezplačni preizkus vključuje 2.000 besed, plačljivi paketi pa od 20.000 do 150.000 besed." },
+      { q: "Koliko sporočil lahko pošljem?", a: "Število sporočil je omejeno z Vašo mesečno kvoto besed. Brezplačni paket vključuje 2.000 besed, plačljivi paketi pa od 20.000 do 150.000 besed." },
       { q: "Ali se pogovori shranjujejo?", a: "Da, Vaši pogovori se shranjujejo in so dostopni kadarkoli. Lahko jih tudi izbrišete." },
     ],
   },
@@ -175,7 +175,7 @@ export const features: Feature[] = [
       { q: "Kateri AI model se uporablja za slike?", a: "Za generiranje slik uporabljamo DALL-E 3 od OpenAI, enega najnaprednejših modelov za ustvarjanje slik." },
       { q: "V kakšni ločljivosti so slike?", a: "Slike so generirane v ločljivosti do 1792×1024 pikslov (ali obratno), odvisno od izbrane orientacije." },
       { q: "Ali so slike unikatne?", a: "Da, vsaka slika je generirana na novo in je popolnoma unikatna." },
-      { q: "Koliko slik lahko generiram?", a: "Odvisno od paketa — od 10 slik (brezplačni preizkus) do 800 slik mesečno (poslovni paket)." },
+      { q: "Koliko slik lahko generiram?", a: "Odvisno od paketa — od 10 slik (brezplačni paket) do 800 slik mesečno (poslovni paket)." },
     ],
   },
   {
@@ -416,7 +416,7 @@ export const features: Feature[] = [
       },
     ],
     faq: [
-      { q: "Koliko dokumentov lahko naložim?", a: "Odvisno od paketa — od 5 (brezplačni preizkus) do 250 (poslovni paket)." },
+      { q: "Koliko dokumentov lahko naložim?", a: "Odvisno od paketa — od 5 (brezplačni paket) do 250 (poslovni paket)." },
       { q: "Ali so moji dokumenti varni?", a: "Da, Vaši dokumenti so shranjeni varno in so dostopni le Vam. Drugi uporabniki nimajo dostopa." },
       { q: "Kako deluje iskanje?", a: "AI uporablja vektorsko iskanje (embeddings), ki razume pomen besedila, ne le ključne besede." },
     ],

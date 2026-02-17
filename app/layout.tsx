@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
-import Script from "next/script";
 import { CookieConsent } from "@/components/cookie-consent";
 import "./globals.css";
 
@@ -86,13 +85,6 @@ export default function RootLayout({
         />
         {children}
         <CookieConsent />
-        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
-          <Script
-            async
-            src="https://cloud.umami.is/script.js"
-            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-          />
-        )}
       </body>
     </html>
   );

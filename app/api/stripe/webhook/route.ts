@@ -90,9 +90,6 @@ export async function POST(request: NextRequest) {
             status: subscription.status,
             current_period_start: period.start,
             current_period_end: period.end,
-            trial_end: subscription.trial_end
-              ? new Date(subscription.trial_end * 1000).toISOString()
-              : null,
             cancel_at_period_end: subscription.cancel_at_period_end,
             updated_at: new Date().toISOString(),
           },
@@ -180,9 +177,6 @@ export async function POST(request: NextRequest) {
           status: subscription.status,
           current_period_start: period.start,
           current_period_end: period.end,
-          trial_end: subscription.trial_end
-            ? new Date(subscription.trial_end * 1000).toISOString()
-            : null,
           cancel_at_period_end: subscription.cancel_at_period_end,
           updated_at: new Date().toISOString(),
         })
@@ -336,6 +330,38 @@ export async function POST(request: NextRequest) {
         } catch {
           // Email failure shouldn't block webhook
         }
+      }
+      break;
+    }
+
+    case "charge.dispute.created": {
+      const dispute = event.data.object as Stripe.Dispute;
+
+      try {
+        // Suspend all subscriptions for this customer
+        const customerId = typeof dispute.charge === "string"
+          ? undefined
+          : (dispute.charge as Stripe.Charge)?.customer;
+        const custId = typeof customerId === "string" ? customerId : undefined;
+
+        if (custId) {
+          await supabase
+            .from("subscriptions")
+            .update({
+              status: "past_due",
+              updated_at: new Date().toISOString(),
+            })
+            .eq("stripe_customer_id", custId);
+        }
+
+        // Notify admin
+        await sendNotification({
+          to: "anakinfunded@gmail.com",
+          subject: `1984 — Spor za plačilo (${dispute.amount / 100} EUR)`,
+          html: `<p>Prejet spor za plačilo v višini <strong>${dispute.amount / 100} EUR</strong>.</p><p>Stripe Dispute ID: ${dispute.id}</p><p>Razlog: ${dispute.reason}</p>`,
+        });
+      } catch {
+        console.error("[webhook] dispute processing error");
       }
       break;
     }
