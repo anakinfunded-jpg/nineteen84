@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { blogPosts } from "@/lib/marketing/blog-posts";
+import { getAllPublishedSlugs } from "@/lib/blog";
 import { features } from "@/lib/marketing/features";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://www.1984.si";
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -27,10 +27,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const blogPages: MetadataRoute.Sitemap = blogPosts.map((p) => ({
+  const blogSlugs = await getAllPublishedSlugs();
+  const blogPages: MetadataRoute.Sitemap = blogSlugs.map((p) => ({
     url: `${baseUrl}/blog/${p.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
+    lastModified: new Date(p.publish_at),
+    changeFrequency: "weekly" as const,
     priority: 0.6,
   }));
 

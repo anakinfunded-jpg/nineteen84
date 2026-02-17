@@ -1,15 +1,23 @@
 import { AnimateOnScroll } from "@/components/animate-on-scroll";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
-import { blogPosts } from "@/lib/marketing/blog-posts";
+import { getPublishedPosts } from "@/lib/blog";
 import { Calendar, Clock } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Blog | 1984 — AI, ki piše slovensko",
   description:
     "Nasveti, novosti in vodniki za uporabo AI pri ustvarjanju vsebin v slovenščini.",
 };
+
+const getCachedPosts = unstable_cache(
+  () => getPublishedPosts(),
+  ["blog-posts"],
+  { revalidate: 3600 }
+);
 
 function formatDate(dateStr: string) {
   const date = new Date(dateStr);
@@ -20,7 +28,9 @@ function formatDate(dateStr: string) {
   });
 }
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await getCachedPosts();
+
   return (
     <>
       {/* Hero */}
@@ -51,52 +61,59 @@ export default function BlogPage() {
       <section className="py-8 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogPosts
-              .sort(
-                (a, b) =>
-                  new Date(b.date).getTime() - new Date(a.date).getTime()
-              )
-              .map((post, i) => (
-                <AnimateOnScroll key={post.slug} delay={i * 80}>
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="glass-card group rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(254,176,137,0.06)] transition-all duration-300 h-full flex flex-col"
-                  >
-                    {/* Image placeholder */}
-                    <div className="aspect-[16/9] bg-gradient-to-br from-white/[0.02] to-white/[0.05] flex items-center justify-center">
-                      <span className="text-xs text-[#E1E1E1]/20">
+            {posts.map((post, i) => (
+              <AnimateOnScroll key={post.slug} delay={i * 80}>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="glass-card group rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(254,176,137,0.06)] transition-all duration-300 h-full flex flex-col"
+                >
+                  {/* Banner image */}
+                  <div className="aspect-[16/9] relative bg-gradient-to-br from-white/[0.02] to-white/[0.05]">
+                    {post.banner_image_url ? (
+                      <Image
+                        src={post.banner_image_url}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-xs text-[#E1E1E1]/20">
+                          {post.category}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-xs accent-gradient font-medium bg-[#FEB089]/10 px-2.5 py-1 rounded-full">
                         {post.category}
                       </span>
                     </div>
 
-                    <div className="p-6 flex flex-col flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-xs accent-gradient font-medium bg-[#FEB089]/10 px-2.5 py-1 rounded-full">
-                          {post.category}
-                        </span>
+                    <h2 className="text-base font-semibold text-white leading-snug group-hover:text-[#FEB089]/90 transition-colors">
+                      {post.title}
+                    </h2>
+                    <p className="mt-2 text-sm text-[#E1E1E1]/40 leading-relaxed flex-1">
+                      {post.excerpt}
+                    </p>
+
+                    <div className="mt-4 flex items-center justify-between text-xs text-[#E1E1E1]/30">
+                      <div className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {formatDate(post.publish_at)}
                       </div>
-
-                      <h2 className="text-base font-semibold text-white leading-snug group-hover:text-[#FEB089]/90 transition-colors">
-                        {post.title}
-                      </h2>
-                      <p className="mt-2 text-sm text-[#E1E1E1]/40 leading-relaxed flex-1">
-                        {post.excerpt}
-                      </p>
-
-                      <div className="mt-4 flex items-center justify-between text-xs text-[#E1E1E1]/30">
-                        <div className="flex items-center gap-1.5">
-                          <Calendar className="w-3.5 h-3.5" />
-                          {formatDate(post.date)}
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <Clock className="w-3.5 h-3.5" />
-                          {post.readMin} min
-                        </div>
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5" />
+                        {post.read_min} min
                       </div>
                     </div>
-                  </Link>
-                </AnimateOnScroll>
-              ))}
+                  </div>
+                </Link>
+              </AnimateOnScroll>
+            ))}
           </div>
         </div>
       </section>
