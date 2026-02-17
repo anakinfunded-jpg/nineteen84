@@ -30,6 +30,10 @@ export async function POST(request: NextRequest) {
     return new Response("Sporočilo je obvezno", { status: 400 });
   }
 
+  if (message.length > 30_000) {
+    return new Response("Sporočilo je predolgo. Največja dolžina je 30.000 znakov.", { status: 400 });
+  }
+
   // Check word limit
   const withinLimit = await checkWordLimit(user.id);
   if (!withinLimit) {

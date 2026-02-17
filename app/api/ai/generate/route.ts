@@ -41,6 +41,12 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  // Cap total input length to prevent excessive token costs
+  const totalInput = Object.values(fields as Record<string, string>).join("").length;
+  if (totalInput > 10_000) {
+    return new Response("Vnos je predolg. Največja skupna dolžina polj je 10.000 znakov.", { status: 400 });
+  }
+
   // Check word limit
   const withinLimit = await checkWordLimit(user.id);
   if (!withinLimit) {

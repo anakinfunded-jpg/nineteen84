@@ -34,6 +34,10 @@ export async function POST(request: Request) {
       return Response.json({ success: false, error: { code: "MISSING_FIELDS", message: "Obvezno polje: text" } }, { status: 400 });
     }
 
+    if (text.length > 100_000) {
+      return Response.json({ success: false, error: { code: "INPUT_TOO_LONG", message: "Besedilo je predolgo. Največja dolžina je 100.000 znakov." } }, { status: 400 });
+    }
+
     if (!MODE_INSTRUCTIONS[mode]) {
       return Response.json({ success: false, error: { code: "INVALID_MODE", message: "Veljavni načini: short, medium, detailed, bullets" } }, { status: 400 });
     }

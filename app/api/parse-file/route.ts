@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { parseFile } from "@/lib/file-parser";
+import { parseLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -11,6 +12,9 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
   }
+
+  const { success, reset } = await parseLimit.limit(user.id);
+  if (!success) return rateLimitResponse(reset);
 
   const formData = await request.formData();
   const file = formData.get("file") as File | null;

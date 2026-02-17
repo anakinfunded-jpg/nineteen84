@@ -119,6 +119,10 @@ export async function POST(request: NextRequest) {
     return new Response("Besedilo in jeziki so obvezni", { status: 400 });
   }
 
+  if (text.length > 50_000) {
+    return new Response("Besedilo je predolgo. Največja dolžina je 50.000 znakov.", { status: 400 });
+  }
+
   if (!LANGUAGES[sourceLang] || !LANGUAGES[targetLang]) {
     return new Response("Neveljaven jezik", { status: 400 });
   }

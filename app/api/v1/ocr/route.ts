@@ -34,6 +34,10 @@ export async function POST(request: Request) {
         return Response.json({ success: false, error: { code: "MISSING_FIELDS", message: "Obvezno polje: image (datoteka)" } }, { status: 400 });
       }
 
+      if (image.size > 10 * 1024 * 1024) {
+        return Response.json({ success: false, error: { code: "FILE_TOO_LARGE", message: "Slika je prevelika. Največja velikost je 10 MB." } }, { status: 400 });
+      }
+
       const buffer = Buffer.from(await image.arrayBuffer());
       const mediaType = (image.type || "image/png") as "image/jpeg" | "image/png" | "image/gif" | "image/webp";
 

@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { checkImageLimit, incrementImages } from "@/lib/credits";
+import { checkInpaintingLimit, incrementInpainting, incrementImages } from "@/lib/credits";
 import { aiImageLimit, rateLimitResponse } from "@/lib/rate-limit";
 import OpenAI from "openai";
 import { NextRequest, NextResponse } from "next/server";
@@ -20,10 +20,10 @@ export async function POST(request: NextRequest) {
   const { success, reset } = await aiImageLimit.limit(user.id);
   if (!success) return rateLimitResponse(reset);
 
-  const withinLimit = await checkImageLimit(user.id);
+  const withinLimit = await checkInpaintingLimit(user.id);
   if (!withinLimit) {
     return NextResponse.json(
-      { error: "Dosegli ste mesečno omejitev slik. Nadgradite paket za več." },
+      { error: "Dosegli ste mesečno omejitev urejanja slik. Nadgradite paket za več." },
       { status: 403 }
     );
   }
@@ -32,6 +32,13 @@ export async function POST(request: NextRequest) {
   const imageFile = formData.get("image") as File | null;
   const findText = formData.get("find") as string | null;
   const replaceText = formData.get("replace") as string | null;
+
+  if (imageFile && imageFile.size > 10 * 1024 * 1024) {
+    return NextResponse.json(
+      { error: "Slika je prevelika. Največja velikost je 10 MB." },
+      { status: 400 }
+    );
+  }
 
   if (!imageFile || !findText?.trim() || !replaceText?.trim()) {
     return NextResponse.json(
@@ -116,6 +123,7 @@ export async function POST(request: NextRequest) {
       data: { publicUrl },
     } = admin.storage.from("generated-images").getPublicUrl(fileName);
 
+    await incrementInpainting(user.id);
     await incrementImages(user.id);
 
     return NextResponse.json({ image_url: publicUrl });

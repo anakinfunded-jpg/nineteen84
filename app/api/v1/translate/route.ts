@@ -38,6 +38,10 @@ export async function POST(request: Request) {
       return Response.json({ success: false, error: { code: "MISSING_FIELDS", message: "Obvezna polja: text, sourceLang, targetLang" } }, { status: 400 });
     }
 
+    if (text.length > 50_000) {
+      return Response.json({ success: false, error: { code: "INPUT_TOO_LONG", message: "Besedilo je predolgo. Največja dolžina je 50.000 znakov." } }, { status: 400 });
+    }
+
     if (!LANGUAGES[sourceLang] || !LANGUAGES[targetLang]) {
       return Response.json({ success: false, error: { code: "INVALID_LANGUAGE", message: "Neveljaven jezik.", available: Object.keys(LANGUAGES) } }, { status: 400 });
     }

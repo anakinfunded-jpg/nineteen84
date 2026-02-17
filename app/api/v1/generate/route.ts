@@ -27,6 +27,11 @@ export async function POST(request: Request) {
       return Response.json({ success: false, error: { code: "MISSING_FIELDS", message: `Manjkajoča polja: ${missingFields.join(", ")}` } }, { status: 400 });
     }
 
+    const totalInput = Object.values(fields as Record<string, string>).join("").length;
+    if (totalInput > 10_000) {
+      return Response.json({ success: false, error: { code: "INPUT_TOO_LONG", message: "Vnos je predolg. Največja skupna dolžina polj je 10.000 znakov." } }, { status: 400 });
+    }
+
     const withinLimit = await checkWordLimit(apiUser.userId);
     if (!withinLimit) {
       return Response.json({ success: false, error: { code: "LIMIT_EXCEEDED", message: "Mesečna omejitev besed dosežena." } }, { status: 403 });

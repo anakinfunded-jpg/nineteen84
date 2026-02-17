@@ -92,6 +92,10 @@ export async function POST(request: NextRequest) {
     return new Response("Besedilo in dejanje sta obvezna", { status: 400 });
   }
 
+  if (text.length > 50_000) {
+    return new Response("Besedilo je predolgo. Največja dolžina je 50.000 znakov.", { status: 400 });
+  }
+
   const actionConfig = ACTIONS[action];
   if (!actionConfig) {
     return new Response("Neveljavno dejanje", { status: 400 });

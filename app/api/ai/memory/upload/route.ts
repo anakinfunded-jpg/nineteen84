@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { storeDocument } from "@/lib/ai/embeddings";
 import { checkDocumentLimit } from "@/lib/credits";
+import { memoryLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { parseFile } from "@/lib/file-parser";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,6 +14,9 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
   }
+
+  const { success, reset } = await memoryLimit.limit(user.id);
+  if (!success) return rateLimitResponse(reset);
 
   const withinLimit = await checkDocumentLimit(user.id);
   if (!withinLimit) {

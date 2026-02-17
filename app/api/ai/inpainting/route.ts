@@ -33,6 +33,13 @@ export async function POST(request: NextRequest) {
   const maskFile = formData.get("mask") as File | null;
   const prompt = formData.get("prompt") as string | null;
 
+  if (imageFile && imageFile.size > 10 * 1024 * 1024) {
+    return NextResponse.json(
+      { error: "Slika je prevelika. Največja velikost je 10 MB." },
+      { status: 400 }
+    );
+  }
+
   if (!imageFile || !maskFile || !prompt?.trim()) {
     return NextResponse.json(
       { error: "Slika, maska in opis so obvezni" },

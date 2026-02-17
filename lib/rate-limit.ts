@@ -27,11 +27,32 @@ export const authLimit = new Ratelimit({
   prefix: "rl:auth",
 });
 
-// API v1 routes: 60 requests per 60 seconds per user (generous for programmatic use)
+// API v1 text routes: 60 requests per 60 seconds per user
 export const apiLimit = new Ratelimit({
   redis,
   limiter: Ratelimit.slidingWindow(60, "60 s"),
   prefix: "rl:api",
+});
+
+// API v1 image routes (expensive): 10 requests per 60 seconds per user
+export const apiImageLimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(10, "60 s"),
+  prefix: "rl:api-image",
+});
+
+// Memory/embedding routes: 10 requests per 60 seconds per user
+export const memoryLimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(10, "60 s"),
+  prefix: "rl:memory",
+});
+
+// File parse utility: 20 requests per 60 seconds per user
+export const parseLimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(20, "60 s"),
+  prefix: "rl:parse",
 });
 
 export function rateLimitResponse(reset: number) {

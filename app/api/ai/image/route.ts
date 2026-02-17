@@ -49,6 +49,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  if (prompt.length > 4_000) {
+    return NextResponse.json(
+      { error: "Opis slike je predolg. Največja dolžina je 4.000 znakov." },
+      { status: 400 }
+    );
+  }
+
   // Check image limit
   const withinLimit = await checkImageLimit(user.id);
   if (!withinLimit) {

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { queryDocuments } from "@/lib/ai/embeddings";
 import { getUserTier, checkWordLimit, incrementWords, countWords } from "@/lib/credits";
+import { memoryLimit, rateLimitResponse } from "@/lib/rate-limit";
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
 
@@ -19,10 +20,17 @@ export async function POST(request: NextRequest) {
     return new Response("Neavtorizirano", { status: 401 });
   }
 
+  const { success, reset } = await memoryLimit.limit(user.id);
+  if (!success) return rateLimitResponse(reset);
+
   const { query } = (await request.json()) as { query: string };
 
   if (!query?.trim()) {
     return new Response("Vprašanje je obvezno", { status: 400 });
+  }
+
+  if (query.length > 2_000) {
+    return new Response("Vprašanje je predolgo. Največja dolžina je 2.000 znakov.", { status: 400 });
   }
 
   const withinLimit = await checkWordLimit(user.id);

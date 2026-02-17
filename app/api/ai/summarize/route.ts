@@ -80,6 +80,10 @@ export async function POST(request: NextRequest) {
     return new Response("Besedilo je obvezno", { status: 400 });
   }
 
+  if (text.length > 100_000) {
+    return new Response("Besedilo je predolgo. Največja dolžina je 100.000 znakov.", { status: 400 });
+  }
+
   if (!MODE_INSTRUCTIONS[mode]) {
     return new Response("Neveljaven način povzemanja", { status: 400 });
   }

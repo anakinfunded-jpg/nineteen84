@@ -1,7 +1,7 @@
 import { validateApiKey, apiErrorResponse } from "@/lib/api/auth";
 import { checkImageLimit, incrementImages, getUsage, getUserPlan } from "@/lib/credits";
 import { PLANS } from "@/lib/stripe";
-import { apiLimit } from "@/lib/rate-limit";
+import { apiImageLimit } from "@/lib/rate-limit";
 import { createAdminClient } from "@/lib/supabase/admin";
 import OpenAI from "openai";
 
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   try {
     const apiUser = await validateApiKey(request);
 
-    const { success } = await apiLimit.limit(apiUser.userId);
+    const { success } = await apiImageLimit.limit(apiUser.userId);
     if (!success) {
       return Response.json({ success: false, error: { code: "RATE_LIMITED", message: "Preveč zahtevkov." } }, { status: 429 });
     }
@@ -23,6 +23,10 @@ export async function POST(request: Request) {
 
     if (!prompt) {
       return Response.json({ success: false, error: { code: "MISSING_FIELDS", message: "Obvezno polje: prompt" } }, { status: 400 });
+    }
+
+    if (prompt.length > 4_000) {
+      return Response.json({ success: false, error: { code: "INPUT_TOO_LONG", message: "Opis slike je predolg. Največja dolžina je 4.000 znakov." } }, { status: 400 });
     }
 
     const validSizes: ImageSize[] = ["1024x1024", "1024x1536", "1536x1024"];

@@ -32,6 +32,10 @@ export async function POST(request: NextRequest) {
     return new Response("Slika je obvezna", { status: 400 });
   }
 
+  if (file && file.size > 10 * 1024 * 1024) {
+    return new Response("Slika je prevelika. Največja velikost je 10 MB.", { status: 400 });
+  }
+
   const withinLimit = await checkOcrLimit(user.id);
   if (!withinLimit) {
     return new Response(
