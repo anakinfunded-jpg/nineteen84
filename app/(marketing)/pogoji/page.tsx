@@ -56,8 +56,8 @@ export default function PogojiPage() {
                 4. Naročnina in plačila
               </h2>
               <p>
-                Naročniški paketi se obračunavajo mesečno. Plačila obdeluje
-                Stripe, Inc. Naročnino lahko kadarkoli prekličete v nastavitvah
+                Naročniški paketi se obračunavajo mesečno. Plačila varno
+                obdeluje certificiran plačilni ponudnik. Naročnino lahko kadarkoli prekličete v nastavitvah
                 svojega računa. Ob preklicu ohranite dostop do konca
                 obračunskega obdobja.
               </p>

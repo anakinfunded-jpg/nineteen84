@@ -337,7 +337,7 @@ export function paymentFailedEmail(name: string, planName: string) {
 <a href="${appUrl}/narocnina" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Posodobite plačilno sredstvo</a>
 </p>
 
-<p style="margin:0 0 16px;color:#E1E1E1;font-size:13px;opacity:0.7">Če je bila to začasna težava (npr. nezadostno stanje), bo Stripe samodejno ponovil plačilo v naslednjih dneh.</p>
+<p style="margin:0 0 16px;color:#E1E1E1;font-size:13px;opacity:0.7">Če je bila to začasna težava (npr. nezadostno stanje), bo plačilo samodejno ponovljeno v naslednjih dneh.</p>
 
 <p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
 <p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>

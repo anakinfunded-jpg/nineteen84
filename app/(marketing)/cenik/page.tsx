@@ -105,7 +105,7 @@ const faq = [
   },
   {
     q: "Kako deluje obračunavanje?",
-    a: "Naročnina se obračunava mesečno. Plačila varno obdeluje Stripe. Naročnino lahko kadarkoli prekličete v nastavitvah računa.",
+    a: "Naročnina se obračunava mesečno. Plačila so varno šifrirana in zaščitena. Naročnino lahko kadarkoli prekličete v nastavitvah računa.",
   },
   {
     q: "Kaj se zgodi, ko porabim mesečno kvoto?",
