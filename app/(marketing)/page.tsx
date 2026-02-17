@@ -196,9 +196,9 @@ export default function HomePage() {
 
           <AnimateOnScroll delay={100}>
             <h1 className="mt-8 text-5xl sm:text-6xl md:text-7xl font-serif tracking-[0.01em] leading-[1.1]">
-              AI, ki razume
+              13 AI orodij.
               <br />
-              <span className="logo-gradient">slovenščino.</span>
+              <span className="logo-gradient">Ena aplikacija.</span>
             </h1>
           </AnimateOnScroll>
 
