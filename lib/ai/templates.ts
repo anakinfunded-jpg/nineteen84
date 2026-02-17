@@ -59,7 +59,7 @@ export const templates: Template[] = [
     fields: [
       { id: "podjetje", label: "Ime podjetja", type: "text", placeholder: "npr. Studio Kreativa d.o.o.", required: true },
       { id: "industrija", label: "Panoga", type: "text", placeholder: "npr. digitalni marketing", required: true },
-      { id: "vrednote", label: "Vrednote in poslanstvo", type: "textarea", placeholder: "Kaj vas poganja? Kaj je vaše poslanstvo?", required: false },
+      { id: "vrednote", label: "Vrednote in poslanstvo", type: "textarea", placeholder: "Kaj Vas poganja? Kaj je Vaše poslanstvo?", required: false },
     ],
   },
   {
@@ -70,7 +70,7 @@ export const templates: Template[] = [
     category: "Spletna stran",
     fields: [
       { id: "podjetje", label: "Podjetje", type: "text", placeholder: "npr. Studio Kreativa d.o.o.", required: true },
-      { id: "storitve", label: "Storitve / ponudba", type: "textarea", placeholder: "Opišite vaše storitve ali ponudbo...", required: true },
+      { id: "storitve", label: "Storitve / ponudba", type: "textarea", placeholder: "Opišite Vaše storitve ali ponudbo...", required: true },
       { id: "ton", label: "Ton", type: "select", placeholder: "", required: true, options: ["Profesionalno", "Prijazno", "Moderno"] },
     ],
   },
@@ -203,7 +203,7 @@ export const templates: Template[] = [
   {
     id: "povabilo-dogodek",
     name: "Povabilo na dogodek",
-    description: "Privlačno povabilo na vaš dogodek",
+    description: "Privlačno povabilo na Vaš dogodek",
     icon: "CalendarDays",
     category: "Komunikacija",
     fields: [

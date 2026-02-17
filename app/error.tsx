@@ -29,7 +29,7 @@ export default function Error({
           onClick={reset}
           className="mt-6 cta-button px-8 py-3 rounded-xl font-semibold text-sm"
         >
-          Poskusi znova
+          Poskusite znova
         </button>
       </div>
     </div>

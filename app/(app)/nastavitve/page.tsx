@@ -286,7 +286,7 @@ export default function NastavitvePage() {
             </h2>
           </div>
           <p className="text-xs text-[#E1E1E1]/40 mb-4">
-            To dejanje je nepovratno. Vsi vaši podatki, dokumenti in naročnina
+            To dejanje je nepovratno. Vsi Vaši podatki, dokumenti in naročnina
             bodo trajno odstranjeni.
           </p>
 

@@ -113,7 +113,7 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
     setError("");
 
     if (!audienceSize) {
-      setError("Izberite velikost vaše publike.");
+      setError("Izberite velikost Vaše publike.");
       return;
     }
 
@@ -180,7 +180,7 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
 
         {/* Section 1: O vas */}
         <div>
-          <p className="text-xs text-[#FEB089] uppercase tracking-wider font-semibold mb-3">O vas</p>
+          <p className="text-xs text-[#FEB089] uppercase tracking-wider font-semibold mb-3">O Vas</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm text-[#E1E1E1]/60 mb-1.5">
@@ -273,7 +273,7 @@ function ApplyForm({ onApplied }: { onApplied: () => void }) {
         {/* Section 3: O vaši publiki */}
         <div>
           <p className="text-xs text-[#FEB089] uppercase tracking-wider font-semibold mb-3">
-            O vaši publiki
+            O Vaši publiki
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -392,9 +392,9 @@ function PendingState({ code }: { code: string }) {
         </div>
         <h2 className="text-lg font-semibold text-white">Prijava v pregledu</h2>
         <p className="mt-2 text-sm text-[#E1E1E1]/50 max-w-md mx-auto">
-          Vaša prijava z kodo <span className="text-[#FEB089] font-medium">{code}</span>{" "}
+          Vaša prijava s kodo <span className="text-[#FEB089] font-medium">{code}</span>{" "}
           je bila prejeta. Pregledali jo bomo v najkrajšem možnem času.
-          Obvestili vas bomo po e-pošti, ko bo odobrena.
+          Obvestili Vas bomo po e-pošti, ko bo odobrena.
         </p>
       </div>
     </div>

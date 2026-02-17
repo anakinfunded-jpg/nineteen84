@@ -45,13 +45,13 @@ export function CookieConsent() {
             onClick={decline}
             className="px-4 py-2 rounded-xl text-sm text-[#E1E1E1]/50 hover:text-[#E1E1E1] hover:bg-white/[0.04] transition-colors duration-200"
           >
-            Zavrni
+            Zavrnite
           </button>
           <button
             onClick={accept}
             className="cta-button px-5 py-2 rounded-xl text-sm font-semibold"
           >
-            Sprejmi
+            Sprejmite
           </button>
         </div>
       </div>

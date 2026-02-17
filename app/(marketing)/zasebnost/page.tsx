@@ -24,9 +24,9 @@ export default function ZasebnostPage() {
               </h2>
               <p>
                 Platforma 1984 (v nadaljevanju &ldquo;mi&rdquo;,
-                &ldquo;naš&rdquo;) spoštuje vašo zasebnost. Ta politika
+                &ldquo;naš&rdquo;) spoštuje Vašo zasebnost. Ta politika
                 pojasnjuje, katere podatke zbiramo, kako jih uporabljamo in
-                kakšne so vaše pravice.
+                kakšne so Vaše pravice.
               </p>
             </section>
 
@@ -69,7 +69,7 @@ export default function ZasebnostPage() {
               <p>Vaše podatke uporabljamo za:</p>
               <ul className="list-disc pl-5 space-y-2 mt-2">
                 <li>Zagotavljanje in izboljšanje naše storitve</li>
-                <li>Upravljanje vašega računa in naročnine</li>
+                <li>Upravljanje Vašega računa in naročnine</li>
                 <li>Komunikacijo z vami (podpora, obvestila)</li>
                 <li>Preprečevanje zlorab</li>
               </ul>
@@ -136,7 +136,7 @@ export default function ZasebnostPage() {
               </h2>
               <p>
                 Vaše podatke hranimo, dokler imate aktiven račun. Ob izbrisu
-                računa bodo vaši podatki izbrisani v roku 30 dni, razen če
+                računa bodo Vaši podatki izbrisani v roku 30 dni, razen če
                 zakonodaja zahteva daljšo hrambo.
               </p>
             </section>
@@ -158,7 +158,7 @@ export default function ZasebnostPage() {
               </h2>
               <p>
                 To politiko zasebnosti lahko posodobimo. O bistvenih spremembah
-                vas bomo obvestili po e-pošti.
+                Vas bomo obvestili po e-pošti.
               </p>
             </section>
 

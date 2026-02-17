@@ -26,7 +26,7 @@ function PrijavaHeader() {
   }
   return (
     <p className="mt-3 text-[#E1E1E1]/50 text-sm">
-      Prijava v vaš račun
+      Prijava v Vaš račun
     </p>
   );
 }

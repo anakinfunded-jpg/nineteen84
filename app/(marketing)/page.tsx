@@ -44,7 +44,7 @@ const plans = [
       "10 analiz slik (OCR)",
       "E-poštna podpora",
     ],
-    cta: "Preizkusi 14 dni brezplačno",
+    cta: "Preizkusite 14 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -62,7 +62,7 @@ const plans = [
       "100 analiz slik (OCR)",
       "E-poštna podpora",
     ],
-    cta: "Preizkusi 5 dni brezplačno",
+    cta: "Preizkusite 14 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -82,7 +82,7 @@ const plans = [
       "100 dokumentov v AI Spominu",
       "Prednostna podpora",
     ],
-    cta: "Preizkusi 5 dni brezplačno",
+    cta: "Preizkusite 14 dni brezplačno",
     ctaStyle: "cta-button",
   },
   {
@@ -102,7 +102,7 @@ const plans = [
       "API dostop",
       "Telefonska podpora",
     ],
-    cta: "Preizkusi 5 dni brezplačno",
+    cta: "Preizkusite 14 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
 ];
@@ -216,13 +216,13 @@ export default function HomePage() {
                 className="cta-button px-8 py-3.5 rounded-full font-semibold text-base flex items-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />
-                Preizkusi brezplačno
+                Preizkusite brezplačno
               </Link>
               <Link
                 href="/funkcije"
                 className="gradient-border-btn px-8 py-3.5 rounded-full font-semibold text-base text-[#E1E1E1]"
               >
-                Poglej funkcije
+                Oglejte si funkcije
               </Link>
             </div>
           </AnimateOnScroll>
@@ -428,7 +428,7 @@ export default function HomePage() {
                 className="cta-button px-8 py-3 rounded-full font-semibold text-sm inline-flex items-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />
-                Preizkusi brezplačno
+                Preizkusite brezplačno
               </Link>
             </div>
           </AnimateOnScroll>
@@ -523,7 +523,7 @@ export default function HomePage() {
                   className="cta-button px-8 py-3 rounded-full font-semibold text-sm inline-flex items-center gap-2"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Preizkusi brezplačno
+                  Preizkusite brezplačno
                 </Link>
               </div>
             </div>
@@ -676,7 +676,7 @@ export default function HomePage() {
                 className="cta-button px-10 py-4 rounded-full font-semibold text-base inline-flex items-center gap-2"
               >
                 <Sparkles className="w-5 h-5" />
-                Preizkusi 1984 brezplačno
+                Preizkusite 1984 brezplačno
               </Link>
               <p className="mt-4 text-sm text-[#E1E1E1]/30">
                 14-dnevni brezplačni preizkus — brez kreditne kartice — odpoved kadarkoli

@@ -80,7 +80,7 @@ export default function PogojiPage() {
                 6. Intelektualna lastnina
               </h2>
               <p>
-                Vsebine, ustvarjene z vašim računom na platformi, so vaša last.
+                Vsebine, ustvarjene z Vašim računom na platformi, so Vaša last.
                 Platforma 1984 in njena programska oprema, oblikovanje in
                 blagovne znamke so last ponudnika.
               </p>

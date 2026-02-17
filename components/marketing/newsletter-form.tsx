@@ -70,7 +70,7 @@ export function NewsletterForm() {
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
             <>
-              Prijavi se
+              Prijavite se
               <ArrowRight className="w-4 h-4" />
             </>
           )}

@@ -22,7 +22,7 @@ Umetna inteligenca ni več prihodnost — je sedanjost. Slovenska podjetja vsak 
 
 ## Zakaj je AI pomembna za slovenska podjetja?
 
-Slovenščina je jezik z bogatim besediščem in zahtevno slovnico. Večina globalnih AI orodij slovenščine ne obvlada dobro — rezultati so pogosto nenatural, polni tujk ali slovnično nepravilni. Tu nastopi 1984.
+Slovenščina je jezik z bogatim besediščem in zahtevno slovnico. Večina globalnih AI orodij slovenščine ne obvlada dobro — rezultati so pogosto nenaravni, polni tujk ali slovnično nepravilni. Tu nastopi 1984.
 
 ### 1. Prihranek časa
 
@@ -54,7 +54,7 @@ Pisanje kakovostnega marketinškega besedila zahteva čas. Opis izdelka, ki bi g
 3. Vnesite kratka navodila v slovenščini
 4. Pridobite rezultat v sekundah
 
-Brezplačni paket vključuje 5.000 besed in 10 slik mesečno — dovolj za preizkus vseh funkcij.
+Brezplačni preizkus vključuje 2.000 besed in 10 slik — dovolj za preizkus vseh funkcij.
 
 ## Zaključek
 
@@ -65,12 +65,12 @@ AI ne nadomešča kreativnosti — jo ojača. Z orodji, kot je 1984, lahko slove
     slug: "5-nacinov-za-boljsa-ai-besedila",
     title: "5 načinov, kako pridobiti boljša besedila iz AI",
     excerpt:
-      "Kakovost AI besedil je neposredno odvisna od vaših navodil. Naučite se pisati prompt-e, ki dajejo odlične rezultate.",
+      "Kakovost AI besedil je neposredno odvisna od Vaših navodil. Naučite se pisati prompt-e, ki dajejo odlične rezultate.",
     category: "Nasveti",
     date: "2026-02-05",
     readMin: 4,
     content: `
-Ste kdaj dobili AI besedilo, ki je bilo... povprečno? Problem verjetno ni v AI, ampak v navodilih, ki ste jih dali. Tukaj je 5 preprostih trikov, ki bodo takoj izboljšali vaše rezultate.
+Ste kdaj dobili AI besedilo, ki je bilo... povprečno? Problem verjetno ni v AI, ampak v navodilih, ki ste jih dali. Tukaj je 5 preprostih trikov, ki bodo takoj izboljšali Vaše rezultate.
 
 ## 1. Bodite specifični glede občinstva
 
@@ -78,7 +78,7 @@ Ste kdaj dobili AI besedilo, ki je bilo... povprečno? Problem verjetno ni v AI,
 
 **Dobro:** "Napiši objavo za Instagram za slovensko kozmetično blagovno znamko, ciljno občinstvo so ženske 25–40 let, ton naj bo sproščen in prijazen."
 
-Čim več konteksta podate, tem boljši bo rezultat. AI ne more brati vaših misli — ji povejte, komu pišete.
+Čim več konteksta podate, tem boljši bo rezultat. AI ne more brati Vaših misli — ji povejte, komu pišete.
 
 ## 2. Določite ton in slog
 
@@ -92,7 +92,7 @@ Dodajte ton v navodila: *"Ton naj bo profesionalen, a prijazen — kot bi govori
 
 ## 3. Dajte primere
 
-Če imate obstoječe besedilo, ki vam je všeč, ga pokažite AI kot primer. V AI Chat lahko prilepite primer in rečete: *"Napiši podobno besedilo za moj izdelek."*
+Če imate obstoječe besedilo, ki Vam je všeč, ga pokažite AI kot primer. V AI Chat lahko prilepite primer in rečete: *"Napiši podobno besedilo za moj izdelek."*
 
 To je eden najhitrejših načinov za doseganje konsistentnega sloga.
 
@@ -114,20 +114,20 @@ Prvo besedilo redko kdaj zadane v polno. Uporabite AI Dokumente za iteracijo:
 - *"Dodaj statistike in konkretne številke."*
 - *"Preoblikuj za LinkedIn namesto Instagrama."*
 
-Vsaka iteracija vas približa savršenemu rezultatu.
+Vsaka iteracija Vas približa popolnemu rezultatu.
 
 ## Bonus: Uporabite AI Chat za brainstorming
 
-Preden začnete pisati, se pogovorite z AI Chatom. Vprašajte ga za ideje, naslove ali pristope. AI je odličen sogovornik za brainstorming — nikoli ne obsoja vaših idej in vedno ponudi alternative.
+Preden začnete pisati, se pogovorite z AI Chatom. Vprašajte ga za ideje, naslove ali pristope. AI je odličen sogovornik za brainstorming — nikoli ne obsoja Vaših idej in vedno ponudi alternative.
 
-Preizkusite te nasvete danes na 1984.si in opazili boste takojšnjo razliko v kakovosti vaših besedil.
+Preizkusite te nasvete danes na 1984.si in opazili boste takojšnjo razliko v kakovosti Vaših besedil.
 `,
   },
   {
     slug: "ai-slike-za-druzbena-omrezja",
     title: "AI slike za družbena omrežja: Popoln vodnik",
     excerpt:
-      "Od Instagram objav do Facebook oglasov — kako z AI ustvarjati profesionalne vizualne vsebine za vaše kampanje.",
+      "Od Instagram objav do Facebook oglasov — kako z AI ustvarjati profesionalne vizualne vsebine za Vaše kampanje.",
     category: "Vodniki",
     date: "2026-01-28",
     readMin: 8,
@@ -208,7 +208,7 @@ Preizkusite AI Grafiko na 1984.si in začnite ustvarjati vizualne vsebine, ki pr
     date: "2026-02-15",
     readMin: 3,
     content: `
-Z veseljem vam predstavljamo največjo posodobitev platforme 1984 do sedaj. V februarju 2026 smo dodali kar 7 novih AI orodij, ki razširjajo možnosti ustvarjanja vsebin.
+Z veseljem Vam predstavljamo največjo posodobitev platforme 1984 do sedaj. V februarju 2026 smo dodali kar 7 novih AI orodij, ki razširjajo možnosti ustvarjanja vsebin.
 
 ## Nova orodja
 
@@ -231,7 +231,7 @@ Naložite sliko, z čopičem označite območje in opišite spremembo. AI zapoln
 Še enostavnejša alternativa inpaintingu — opišite, kaj želite najti na sliki in s čim zamenjati. AI sam poišče element in ga zamenja.
 
 ### 5. AI Spomin
-Naložite dokumente o vašem podjetju in postavljajte vprašanja. AI odgovarja na podlagi vaše baze znanja — kot osebni asistent, ki pozna vaše poslovanje.
+Naložite dokumente o Vašem podjetju in postavljajte vprašanja. AI odgovarja na podlagi Vaše baze znanja — kot osebni asistent, ki pozna Vaše poslovanje.
 
 ### 6. Pretvorniki
 Hitro pretvorite datoteke med formati neposredno v brskalniku:
@@ -245,7 +245,7 @@ Za profesionalne in poslovne uporabnike: AI samodejno izbere optimalen model gle
 
 ## Posodobljeni paketi
 
-Vsa nova orodja so vključeni v obstoječe naročniške pakete. Brezplačni uporabniki dobijo omejeno število poskusov, profesionalni in poslovni pa razširjene kvote.
+Vsa nova orodja so vključena v obstoječe naročniške pakete. Brezplačni uporabniki dobijo omejeno število poskusov, profesionalni in poslovni pa razširjene kvote.
 
 Za podrobnosti o kvotah po paketih obiščite naš cenik.
 
@@ -304,7 +304,7 @@ Pokažite transformacijo.
 - **Bridge:** Vaš izdelek/storitev kot most
 
 **Primer:**
-> *Pred 1984:* Ure porabljene za pisanje e-mailov in objav. *Po 1984:* Profesionalne vsebine v minutah, več časa za strategijo. *Most:* Preizkusite 11 AI orodij, ki pišejo brezhibno slovenščino.
+> *Pred 1984:* Ure porabljene za pisanje e-mailov in objav. *Po 1984:* Profesionalne vsebine v minutah, več časa za strategijo. *Most:* Preizkusite 13 AI orodij, ki pišejo brezhibno slovenščino.
 
 ## 4. 4U — Useful, Urgent, Unique, Ultra-specific
 

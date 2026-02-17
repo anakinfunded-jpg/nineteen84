@@ -232,7 +232,7 @@ export default function SpominPage() {
 
       <h1 className="text-2xl font-semibold text-white">AI Spomin</h1>
       <p className="mt-1 text-sm text-[#E1E1E1]/50">
-        Naložite dokumente in postavljajte vprašanja na podlagi vaše baze
+        Naložite dokumente in postavljajte vprašanja na podlagi Vaše baze
         znanja. Datoteke lahko tudi povlečete na stran.
       </p>
 
@@ -301,7 +301,7 @@ export default function SpominPage() {
               </div>
               <p className="text-sm text-[#E1E1E1]/30">
                 Naložite dokumente v bazo znanja in postavljajte vprašanja.
-                AI bo odgovarjal na podlagi vaših podatkov.
+                AI bo odgovarjal na podlagi Vaših podatkov.
               </p>
             </div>
           )}

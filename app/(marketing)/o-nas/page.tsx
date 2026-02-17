@@ -26,7 +26,7 @@ const team = [
   {
     name: "Matej Zupan",
     role: "Produktni vodja",
-    bio: "Skrbi za uporabniško izkušnjo in razvoj novih funkcij. 8 let izkušenj v produktnem vodenju pri vodilnih SaaS podjetjih. Perfekcijonist z očesom za detajle.",
+    bio: "Skrbi za uporabniško izkušnjo in razvoj novih funkcij. 8 let izkušenj v produktnem vodenju pri vodilnih SaaS podjetjih. Perfekcionist z očesom za detajle.",
     image: "/images/team/matej-zupan.webp",
   },
 ];
@@ -91,7 +91,7 @@ export default function ONasPage() {
                 Naše vrednote
               </h3>
               <p className="mt-3 text-sm text-[#E1E1E1]/50 leading-relaxed">
-                Preprostost, kakovost in zasebnost. Vaši podatki so vaša last.
+                Preprostost, kakovost in zasebnost. Vaši podatki so Vaša last.
                 Gradimo orodja, ki so enostavna za uporabo in dajejo odlične
                 rezultate.
               </p>
@@ -158,7 +158,7 @@ export default function ONasPage() {
                 vsebin.
               </p>
               <p>
-                Danes 1984 ponuja 11 AI orodij — od besedil in slik do zvoka,
+                Danes 1984 ponuja 13 AI orodij — od besedil in slik do zvoka,
                 prevajanja in analize dokumentov. Vse v brezhibni slovenščini.
                 In to je šele začetek.
               </p>
@@ -246,7 +246,7 @@ export default function ONasPage() {
               href="/registracija"
               className="cta-button px-8 py-3.5 rounded-full font-semibold text-base inline-block mt-8"
             >
-              Začni brezplačno
+              Začnite brezplačno
             </Link>
           </AnimateOnScroll>
         </div>

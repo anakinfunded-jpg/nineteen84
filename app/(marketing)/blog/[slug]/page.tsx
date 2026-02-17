@@ -146,13 +146,13 @@ export default async function BlogPostPage({
                 Preizkusite 1984 brezplačno
               </h3>
               <p className="mt-2 text-sm text-[#E1E1E1]/50">
-                11 AI orodij za ustvarjanje vsebin v brezhibni slovenščini.
+                13 AI orodij za ustvarjanje vsebin v brezhibni slovenščini.
               </p>
               <Link
                 href="/registracija"
                 className="cta-button px-6 py-2.5 rounded-full font-semibold text-sm inline-block mt-5"
               >
-                Začni brezplačno
+                Začnite brezplačno
               </Link>
             </div>
           </AnimateOnScroll>

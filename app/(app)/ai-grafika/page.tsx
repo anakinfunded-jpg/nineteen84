@@ -227,7 +227,7 @@ function GrafikaPageInner() {
               onClick={loadImages}
               className="text-sm text-[#FEB089] hover:text-[#FEB089]/80 transition-colors"
             >
-              Poskusi znova
+              Poskusite znova
             </button>
           </div>
         ) : loadingImages ? (

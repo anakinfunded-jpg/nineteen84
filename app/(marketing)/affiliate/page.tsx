@@ -27,7 +27,7 @@ const steps = [
   {
     icon: Users,
     title: "Prijavite se",
-    desc: "Ustvarite brezplačen račun in se prijavite v partnerski program. Dobite unikatno povezavo in kodo za popust.",
+    desc: "Ustvarite brezplačen račun in se prijavite v partnerski program. Dobite unikatno partnersko povezavo.",
   },
   {
     icon: Share2,
@@ -50,7 +50,7 @@ const benefits = [
   {
     icon: Gift,
     title: "21-dnevni brezplačni preizkus",
-    desc: "Vaši sledilci dobijo podaljšan 21-dnevni preizkus namesto standardnih 5 dni — lažje priporočanje.",
+    desc: "Vaši sledilci dobijo podaljšan 21-dnevni preizkus namesto standardnih 14 dni — lažje priporočanje.",
   },
   {
     icon: Clock,
@@ -60,7 +60,7 @@ const benefits = [
   {
     icon: BarChart3,
     title: "Pregledi in analitika",
-    desc: "Spremljajte klike, registracije in zaslužke v realnem času na vaši partnerski nadzorni plošči.",
+    desc: "Spremljajte klike, registracije in zaslužke v realnem času na Vaši partnerski nadzorni plošči.",
   },
 ];
 

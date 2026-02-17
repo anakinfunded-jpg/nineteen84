@@ -78,7 +78,7 @@ function RegistracijaForm() {
         return;
       }
       if (!audienceSize) {
-        setError("Izberite velikost vaše publike.");
+        setError("Izberite velikost Vaše publike.");
         setLoading(false);
         return;
       }
@@ -394,7 +394,7 @@ function RegistracijaForm() {
               {/* Audience info */}
               <div className="pt-4 border-t border-white/[0.06]">
                 <p className="text-xs text-[#FEB089] uppercase tracking-wider font-semibold mb-4">
-                  O vaši publiki
+                  O Vaši publiki
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>

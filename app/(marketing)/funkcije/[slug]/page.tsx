@@ -90,7 +90,7 @@ export default async function FeatureDetailPage({
                 className="cta-button px-8 py-3.5 rounded-full font-semibold text-base flex items-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />
-                Preizkusi brezplačno
+                Preizkusite brezplačno
               </Link>
               <Link
                 href="#kako-deluje"
@@ -188,7 +188,7 @@ export default async function FeatureDetailPage({
                         href="/registracija"
                         className="mt-3 inline-flex items-center gap-1 text-xs accent-gradient font-medium"
                       >
-                        Preizkusi <ArrowRight className="w-3 h-3" />
+                        Preizkusite <ArrowRight className="w-3 h-3" />
                       </Link>
                     </div>
                   </AnimateOnScroll>
@@ -286,7 +286,7 @@ export default async function FeatureDetailPage({
               className="cta-button px-10 py-4 rounded-full font-semibold text-base inline-flex items-center gap-2 mt-8"
             >
               <Sparkles className="w-5 h-5" />
-              Začni brezplačno
+              Začnite brezplačno
             </Link>
           </AnimateOnScroll>
         </div>

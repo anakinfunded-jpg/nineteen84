@@ -86,7 +86,7 @@ function ChatMockup() {
           </div>
           <div className="bg-white/[0.06] rounded-2xl rounded-bl-md px-4 py-2.5 max-w-[80%] border border-white/[0.06]">
             <p className="text-[11px] text-white/70 leading-relaxed">
-              Odkrijte edinstvene, ročno izdelane nakite, ki pripovedujejo vašo zgodbo. Vsak kos je unikat — ustvarjen z ljubeznijo in pozornostjo do detajlov.
+              Odkrijte edinstvene, ročno izdelane nakite, ki pripovedujejo Vašo zgodbo. Vsak kos je unikat — ustvarjen z ljubeznijo in pozornostjo do detajlov.
             </p>
           </div>
         </div>
@@ -105,7 +105,7 @@ function ChatMockup() {
           </div>
           <div className="bg-white/[0.06] rounded-2xl rounded-bl-md px-4 py-2.5 max-w-[80%] border border-white/[0.06]">
             <p className="text-[11px] text-white/70 leading-relaxed">
-              Poiščite svoj popoln kos — brskajte po naši kolekciji in naj vas očara čar ročnega dela. Naročite danes!
+              Poiščite svoj popoln kos — brskajte po naši kolekciji in naj Vas očara čar ročnega dela. Naročite danes!
             </p>
           </div>
         </div>
@@ -309,7 +309,7 @@ function AudioTTSMockup() {
         {/* Text input */}
         <div className="flex-1 bg-white/[0.04] rounded-xl p-3 border border-white/[0.08]">
           <p className="text-[10px] text-white/50 leading-[1.7]">
-            Dobrodošli na naši spletni strani. Danes vam predstavljamo najnovejše funkcije za ustvarjanje vsebin s pomočjo umetne inteligence.
+            Dobrodošli na naši spletni strani. Danes Vam predstavljamo najnovejše funkcije za ustvarjanje vsebin s pomočjo umetne inteligence.
           </p>
           <div className="mt-2 text-right">
             <span className="text-[9px] text-white/20">156/4096</span>
@@ -669,7 +669,7 @@ function ChatWritingMockup() {
             Spoštovani,
           </p>
           <p className="text-[10px] text-white/60 leading-[1.7] mt-1.5">
-            Z veseljem vam predstavljamo naš najnovejši izdelek, ki bo poenostavil vaše vsakodnevno delo. Zasnovan je bil s ciljem povečati vašo produktivnost...
+            Z veseljem Vam predstavljamo naš najnovejši izdelek, ki bo poenostavil Vaše vsakodnevno delo. Zasnovan je bil s ciljem povečati vašo produktivnost...
           </p>
           <div className="mt-2 flex items-center gap-1">
             <div className="w-1.5 h-3.5 bg-[#FEB089]/60 animate-pulse rounded-sm" />
@@ -914,7 +914,7 @@ function ToneAdjustMockup() {
         <div className="bg-white/[0.04] rounded-xl p-3 border border-white/[0.08]">
           <span className="text-[9px] text-white/25 block mb-1">Izvorno besedilo:</span>
           <p className="text-[10px] text-white/50 leading-[1.7]">
-            Spoštovani, obveščamo vas, da je vaša naročnina bila uspešno obdelana. Zahvaljujemo se vam za zaupanje.
+            Spoštovani, obveščamo Vas, da je Vaša naročnina bila uspešno obdelana. Zahvaljujemo se vam za zaupanje.
           </p>
         </div>
         {/* Transformed */}

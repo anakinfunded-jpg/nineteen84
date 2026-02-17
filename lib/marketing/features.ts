@@ -56,7 +56,7 @@ export const features: Feature[] = [
       },
       {
         title: "Takojšnja pomoč pri pisanju",
-        description: "Potrebujete e-mail, opis izdelka ali objavo za družbena omrežja? AI Chat vam pomaga napisati, izboljšati ali preoblikovati katero koli besedilo v nekaj sekundah.",
+        description: "Potrebujete e-mail, opis izdelka ali objavo za družbena omrežja? AI Chat Vam pomaga napisati, izboljšati ali preoblikovati katero koli besedilo v nekaj sekundah.",
         points: [
           "Generiranje besedil iz kratkih navodil",
           "Izboljšava obstoječih besedil",
@@ -78,8 +78,8 @@ export const features: Feature[] = [
     faq: [
       { q: "Katere AI modele uporablja AI Chat?", a: "AI Chat uporablja Claude Sonnet 4.5 za hitrejše odgovore in Claude Opus 4.6 za zahtevnejše naloge. Profesionalni in poslovni paketi imajo dostop do najzmogljivejšega modela." },
       { q: "Ali AI Chat razume slovenščino?", a: "Da, AI Chat je optimiziran za slovenščino. Razume kontekst, slovnico in kulturne posebnosti slovenskega jezika." },
-      { q: "Koliko sporočil lahko pošljem?", a: "Število sporočil je omejeno z vašo mesečno kvoto besed. Brezplačni preizkus vključuje 2.000 besed, plačljivi paketi pa od 20.000 do 150.000 besed." },
-      { q: "Ali se pogovori shranjujejo?", a: "Da, vaši pogovori se shranjujejo in so dostopni kadarkoli. Lahko jih tudi izbrišete." },
+      { q: "Koliko sporočil lahko pošljem?", a: "Število sporočil je omejeno z Vašo mesečno kvoto besed. Brezplačni preizkus vključuje 2.000 besed, plačljivi paketi pa od 20.000 do 150.000 besed." },
+      { q: "Ali se pogovori shranjujejo?", a: "Da, Vaši pogovori se shranjujejo in so dostopni kadarkoli. Lahko jih tudi izbrišete." },
     ],
   },
   {
@@ -152,7 +152,7 @@ export const features: Feature[] = [
       },
       {
         title: "Brez avtorskih pravic",
-        description: "Vse generirane slike so vaša last. Uporabite jih komercialno, na družbenih omrežjih, v oglasih ali na spletni strani — brez dodatnih stroškov ali licenc.",
+        description: "Vse generirane slike so Vaša last. Uporabite jih komercialno, na družbenih omrežjih, v oglasih ali na spletni strani — brez dodatnih stroškov ali licenc.",
         points: [
           "Polno lastništvo generiranih slik",
           "Komercialna uporaba brez omejitev",
@@ -162,7 +162,7 @@ export const features: Feature[] = [
       },
       {
         title: "Galerija in upravljanje",
-        description: "Vse vaše generirane slike so shranjene v osebni galeriji. Pregledujte, prenašajte in upravljajte svojo zbirko kadarkoli.",
+        description: "Vse Vaše generirane slike so shranjene v osebni galeriji. Pregledujte, prenašajte in upravljajte svojo zbirko kadarkoli.",
         points: [
           "Osebna galerija slik",
           "Enostavno prenašanje v PNG formatu",
@@ -190,7 +190,7 @@ export const features: Feature[] = [
     sections: [
       {
         title: "Pametno urejanje besedil",
-        description: "Prilepite besedilo in izberite, kaj želite: izboljšajte slog, popravite slovnico, skrajšajte ali podaljšajte. AI ohrani vaše sporočilo in izboljša kakovost pisanja.",
+        description: "Prilepite besedilo in izberite, kaj želite: izboljšajte slog, popravite slovnico, skrajšajte ali podaljšajte. AI ohrani Vaše sporočilo in izboljša kakovost pisanja.",
         points: [
           "Izboljšava sloga in berljivosti",
           "Popravki slovnice in pravopisa",
@@ -200,7 +200,7 @@ export const features: Feature[] = [
       },
       {
         title: "Prilagajanje tona",
-        description: "Pretvorite formalno besedilo v sproščeno, tehnično v enostavno ali ravno obratno. AI razume kontekst in ohrani bistvo vašega sporočila.",
+        description: "Pretvorite formalno besedilo v sproščeno, tehnično v enostavno ali ravno obratno. AI razume kontekst in ohrani bistvo Vašega sporočila.",
         points: [
           "Formalno, sproščeno, prepričljivo",
           "Poenostavitev tehničnih besedil",
@@ -211,7 +211,7 @@ export const features: Feature[] = [
     ],
     faq: [
       { q: "Katere operacije so na voljo?", a: "Na voljo so: izboljšava, skrajšanje, podaljšanje, poenostavitev, sprememba tona, popravek slovnice in več." },
-      { q: "Ali je moje besedilo varno?", a: "Da, vaša besedila se ne shranjujejo trajno in se ne uporabljajo za treniranje AI modelov." },
+      { q: "Ali je moje besedilo varno?", a: "Da, Vaša besedila se ne shranjujejo trajno in se ne uporabljajo za treniranje AI modelov." },
     ],
   },
   {
@@ -247,7 +247,7 @@ export const features: Feature[] = [
     ],
     faq: [
       { q: "Kako natančni so prevodi?", a: "AI prevajalnik daje izjemno natančne prevode, še posebej za slovenščino. Za strokovna besedila priporočamo pregled." },
-      { q: "Koliko besedila lahko prevedem?", a: "Omejitev je vezana na vašo mesečno kvoto besed. Prevedeno besedilo se šteje v kvoto." },
+      { q: "Koliko besedila lahko prevedem?", a: "Omejitev je vezana na Vašo mesečno kvoto besed. Prevedeno besedilo se šteje v kvoto." },
     ],
   },
   {
@@ -355,7 +355,7 @@ export const features: Feature[] = [
       },
     ],
     faq: [
-      { q: "Kako deluje inpainting?", a: "Slika se prilagodi na 1024×1024, nato z čopičem označite območje. AI na podlagi vašega opisa zapolni to območje." },
+      { q: "Kako deluje inpainting?", a: "Slika se prilagodi na 1024×1024, nato z čopičem označite območje. AI na podlagi Vašega opisa zapolni to območje." },
       { q: "Ali moram namestiti kakšno programsko opremo?", a: "Ne, urejevalnik deluje popolnoma v brskalniku. Potrebujete le sodobni brskalnik." },
     ],
   },
@@ -387,11 +387,11 @@ export const features: Feature[] = [
   {
     slug: "ai-spomin",
     title: "AI Spomin",
-    shortDesc: "Naložite dokumente in postavljajte vprašanja — AI odgovarja na podlagi vaše baze znanja.",
+    shortDesc: "Naložite dokumente in postavljajte vprašanja — AI odgovarja na podlagi Vaše baze znanja.",
     icon: Brain,
     category: "Analiza",
-    heroTitle: "AI Spomin — vaša baza znanja",
-    heroDescription: "Naložite dokumente o vašem podjetju, izdelkih ali panogi. AI si jih zapomni in odgovarja na vprašanja na podlagi vaših podatkov — kot osebni asistent, ki pozna vaše poslovanje.",
+    heroTitle: "AI Spomin — Vaša baza znanja",
+    heroDescription: "Naložite dokumente o Vašem podjetju, izdelkih ali panogi. AI si jih zapomni in odgovarja na vprašanja na podlagi Vaših podatkov — kot osebni asistent, ki pozna Vaše poslovanje.",
     appPath: "/ai-spomin",
     sections: [
       {
@@ -406,7 +406,7 @@ export const features: Feature[] = [
       },
       {
         title: "Postavite vprašanje o dokumentih",
-        description: "Postavite vprašanje v naravnem jeziku in AI poišče ustrezne informacije v vaših dokumentih ter ustvari natančen odgovor z navedbo virov.",
+        description: "Postavite vprašanje v naravnem jeziku in AI poišče ustrezne informacije v Vaših dokumentih ter ustvari natančen odgovor z navedbo virov.",
         points: [
           "Iskanje po vseh dokumentih hkrati",
           "Natančni odgovori z viri",
@@ -417,7 +417,7 @@ export const features: Feature[] = [
     ],
     faq: [
       { q: "Koliko dokumentov lahko naložim?", a: "Odvisno od paketa — od 5 (brezplačni preizkus) do 250 (poslovni paket)." },
-      { q: "Ali so moji dokumenti varni?", a: "Da, vaši dokumenti so shranjeni varno in so dostopni le vam. Drugi uporabniki nimajo dostopa." },
+      { q: "Ali so moji dokumenti varni?", a: "Da, Vaši dokumenti so shranjeni varno in so dostopni le Vam. Drugi uporabniki nimajo dostopa." },
       { q: "Kako deluje iskanje?", a: "AI uporablja vektorsko iskanje (embeddings), ki razume pomen besedila, ne le ključne besede." },
     ],
   },
@@ -433,7 +433,7 @@ export const features: Feature[] = [
     sections: [
       {
         title: "Pretvorba v brskalniku",
-        description: "Vse pretvorbe se izvajajo neposredno v vašem brskalniku — datoteke se ne nalagajo na strežnik. Hitro, varno in brez čakanja.",
+        description: "Vse pretvorbe se izvajajo neposredno v Vašem brskalniku — datoteke se ne nalagajo na strežnik. Hitro, varno in brez čakanja.",
         points: [
           "Slike: PNG ↔ JPG ↔ WebP",
           "Besedilo v PDF (TXT → PDF)",
@@ -444,7 +444,7 @@ export const features: Feature[] = [
       },
     ],
     faq: [
-      { q: "Ali se datoteke nalagajo na strežnik?", a: "Ne, vse pretvorbe se izvajajo lokalno v vašem brskalniku. Vaše datoteke nikoli ne zapustijo vašega računalnika." },
+      { q: "Ali se datoteke nalagajo na strežnik?", a: "Ne, vse pretvorbe se izvajajo lokalno v Vašem brskalniku. Vaše datoteke nikoli ne zapustijo Vašega računalnika." },
       { q: "Katere pretvorbe so na voljo?", a: "Podpiramo pretvorbo slik (PNG, JPG, WebP), besedila v PDF, Markdown v HTML ter JSON v CSV in obratno." },
     ],
   },
@@ -460,7 +460,7 @@ export const features: Feature[] = [
     sections: [
       {
         title: "4 načini povzemanja",
-        description: "Izberite način povzemanja glede na vaše potrebe: kratek povzetek za hiter pregled, srednji za uravnotežen pregled, podroben za temeljito razumevanje ali ključne točke za strukturiran seznam.",
+        description: "Izberite način povzemanja glede na Vaše potrebe: kratek povzetek za hiter pregled, srednji za uravnotežen pregled, podroben za temeljito razumevanje ali ključne točke za strukturiran seznam.",
         points: [
           "Kratek povzetek — bistvo v nekaj stavkih",
           "Srednji povzetek — uravnotežen pregled",

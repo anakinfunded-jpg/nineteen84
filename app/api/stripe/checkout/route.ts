@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       line_items: [{ price: plan.priceId, quantity: 1 }],
       ...(discounts.length > 0 ? { discounts } : {}),
       subscription_data: {
-        trial_period_days: isAffiliateReferred ? 21 : 5,
+        trial_period_days: isAffiliateReferred ? 21 : 14,
         metadata: { user_id: user.id },
       },
       metadata: {

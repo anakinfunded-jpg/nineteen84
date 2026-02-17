@@ -104,7 +104,7 @@ export default function FunkcijePage() {
               href="/registracija"
               className="cta-button px-8 py-3.5 rounded-full font-semibold text-base inline-block mt-8"
             >
-              Začni brezplačno
+              Začnite brezplačno
             </Link>
           </AnimateOnScroll>
         </div>

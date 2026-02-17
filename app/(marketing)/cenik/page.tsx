@@ -28,7 +28,7 @@ const plans = [
       "Pretvorba datotek",
       "E-poštna podpora",
     ],
-    cta: "Preizkusi 14 dni brezplačno",
+    cta: "Preizkusite 14 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -49,7 +49,7 @@ const plans = [
       "Pretvorba datotek",
       "E-poštna podpora",
     ],
-    cta: "Preizkusi 5 dni brezplačno",
+    cta: "Preizkusite 14 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
   {
@@ -71,7 +71,7 @@ const plans = [
       "Pretvorba datotek",
       "Prednostna podpora",
     ],
-    cta: "Preizkusi 5 dni brezplačno",
+    cta: "Preizkusite 14 dni brezplačno",
     ctaStyle: "cta-button",
   },
   {
@@ -93,7 +93,7 @@ const plans = [
       "API dostop",
       "Telefonska podpora",
     ],
-    cta: "Preizkusi 5 dni brezplačno",
+    cta: "Preizkusite 14 dni brezplačno",
     ctaStyle: "gradient-border-btn text-[#E1E1E1] hover:text-white",
   },
 ];
@@ -113,11 +113,11 @@ const faq = [
   },
   {
     q: "Ali se neporabljene besede prenesejo v naslednji mesec?",
-    a: "Ne, kvote se ponastavijo vsak mesec. Priporočamo, da izberete paket, ki ustreza vašim dejanskim potrebam.",
+    a: "Ne, kvote se ponastavijo vsak mesec. Priporočamo, da izberete paket, ki ustreza Vašim dejanskim potrebam.",
   },
   {
     q: "Kakšna je razlika med AI modeli?",
-    a: "Brezplačen preizkus in Osnoven paket uporabljata model Sonnet — hiter in zanesljiv. Profesionalni in Poslovni paket uporabljata najzmogljivejši model Opus, ki daje vrhunske rezultate primerljive s ChatGPT in Claude.",
+    a: "Brezplačni preizkus in Osnovni paket uporabljata model Sonnet — hiter in zanesljiv. Profesionalni in Poslovni paket uporabljata najzmogljivejši model Opus, ki daje vrhunske rezultate primerljive s ChatGPT in Claude.",
   },
   {
     q: "Ali lahko kadarkoli prekličem naročnino?",
@@ -125,7 +125,7 @@ const faq = [
   },
   {
     q: "Ali ponujate popust za letno plačilo?",
-    a: "Letno plačilo z 20% popustom pripravljamo in bo na voljo kmalu. Prijavite se na e-novice, da vas obvestimo.",
+    a: "Letno plačilo z 20% popustom pripravljamo in bo na voljo kmalu. Prijavite se na e-novice, da Vas obvestimo.",
   },
 ];
 
@@ -149,7 +149,7 @@ export default function CenikPage() {
           </AnimateOnScroll>
           <AnimateOnScroll delay={200}>
             <p className="mt-6 text-lg text-[#E1E1E1]/60 max-w-2xl mx-auto">
-              Izberite paket, ki ustreza vašim potrebam. Nadgradite ali
+              Izberite paket, ki ustreza Vašim potrebam. Nadgradite ali
               prekličite kadarkoli.
             </p>
           </AnimateOnScroll>
@@ -235,7 +235,7 @@ export default function CenikPage() {
               </h3>
               <p className="mt-2 text-sm text-[#E1E1E1]/50 max-w-lg mx-auto">
                 Začnite z brezplačnim paketom in ga kadarkoli nadgradite. Lahko
-                nas tudi kontaktirate in z veseljem vam pomagamo izbrati pravi
+                nas tudi kontaktirate in z veseljem Vam pomagamo izbrati pravi
                 paket.
               </p>
               <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -244,7 +244,7 @@ export default function CenikPage() {
                   className="cta-button px-6 py-2.5 rounded-full font-semibold text-sm inline-flex items-center gap-2"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Preizkusi brezplačno
+                  Preizkusite brezplačno
                 </Link>
                 <Link
                   href="/kontakt"
@@ -311,7 +311,7 @@ export default function CenikPage() {
               className="cta-button px-10 py-4 rounded-full font-semibold text-base inline-flex items-center gap-2 mt-8"
             >
               <Sparkles className="w-5 h-5" />
-              Začni brezplačno
+              Začnite brezplačno
             </Link>
           </AnimateOnScroll>
         </div>

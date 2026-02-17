@@ -67,7 +67,7 @@ export const outreachTemplates: OutreachTemplate[] = [
 
 <p style="margin:0 0 16px;color:#E1E1E1">Sem soustanovitelj platforme <strong style="color:#FEB089">1984</strong> — prve slovenske AI aplikacije za ustvarjanje marketinških vsebin.</p>
 
-<p style="margin:0 0 16px;color:#E1E1E1">Opazil sem, da ${v.company ? `${v.company} deluje` : "delujete"} na slovenskem trgu, in verjamem, da bi vam 1984 lahko prihranil veliko časa pri pisanju:</p>
+<p style="margin:0 0 16px;color:#E1E1E1">Opazil sem, da ${v.company ? `${v.company} deluje` : "delujete"} na slovenskem trgu, in verjamem, da bi Vam 1984 lahko prihranil veliko časa pri pisanju:</p>
 
 <ul style="margin:0 0 16px;padding-left:20px;color:#E1E1E1">
 <li style="margin-bottom:8px">Opisi izdelkov in storitev v brezhibni slovenščini</li>
@@ -76,7 +76,7 @@ export const outreachTemplates: OutreachTemplate[] = [
 <li style="margin-bottom:8px">AI grafika in dokumenti</li>
 </ul>
 
-<p style="margin:0 0 24px;color:#E1E1E1">Ponujamo <strong style="color:white">5-dnevno brezplačno preizkusno obdobje</strong> brez obveznosti.</p>
+<p style="margin:0 0 24px;color:#E1E1E1">Ponujamo <strong style="color:white">14-dnevno brezplačno preizkusno obdobje</strong> brez obveznosti.</p>
 
 <p style="margin:0 0 24px">
 ${trackedLink(v.appUrl, v.sendId, `${v.appUrl}/registracija`, "Preizkusite brezplačno →")}
@@ -105,7 +105,7 @@ ${trackingPixel(v.appUrl, v.sendId)}
 
 <p style="margin:0 0 16px;color:#E1E1E1">Naši uporabniki poročajo, da s 1984 prihranijo v povprečju <strong style="color:white">5–10 ur na teden</strong>, kar je čas, ki ga lahko namenijo za rast poslovanja.</p>
 
-<p style="margin:0 0 24px;color:#E1E1E1">Preizkus je brezplačen in traja 5 dni — brez kartice, brez obveznosti.</p>
+<p style="margin:0 0 24px;color:#E1E1E1">Preizkus je brezplačen in traja 14 dni — brez kartice, brez obveznosti.</p>
 
 <p style="margin:0 0 24px">
 ${trackedLink(v.appUrl, v.sendId, `${v.appUrl}/registracija`, "Začnite brezplačni preizkus →")}
@@ -140,7 +140,7 @@ ${trackingPixel(v.appUrl, v.sendId)}
 </tr>
 <tr>
 <td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06);color:#E1E1E1">
-✓ <strong style="color:white">500 AI slik</strong> za vaše kampanje
+✓ <strong style="color:white">400 AI slik</strong> za Vaše kampanje
 </td>
 </tr>
 <tr>
@@ -150,7 +150,7 @@ ${trackingPixel(v.appUrl, v.sendId)}
 </tr>
 <tr>
 <td style="padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:0 0 8px 8px;color:#E1E1E1">
-✓ <strong style="color:#FEB089">Namesto €39,90 → samo €33,92/mesec</strong>
+✓ <strong style="color:#FEB089">Namesto &euro;39,90 → samo &euro;27,93/mesec</strong>
 </td>
 </tr>
 </table>
@@ -216,9 +216,9 @@ export function affiliateRejectedEmail(name: string) {
   return emailWrapper(`
 <p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
 
-<p style="margin:0 0 16px;color:#E1E1E1">Zahvaljujemo se vam za zanimanje za partnerski program <strong style="color:#FEB089">1984</strong>.</p>
+<p style="margin:0 0 16px;color:#E1E1E1">Zahvaljujemo se Vam za zanimanje za partnerski program <strong style="color:#FEB089">1984</strong>.</p>
 
-<p style="margin:0 0 16px;color:#E1E1E1">Žal vaše prijave trenutno ne moremo odobriti. To lahko pomeni, da vaš profil trenutno ne ustreza našim kriterijem, ali da nimamo prostih mest.</p>
+<p style="margin:0 0 16px;color:#E1E1E1">Žal Vaše prijave trenutno ne moremo odobriti. To lahko pomeni, da Vaš profil trenutno ne ustreza našim kriterijem, ali da nimamo prostih mest.</p>
 
 <p style="margin:0 0 16px;color:#E1E1E1">Če menite, da gre za napako, nas kontaktirajte na <a href="mailto:info@1984.si" style="color:#FEB089">info@1984.si</a>.</p>
 
@@ -246,7 +246,7 @@ Obdobje: <strong style="color:white">${period}</strong>
 </tr>
 </table>
 
-<p style="margin:0 0 16px;color:#E1E1E1">Izplačilo bo obdelano v najkrajšem možnem času. O statusu vas bomo obvestili.</p>
+<p style="margin:0 0 16px;color:#E1E1E1">Izplačilo bo obdelano v najkrajšem možnem času. O statusu Vas bomo obvestili.</p>
 
 <p style="margin:0 0 8px;color:#E1E1E1">Lep pozdrav,</p>
 <p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
@@ -272,11 +272,11 @@ Obdobje: <strong style="color:white">${period}</strong>
 </tr>
 </table>
 
-<p style="margin:0 0 16px;color:#E1E1E1">Znesek bo viden na vašem bančnem računu v 1–3 delovnih dneh.</p>
+<p style="margin:0 0 16px;color:#E1E1E1">Znesek bo viden na Vašem bančnem računu v 1–3 delovnih dneh.</p>
 
 <p style="margin:0 0 16px;color:#E1E1E1">Podrobnosti najdete na <a href="${appUrl}/partnerji" style="color:#FEB089">partnerski nadzorni plošči</a>.</p>
 
-<p style="margin:0 0 8px;color:#E1E1E1">Hvala za vaše partnerstvo!</p>
+<p style="margin:0 0 8px;color:#E1E1E1">Hvala za Vaše partnerstvo!</p>
 <p style="margin:0;color:#E1E1E1"><strong>Ekipa 1984</strong></p>
 `);
 }
@@ -329,7 +329,7 @@ export function paymentFailedEmail(name: string, planName: string) {
   return emailWrapper(`
 <p style="margin:0 0 16px;color:#E1E1E1">Pozdravljeni${name ? ` ${name}` : ""},</p>
 
-<p style="margin:0 0 16px;color:#E1E1E1">Plačilo za vaš paket <strong style="color:white">${planName}</strong> ni uspelo. Vaš račun je trenutno v zaostanku.</p>
+<p style="margin:0 0 16px;color:#E1E1E1">Plačilo za Vaš paket <strong style="color:white">${planName}</strong> ni uspelo. Vaš račun je trenutno v zaostanku.</p>
 
 <p style="margin:0 0 16px;color:#E1E1E1">Prosimo, posodobite plačilno sredstvo, da preprečite prekinitev dostopa do AI orodij:</p>
 
@@ -352,7 +352,7 @@ export function subscriptionCanceledEmail(name: string, planName: string) {
 
 <p style="margin:0 0 16px;color:#E1E1E1">Vaš račun je bil preklopljen na brezplačni paket. Še vedno imate dostop do osnovnih funkcij z omejenimi krediti.</p>
 
-<p style="margin:0 0 16px;color:#E1E1E1">Če ste si premislili ali imate vprašanja, se lahko kadar koli ponovno naročite:</p>
+<p style="margin:0 0 16px;color:#E1E1E1">Če ste si premislili ali imate vprašanja, se lahko kadarkoli ponovno naročite:</p>
 
 <p style="margin:0 0 24px;text-align:center">
 <a href="${appUrl}/cenik" style="display:inline-block;padding:12px 32px;background:linear-gradient(90deg,#FFB288,#FEB089,#EE94B0);color:#171717;font-weight:600;text-decoration:none;border-radius:999px;font-size:14px">Oglejte si pakete</a>

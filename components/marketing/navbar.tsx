@@ -125,7 +125,7 @@ export function MarketingNavbar() {
                       href="/funkcije"
                       className="text-xs accent-gradient hover:opacity-80 transition-opacity"
                     >
-                      Poglej vse funkcije →
+                      Oglejte si vse funkcije →
                     </Link>
                   </div>
                 </div>
@@ -160,7 +160,7 @@ export function MarketingNavbar() {
             href="/registracija"
             className="cta-button text-sm px-5 py-2.5 rounded-full font-semibold"
           >
-            Začni brezplačno
+            Začnite brezplačno
           </Link>
 
           {/* Mobile hamburger */}

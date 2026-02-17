@@ -49,7 +49,7 @@ export function MarketingFooter() {
                 href="/registracija"
                 className="cta-button text-sm px-6 py-2.5 rounded-full font-semibold inline-block"
               >
-                Začni brezplačno
+                Začnite brezplačno
               </Link>
             </div>
           </div>

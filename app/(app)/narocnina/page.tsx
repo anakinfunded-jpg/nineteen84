@@ -243,7 +243,7 @@ export default function NarocninaPage() {
     <div className="p-8 max-w-5xl">
       <h1 className="text-2xl font-semibold text-white">Naročnina</h1>
       <p className="mt-1 text-sm text-[#E1E1E1]/50">
-        Upravljajte vaš paket in spremljajte porabo
+        Upravljajte Vaš paket in spremljajte porabo
       </p>
 
       {/* Success / cancel banners */}
@@ -251,7 +251,7 @@ export default function NarocninaPage() {
         <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-green-500/10 border border-green-500/20">
           <PartyPopper className="w-5 h-5 text-green-400 shrink-0" />
           <p className="text-sm text-green-300">
-            Naročnina je bila uspešno aktivirana! Vaše 5-dnevno brezplačno
+            Naročnina je bila uspešno aktivirana! Vaše 14-dnevno brezplačno
             obdobje se je začelo.
           </p>
         </div>
@@ -350,7 +350,7 @@ export default function NarocninaPage() {
       <div className="mt-10">
         <h2 className="text-lg font-semibold text-white mb-6">Paketi</h2>
         <p className="text-sm text-[#E1E1E1]/40 mb-6">
-          Vsi paketi vključujejo 5-dnevno brezplačno preizkusno obdobje.
+          Vsi paketi vključujejo 14-dnevno brezplačno preizkusno obdobje.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
