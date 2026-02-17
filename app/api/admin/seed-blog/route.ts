@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { verifyCronSecret } from "@/lib/cron-auth";
 import { generateBlogBanner } from "@/lib/blog-images";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,14 +9,18 @@ const ADMIN_EMAILS = ["anakinfunded@gmail.com"];
 export const maxDuration = 300; // 5 min for generating many images
 
 export async function POST(request: NextRequest) {
-  // Admin auth check
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Auth: either admin session or cron secret
+  const cronAuth = verifyCronSecret(request.headers.get("authorization"));
 
-  if (!user || !ADMIN_EMAILS.includes(user.email || "")) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  if (!cronAuth) {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user || !ADMIN_EMAILS.includes(user.email || "")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
   }
 
   const { action, batch = 0 } = (await request.json()) as {
