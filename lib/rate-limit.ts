@@ -55,6 +55,13 @@ export const parseLimit = new Ratelimit({
   prefix: "rl:parse",
 });
 
+// Public endpoints (tracking, affiliate clicks, unsubscribe): 30 per 60s per IP
+export const publicLimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(30, "60 s"),
+  prefix: "rl:public",
+});
+
 export function rateLimitResponse(reset: number) {
   const retryAfter = Math.ceil((reset - Date.now()) / 1000);
   return new Response(

@@ -92,7 +92,8 @@ export async function PATCH(
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("[admin/affiliates] PATCH error:", error);
+    return NextResponse.json({ error: "Napaka pri posodabljanju partnerja" }, { status: 500 });
   }
 
   // Recalculate milestone if needed

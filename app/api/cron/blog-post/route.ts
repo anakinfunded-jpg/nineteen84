@@ -169,7 +169,6 @@ export async function GET(request: NextRequest) {
       .update({ status: "failed" })
       .eq("id", topic.id);
 
-    const message = err instanceof Error ? err.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({ error: "Blog generation failed" }, { status: 500 });
   }
 }

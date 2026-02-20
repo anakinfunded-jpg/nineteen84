@@ -79,8 +79,7 @@ export async function POST(request: NextRequest) {
     const docId = await storeDocument(user.id, title, content);
     return NextResponse.json({ id: docId });
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Napaka pri shranjevanju dokumenta";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[ai/memory/upload] error:", err);
+    return NextResponse.json({ error: "Napaka pri shranjevanju dokumenta" }, { status: 500 });
   }
 }

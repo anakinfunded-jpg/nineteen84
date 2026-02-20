@@ -1,7 +1,14 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { publicLimit } from "@/lib/rate-limit";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const { success } = await publicLimit.limit(ip);
+  if (!success) {
+    return new Response("Preveč zahtevkov.", { status: 429 });
+  }
+
   const token = request.nextUrl.searchParams.get("token");
 
   if (token) {

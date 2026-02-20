@@ -78,7 +78,8 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("[admin/payouts] POST error:", error);
+    return NextResponse.json({ error: "Napaka pri ustvarjanju izplačila" }, { status: 500 });
   }
 
   // Send notification email to affiliate
@@ -159,7 +160,8 @@ export async function PATCH(request: NextRequest) {
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("[admin/payouts] PATCH error:", error);
+    return NextResponse.json({ error: "Napaka pri posodabljanju izplačila" }, { status: 500 });
   }
 
   // Send notification when payout is marked as paid

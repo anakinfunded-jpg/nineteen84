@@ -26,6 +26,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (name.length > 200 || email.length > 320 || message.length > 5000) {
+      return NextResponse.json(
+        { error: "Vnos je predolg" },
+        { status: 400 }
+      );
+    }
+
     // Basic email format validation
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json(

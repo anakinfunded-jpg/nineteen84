@@ -28,7 +28,8 @@ export async function GET() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("[outreach/campaigns] GET error:", error);
+    return NextResponse.json({ error: "Napaka pri nalaganju kampanj" }, { status: 500 });
   }
 
   // Get stats for each campaign
@@ -109,7 +110,8 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("[outreach/campaigns] POST error:", error);
+    return NextResponse.json({ error: "Napaka pri ustvarjanju kampanje" }, { status: 500 });
   }
   return NextResponse.json(data);
 }

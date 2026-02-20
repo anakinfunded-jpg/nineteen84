@@ -89,8 +89,8 @@ export async function POST(request: NextRequest) {
         if (insertError) throw insertError;
         results.push({ slug: post.slug, status: "created" });
       } catch (err) {
-        const msg = err instanceof Error ? err.message : "Unknown error";
-        results.push({ slug: post.slug, status: "error", error: msg });
+        console.error(`[seed-blog] Error seeding ${post.slug}:`, err);
+        results.push({ slug: post.slug, status: "error" });
       }
     }
 
@@ -126,7 +126,8 @@ export async function POST(request: NextRequest) {
       .upsert(rows, { onConflict: "id" });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("[seed-blog] seed-topics error:", error);
+      return NextResponse.json({ error: "Napaka pri shranjevanju tem" }, { status: 500 });
     }
 
     return NextResponse.json({

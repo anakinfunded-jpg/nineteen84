@@ -137,8 +137,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ image_url: publicUrl });
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Napaka pri urejanju slike";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[ai/replace] error:", err);
+    return NextResponse.json({ error: "Napaka pri urejanju slike" }, { status: 500 });
   }
 }

@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { publicLimit } from "@/lib/rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_HOSTS = ["1984.si", "www.1984.si"];
@@ -20,6 +21,13 @@ function sanitizeRedirectUrl(url: string | null): string {
 }
 
 export async function GET(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const { success } = await publicLimit.limit(ip);
+  if (!success) {
+    const fallback = process.env.NEXT_PUBLIC_APP_URL || "https://www.1984.si";
+    return NextResponse.redirect(fallback);
+  }
+
   const sendId = request.nextUrl.searchParams.get("id");
   const url = request.nextUrl.searchParams.get("url");
 

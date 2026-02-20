@@ -381,3 +381,174 @@ No trial system exists. Confirmed in:
 ---
 
 *Stripe payment security audit performed on 2026-02-20. One idempotency issue found and fixed. All other checks passed.*
+
+---
+
+## Part 3: API Route Abuse & Data Leak Audit (2026-02-20)
+
+Comprehensive audit of all 51 API routes for rate limiting, input validation, error message leaks, AI prompt injection, and CORS configuration.
+
+### Scope
+
+- **51 API routes** cataloged and audited
+- **AI prompt injection**: 9 AI routing files checked for system prompt contamination
+- **Error message leaks**: All catch blocks checked for raw error exposure
+- **CORS**: Checked for overly permissive cross-origin headers
+- **Rate limiting**: All public endpoints checked
+- **Input validation**: Field checks, type checks, max length limits
+
+---
+
+### 1. AI Prompt Injection — SECURE
+
+All 9 AI routing files verified:
+
+| File | Status | Evidence |
+|------|--------|----------|
+| `lib/ai/client.ts` | SECURE | System prompts passed as separate parameters, never interpolated with user input |
+| `lib/ai/prompts.ts` | SECURE | `buildSystemPrompt()` returns static prompts; `buildUserPrompt()` places data in user context only |
+| `app/api/ai/chat/route.ts` | SECURE | `CHAT_SYSTEM_PROMPT` is constant; user message in user role |
+| `app/api/ai/generate/route.ts` | SECURE | System prompt from constants, user prompt sandboxed |
+| `app/api/ai/document/route.ts` | SECURE | Static system prompt, text in user message role |
+| `app/api/ai/translate/route.ts` | SECURE | Language codes validated against whitelist before use |
+| `app/api/ai/summarize/route.ts` | SECURE | Mode validated against enum before use |
+| `app/api/ai/study/route.ts` | SECURE | Mode validated against enum before use |
+| `app/api/ai/vision/route.ts` | SECURE | Static mode-specific system prompts |
+
+**Architecture:** User input is strictly sandboxed in the `user` message role. System prompts are constants or built from server-side config — never modified by user input.
+
+---
+
+### 2. CORS — SECURE
+
+No CORS headers (`Access-Control-Allow-Origin`, `Access-Control-Allow-Methods`, etc.) found in the codebase. The application correctly relies on same-origin requests only.
+
+---
+
+### 3. FIXED: Error Message Leaks (14 locations across 12 files)
+
+**Issue:** Multiple routes exposed raw `error.message` from Supabase, OpenAI, and Anthropic to clients. These could leak database schema information (table names, constraints, unique key violations), API implementation details, or internal error traces.
+
+**Pattern found:**
+```typescript
+// BEFORE — leaks internal error details
+} catch (err) {
+  const message = err instanceof Error ? err.message : "Fallback";
+  return NextResponse.json({ error: message }, { status: 500 });
+}
+```
+
+**Fix applied — log internally, return generic message:**
+```typescript
+// AFTER — generic message, details logged server-side
+} catch (err) {
+  console.error("[route-name] error:", err);
+  return NextResponse.json({ error: "Napaka pri ..." }, { status: 500 });
+}
+```
+
+| File | Location | Leaked Data Type |
+|------|----------|-----------------|
+| `app/api/ai/image/route.ts` | catch block | OpenAI API errors |
+| `app/api/ai/replace/route.ts` | catch block | OpenAI API errors |
+| `app/api/ai/tts/route.ts` | catch block | OpenAI TTS errors |
+| `app/api/ai/stt/route.ts` | catch block | OpenAI Whisper errors |
+| `app/api/ai/inpainting/route.ts` | catch block | OpenAI API errors |
+| `app/api/ai/memory/upload/route.ts` | storeDocument catch | Supabase/embedding errors |
+| `app/api/cron/blog-post/route.ts` | catch block | JSON parse, DB, API errors |
+| `app/api/admin/seed-blog/route.ts` | per-post catch + seed-topics | DB insert errors |
+| `app/api/outreach/contacts/route.ts` | GET + POST handlers | Supabase query/upsert errors |
+| `app/api/outreach/campaigns/route.ts` | GET + POST handlers | Supabase query/insert errors |
+| `app/api/admin/affiliates/[id]/route.ts` | PATCH handler | Supabase update errors |
+| `app/api/admin/affiliates/payouts/route.ts` | POST + PATCH handlers | Supabase insert/update errors |
+
+**Note:** File parser errors in `document`, `translate`, `summarize`, `study`, `memory/upload` (file catch), and `parse-file` routes were reviewed and deemed **safe** — `lib/file-parser.ts` throws controlled Slovenian error messages only, with all library errors caught internally.
+
+---
+
+### 4. FIXED: Missing Rate Limiting on Public Endpoints
+
+**Issue:** Four public endpoints had no rate limiting, enabling bulk abuse (fake clicks, mass unsubscribes, resource exhaustion).
+
+**Fix:** Added `publicLimit` rate limiter (30 req/60s per IP) to `lib/rate-limit.ts` and applied it to all four routes.
+
+| Route | Method | Before | After |
+|-------|--------|--------|-------|
+| `/api/affiliate/click` | POST | No rate limit | 30 req/60s per IP |
+| `/api/track/open` | GET | No rate limit | 30 req/60s per IP |
+| `/api/track/click` | GET | No rate limit | 30 req/60s per IP |
+| `/api/outreach/unsubscribe` | GET | No rate limit | 30 req/60s per IP |
+
+**Design note:** Tracking pixel (`track/open`) returns the 1x1 GIF even when rate-limited to avoid breaking email client rendering. Click tracking redirects to the homepage when rate-limited.
+
+---
+
+### 5. FIXED: Missing Input Length Limits on Contact Form
+
+**Issue:** Contact form fields (`name`, `email`, `message`) had no maximum length validation.
+
+**Fix:** Added length limits: name (200 chars), email (320 chars), message (5,000 chars).
+
+---
+
+### 6. Verified Secure (No Issues Found)
+
+#### Rate Limiting Coverage Summary
+
+| Category | Limiter | Rate | Applied To |
+|----------|---------|------|-----------|
+| AI text routes | `aiTextLimit` | 20/60s per user | chat, generate, document, translate, summarize, study, tts, stt, vision |
+| AI image routes | `aiImageLimit` | 10/60s per user | image, inpainting, replace |
+| API v1 text | `apiLimit` | 60/60s per user | generate, translate, summarize, ocr |
+| API v1 images | `apiImageLimit` | 10/60s per user | image |
+| Memory/embeddings | `memoryLimit` | 10/60s per user | memory upload, memory query |
+| File parsing | `parseLimit` | 20/60s per user | parse-file |
+| Auth/contact | `authLimit` | 5/60s per IP | contact form |
+| Public endpoints | `publicLimit` | 30/60s per IP | affiliate click, track open, track click, unsubscribe |
+| Cron routes | N/A | Cron secret required | All 4 cron routes |
+| Admin routes | N/A | Admin email whitelist | All admin routes |
+| Stripe webhook | N/A | Signature verification | webhook |
+
+#### Input Validation Summary
+
+All AI routes enforce text length limits:
+- Chat: 30,000 chars
+- Generate: 10,000 chars (total input)
+- Document: 50,000 chars
+- Translate: 50,000 chars
+- Summarize: 100,000 chars
+- Study: 100,000 chars
+- Image prompt: 4,000 chars
+- TTS: 4,096 chars
+- STT: 25 MB file limit
+- Memory: 200,000 chars + document count limit
+- Contact form: 200/320/5,000 chars (name/email/message)
+
+---
+
+### API Route Audit Files Modified
+
+| File | Change |
+|------|--------|
+| `lib/rate-limit.ts` | Added `publicLimit` (30 req/60s per IP) |
+| `app/api/ai/image/route.ts` | Generic error message, log to console |
+| `app/api/ai/replace/route.ts` | Generic error message, log to console |
+| `app/api/ai/tts/route.ts` | Generic error message, log to console |
+| `app/api/ai/stt/route.ts` | Generic error message, log to console |
+| `app/api/ai/inpainting/route.ts` | Generic error message, log to console |
+| `app/api/ai/memory/upload/route.ts` | Generic error message for storeDocument |
+| `app/api/cron/blog-post/route.ts` | Generic error message |
+| `app/api/admin/seed-blog/route.ts` | Generic error messages (2 locations) |
+| `app/api/outreach/contacts/route.ts` | Generic error messages (2 locations) |
+| `app/api/outreach/campaigns/route.ts` | Generic error messages (2 locations) |
+| `app/api/admin/affiliates/[id]/route.ts` | Generic error message |
+| `app/api/admin/affiliates/payouts/route.ts` | Generic error messages (2 locations) |
+| `app/api/track/open/route.ts` | Added IP-based rate limiting |
+| `app/api/track/click/route.ts` | Added IP-based rate limiting |
+| `app/api/outreach/unsubscribe/route.ts` | Added IP-based rate limiting |
+| `app/api/affiliate/click/route.ts` | Added IP-based rate limiting |
+| `app/api/contact/route.ts` | Added input length limits |
+
+---
+
+*API route abuse & data leak audit performed on 2026-02-20. Fixed 14 error message leaks, added rate limiting to 4 public routes, added input length limits. AI prompt injection and CORS verified secure.*

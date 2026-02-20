@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { publicLimit } from "@/lib/rate-limit";
 import { NextRequest } from "next/server";
 
 // 1x1 transparent GIF
@@ -8,6 +9,14 @@ const PIXEL = Buffer.from(
 );
 
 export async function GET(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const { success } = await publicLimit.limit(ip);
+  if (!success) {
+    return new Response(PIXEL, {
+      headers: { "Content-Type": "image/gif", "Cache-Control": "no-store" },
+    });
+  }
+
   const sendId = request.nextUrl.searchParams.get("id");
 
   if (sendId) {

@@ -70,8 +70,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Napaka pri generiranju zvoka";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[ai/tts] error:", err);
+    return NextResponse.json({ error: "Napaka pri generiranju zvoka" }, { status: 500 });
   }
 }

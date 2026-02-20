@@ -1,8 +1,13 @@
 import { getAffiliateByCode, recordClick } from "@/lib/affiliate";
+import { publicLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const { success, reset } = await publicLimit.limit(ip);
+  if (!success) return rateLimitResponse(reset);
+
   const { code } = await request.json();
 
   if (!code || typeof code !== "string") {
@@ -15,7 +20,6 @@ export async function POST(request: NextRequest) {
   }
 
   // Hash IP for dedup (privacy-friendly)
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const ipHash = crypto.createHash("sha256").update(ip + code).digest("hex").slice(0, 16);
   const userAgent = request.headers.get("user-agent") || null;
   const referrer = request.headers.get("referer") || null;

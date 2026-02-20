@@ -27,7 +27,8 @@ export async function GET() {
     .limit(500);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("[outreach/contacts] GET error:", error);
+    return NextResponse.json({ error: "Napaka pri nalaganju kontaktov" }, { status: 500 });
   }
   return NextResponse.json(data);
 }
@@ -59,7 +60,8 @@ export async function POST(request: NextRequest) {
     .select();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("[outreach/contacts] POST error:", error);
+    return NextResponse.json({ error: "Napaka pri uvozu kontaktov" }, { status: 500 });
   }
   return NextResponse.json({ imported: data?.length || 0 });
 }

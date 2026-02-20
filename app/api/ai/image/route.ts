@@ -136,9 +136,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(imageRecord);
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Napaka pri generiranju slike";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[ai/image] error:", err);
+    return NextResponse.json({ error: "Napaka pri generiranju slike" }, { status: 500 });
   }
 }
 

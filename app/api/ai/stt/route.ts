@@ -58,8 +58,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ text: transcription });
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Napaka pri prepisovanju zvoka";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[ai/stt] error:", err);
+    return NextResponse.json({ error: "Napaka pri prepisovanju zvoka" }, { status: 500 });
   }
 }
