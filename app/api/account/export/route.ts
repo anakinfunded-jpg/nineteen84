@@ -16,7 +16,7 @@ export async function GET() {
     const admin = createAdminClient();
 
     // Gather all user data in parallel
-    const [subResult, usageResult, convosResult, docsResult, notifsResult] =
+    const [subResult, usageResult, convosResult, docsResult, notifsResult, imagesResult, keysResult] =
       await Promise.all([
         admin
           .from("subscriptions")
@@ -43,6 +43,16 @@ export async function GET() {
           .select("type, created_at")
           .eq("user_id", user.id)
           .order("created_at", { ascending: false }),
+        admin
+          .from("generated_images")
+          .select("id, prompt, image_url, size, quality, created_at")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false }),
+        admin
+          .from("api_keys")
+          .select("id, name, created_at, last_used_at, is_active")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false }),
       ]);
 
     const exportData = {
@@ -58,6 +68,8 @@ export async function GET() {
       usage: usageResult.data || [],
       conversations: convosResult.data || [],
       documents: docsResult.data || [],
+      generated_images: imagesResult.data || [],
+      api_keys: keysResult.data || [],
       notifications: notifsResult.data || [],
     };
 

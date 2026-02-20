@@ -7,4 +7,8 @@ Sentry.init({
   replaysOnErrorSampleRate: 0.1,
   environment: process.env.NODE_ENV,
   enabled: !!process.env.NEXT_PUBLIC_SENTRY_DSN,
+  beforeSend(event) {
+    if (event.user?.email) event.user.email = "[redacted]";
+    return event;
+  },
 });
