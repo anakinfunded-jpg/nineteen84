@@ -47,8 +47,12 @@ export async function POST(request: NextRequest) {
   const tier = await getUserTier(user.id);
 
   // Build image content block
+  const allowedImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
   let imageContent: Anthropic.ImageBlockParam;
   if (file) {
+    if (!allowedImageTypes.includes(file.type)) {
+      return new Response("Nepodprt format slike. Dovoljeni: JPEG, PNG, GIF, WebP.", { status: 400 });
+    }
     const bytes = await file.arrayBuffer();
     const base64 = Buffer.from(bytes).toString("base64");
     const mediaType = file.type as

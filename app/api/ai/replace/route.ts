@@ -48,10 +48,19 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    // Validate image MIME type
+    const allowedImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    const mimeType = imageFile.type || "image/png";
+    if (!allowedImageTypes.includes(mimeType)) {
+      return NextResponse.json(
+        { error: "Nepodprt format slike. Dovoljeni: JPEG, PNG, GIF, WebP." },
+        { status: 400 }
+      );
+    }
+
     // Convert file to base64 for Responses API
     const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
     const base64Image = imageBuffer.toString("base64");
-    const mimeType = imageFile.type || "image/png";
 
     // Use Responses API with image_generation tool (gpt-image-1 via GPT-4o)
     const response = await openai.responses.create({

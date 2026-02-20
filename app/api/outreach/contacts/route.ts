@@ -2,13 +2,21 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+const ADMIN_EMAILS = ["anakinfunded@gmail.com"];
+
+async function checkAdmin() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user || !ADMIN_EMAILS.includes(user.email || "")) return null;
+  return user;
+}
+
+export async function GET() {
+  const user = await checkAdmin();
   if (!user) {
-    return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   const admin = createAdminClient();
@@ -25,12 +33,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await checkAdmin();
   if (!user) {
-    return NextResponse.json({ error: "Neavtorizirano" }, { status: 401 });
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   const body = await request.json();

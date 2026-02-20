@@ -17,6 +17,21 @@ const SUPPORTED_EXTENSIONS = [
   ".json",
 ];
 
+// Magic byte signatures for binary format validation
+const MAGIC_BYTES: Record<string, number[]> = {
+  ".pdf": [0x25, 0x50, 0x44, 0x46],   // %PDF
+  ".docx": [0x50, 0x4b, 0x03, 0x04],  // PK.. (ZIP)
+  ".pptx": [0x50, 0x4b, 0x03, 0x04],  // PK.. (ZIP)
+  ".xlsx": [0x50, 0x4b, 0x03, 0x04],  // PK.. (ZIP)
+};
+
+function validateMagicBytes(buffer: Buffer, ext: string): boolean {
+  const expected = MAGIC_BYTES[ext];
+  if (!expected) return true; // Text formats don't have magic bytes
+  if (buffer.length < expected.length) return false;
+  return expected.every((byte, i) => buffer[i] === byte);
+}
+
 export function getSupportedExtensions(): string[] {
   return SUPPORTED_EXTENSIONS;
 }
@@ -36,6 +51,14 @@ export async function parseFile(file: File): Promise<ParseResult> {
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
+
+  // Validate magic bytes for binary formats
+  if (!validateMagicBytes(buffer, ext)) {
+    throw new Error(
+      `Datoteka ne ustreza formatu ${ext}. Vsebina datoteke ni veljavna.`
+    );
+  }
+
   let result: ParseResult;
 
   switch (ext) {
