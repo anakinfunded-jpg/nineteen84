@@ -106,6 +106,16 @@ export async function recordConversion(
 ) {
   const supabase = createAdminClient();
 
+  // Idempotency: skip if initial conversion already recorded for this subscription
+  const { data: existing } = await supabase
+    .from("affiliate_conversions")
+    .select("id")
+    .eq("stripe_subscription_id", stripeSubscriptionId)
+    .eq("type", "initial")
+    .maybeSingle();
+
+  if (existing) return;
+
   // Get affiliate to use their commission rate
   const affiliate = await getAffiliateById(affiliateId);
   if (!affiliate) return;
