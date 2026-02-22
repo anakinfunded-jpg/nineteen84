@@ -81,6 +81,16 @@ export async function POST(request: NextRequest) {
         const planId = getPlanByPriceId(priceId || "");
         const period = getSubscriptionPeriod(subscription);
 
+        // Resolve affiliate_id from session metadata
+        const affiliateCode = session.metadata?.affiliate_code;
+        let resolvedAffiliateId: string | null = null;
+        if (affiliateCode) {
+          const affiliate = await getAffiliateByCode(affiliateCode);
+          if (affiliate) {
+            resolvedAffiliateId = affiliate.id;
+          }
+        }
+
         await supabase.from("subscriptions").upsert(
           {
             user_id: userId,
@@ -91,6 +101,7 @@ export async function POST(request: NextRequest) {
             current_period_start: period.start,
             current_period_end: period.end,
             cancel_at_period_end: subscription.cancel_at_period_end,
+            ...(resolvedAffiliateId ? { affiliate_id: resolvedAffiliateId } : {}),
             updated_at: new Date().toISOString(),
           },
           { onConflict: "user_id" }
@@ -137,20 +148,16 @@ export async function POST(request: NextRequest) {
         }
 
         // Record affiliate conversion if referred
-        const affiliateCode = session.metadata?.affiliate_code;
-        if (affiliateCode && userId) {
-          const affiliate = await getAffiliateByCode(affiliateCode);
-          if (affiliate) {
-            const planPrice = getPlanPrice(planId);
-            if (planPrice > 0) {
-              await recordConversion(
-                affiliate.id,
-                userId,
-                subscriptionId,
-                planId,
-                planPrice
-              );
-            }
+        if (resolvedAffiliateId && userId) {
+          const planPrice = getPlanPrice(planId);
+          if (planPrice > 0) {
+            await recordConversion(
+              resolvedAffiliateId,
+              userId,
+              subscriptionId,
+              planId,
+              planPrice
+            );
           }
         }
       }

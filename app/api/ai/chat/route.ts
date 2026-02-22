@@ -1,11 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
-import { chatStream, type ChatMessage } from "@/lib/ai/client";
+import { chatStream, generateText, CHAT_MODEL, type ChatMessage } from "@/lib/ai/client";
 import { CHAT_SYSTEM_PROMPT } from "@/lib/ai/prompts";
-import { getUserTier } from "@/lib/credits";
 import { checkWordLimit, incrementWords, countWords } from "@/lib/credits";
 import { aiTextLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextRequest } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -54,21 +52,12 @@ export async function POST(request: NextRequest) {
     let title = fallbackTitle;
 
     try {
-      const client = new Anthropic();
-      const titleRes = await client.messages.create({
-        model: "claude-sonnet-4-5-20250929",
-        max_tokens: 30,
-        messages: [
-          {
-            role: "user",
-            content: `Generiraj kratek naslov v slovenščini (3-6 besed) za ta pogovor. Vrni SAMO naslov, brez narekovajev ali ločil na koncu.\n\nSporočilo: ${message.slice(0, 200)}`,
-          },
-        ],
+      const aiTitle = await generateText({
+        systemPrompt: "Generiraj kratek naslov v slovenščini (3-6 besed). Vrni SAMO naslov, brez narekovajev ali ločil.",
+        userPrompt: message.slice(0, 200),
+        model: CHAT_MODEL,
+        maxTokens: 30,
       });
-      const aiTitle =
-        titleRes.content[0]?.type === "text"
-          ? titleRes.content[0].text.trim()
-          : "";
       if (aiTitle && aiTitle.length <= 80) {
         title = aiTitle;
       }
@@ -103,14 +92,11 @@ export async function POST(request: NextRequest) {
   }));
   chatMessages.push({ role: "user", content: message });
 
-  // Get tier from subscription
-  const tier = await getUserTier(user.id);
-
   try {
     const stream = await chatStream({
       systemPrompt: CHAT_SYSTEM_PROMPT,
       messages: chatMessages,
-      tier,
+      model: CHAT_MODEL,
     });
 
     let fullResponse = "";

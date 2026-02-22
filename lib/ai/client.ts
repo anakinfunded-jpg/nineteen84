@@ -7,6 +7,9 @@ const MODELS: Record<ModelTier, string> = {
   premium: "claude-opus-4-6",
 };
 
+// Fast, cheap model for chat and lightweight tasks
+export const CHAT_MODEL = "claude-haiku-4-5-20251001";
+
 // Auto-routing: analyze prompt complexity to pick the right model for premium users
 const COMPLEX_KEYWORDS = [
   "analiziraj", "analiza", "primerjaj", "primerjava",
@@ -44,6 +47,7 @@ export async function generateStream(options: {
   systemPrompt: string;
   userPrompt: string;
   tier?: ModelTier;
+  model?: string;
   maxTokens?: number;
   useAutoRoute?: boolean;
 }) {
@@ -51,6 +55,7 @@ export async function generateStream(options: {
     systemPrompt,
     userPrompt,
     tier = "free",
+    model,
     maxTokens = 2048,
     useAutoRoute = false,
   } = options;
@@ -62,9 +67,9 @@ export async function generateStream(options: {
   const client = getClient();
 
   return client.messages.create({
-    model: MODELS[effectiveTier],
+    model: model || MODELS[effectiveTier],
     max_tokens: maxTokens,
-    system: systemPrompt,
+    system: [{ type: "text" as const, text: systemPrompt, cache_control: { type: "ephemeral" as const } }],
     messages: [{ role: "user", content: userPrompt }],
     stream: true,
   });
@@ -74,15 +79,16 @@ export async function generateText(options: {
   systemPrompt: string;
   userPrompt: string;
   tier?: ModelTier;
+  model?: string;
   maxTokens?: number;
 }): Promise<string> {
-  const { systemPrompt, userPrompt, tier = "free", maxTokens = 2048 } = options;
+  const { systemPrompt, userPrompt, tier = "free", model, maxTokens = 2048 } = options;
   const client = getClient();
 
   const response = await client.messages.create({
-    model: MODELS[tier],
+    model: model || MODELS[tier],
     max_tokens: maxTokens,
-    system: systemPrompt,
+    system: [{ type: "text" as const, text: systemPrompt, cache_control: { type: "ephemeral" as const } }],
     messages: [{ role: "user", content: userPrompt }],
   });
 
@@ -99,6 +105,7 @@ export async function chatStream(options: {
   systemPrompt: string;
   messages: ChatMessage[];
   tier?: ModelTier;
+  model?: string;
   maxTokens?: number;
   useAutoRoute?: boolean;
 }) {
@@ -106,6 +113,7 @@ export async function chatStream(options: {
     systemPrompt,
     messages,
     tier = "free",
+    model,
     maxTokens = 4096,
     useAutoRoute = false,
   } = options;
@@ -118,9 +126,9 @@ export async function chatStream(options: {
   const client = getClient();
 
   return client.messages.create({
-    model: MODELS[effectiveTier],
+    model: model || MODELS[effectiveTier],
     max_tokens: maxTokens,
-    system: systemPrompt,
+    system: [{ type: "text" as const, text: systemPrompt, cache_control: { type: "ephemeral" as const } }],
     messages,
     stream: true,
   });

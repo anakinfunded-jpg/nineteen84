@@ -7,7 +7,6 @@ import {
   Download,
   Sparkles,
   Image as ImageIcon,
-  Trash2,
   ZoomIn,
   X,
 } from "lucide-react";

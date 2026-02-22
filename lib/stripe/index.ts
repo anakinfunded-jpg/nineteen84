@@ -50,7 +50,7 @@ export const PLANS: Record<PlanId, PlanConfig> = {
     ocr: 100,
     inpainting: 20,
     documents: 25,
-    tier: "premium",
+    tier: "free",
     features: [
       "20.000 besed",
       "200 slik",

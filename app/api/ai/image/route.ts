@@ -83,8 +83,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const revisedPrompt = prompt;
-
     // Upload to Supabase Storage
     const buffer = Buffer.from(imageData.b64_json, "base64");
     const fileName = `${user.id}/${Date.now()}.png`;
@@ -115,7 +113,7 @@ export async function POST(request: NextRequest) {
       .insert({
         user_id: user.id,
         prompt,
-        revised_prompt: revisedPrompt,
+        revised_prompt: prompt,
         image_url: publicUrl,
         storage_path: fileName,
         size: mappedSize,
@@ -136,8 +134,22 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(imageRecord);
   } catch (err) {
-    console.error("[ai/image] error:", err);
-    return NextResponse.json({ error: "Napaka pri generiranju slike" }, { status: 500 });
+    // Handle specific OpenAI errors with Slovenian messages
+    if (err instanceof OpenAI.APIError) {
+      if (err.code === "content_policy_violation") {
+        return NextResponse.json(
+          { error: "Opis slike vsebuje neprimerno vsebino. Poskusite z drugim opisom." },
+          { status: 400 }
+        );
+      }
+      if (err.status === 429) {
+        return NextResponse.json(
+          { error: "Preveč zahtev. Počakajte nekaj sekund in poskusite znova." },
+          { status: 429 }
+        );
+      }
+    }
+    return NextResponse.json({ error: "Napaka pri generiranju slike." }, { status: 500 });
   }
 }
 

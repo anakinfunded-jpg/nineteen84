@@ -50,6 +50,8 @@ function PrijavaForm() {
   });
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [resetMode, setResetMode] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -71,7 +73,7 @@ function PrijavaForm() {
       } else if (msg.includes("rate limit")) {
         setError("Preveč poskusov. Počakajte nekaj minut.");
       } else {
-        setError(`Prijava ni uspela: ${error.message}`);
+        setError("Prijava ni uspela. Poskusite znova.");
       }
       setLoading(false);
       return;
@@ -79,6 +81,27 @@ function PrijavaForm() {
 
     // Full page navigation ensures auth cookies are sent with the request
     window.location.href = redirect && redirect.startsWith("/") ? redirect : "/dashboard";
+  }
+
+  async function handleResetPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    if (!email) {
+      setError("Vnesite e-poštni naslov.");
+      return;
+    }
+    setLoading(true);
+    const supabase = createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/nastavitve`,
+    });
+    if (error) {
+      setError("Napaka pri pošiljanju povezave. Poskusite znova.");
+      setLoading(false);
+      return;
+    }
+    setResetSent(true);
+    setLoading(false);
   }
 
   async function handleGoogleLogin() {
@@ -142,6 +165,56 @@ function PrijavaForm() {
         </div>
 
         {/* Email/Password Form */}
+        {resetSent ? (
+          <div className="text-center py-4">
+            <p className="text-sm text-[#E1E1E1]/80">
+              Na <span className="text-[#FEB089]">{email}</span> smo poslali
+              povezavo za ponastavitev gesla.
+            </p>
+            <button
+              onClick={() => { setResetMode(false); setResetSent(false); }}
+              className="mt-4 text-sm text-[#FEB089] hover:text-[#FFB288] transition-colors duration-200"
+            >
+              Nazaj na prijavo
+            </button>
+          </div>
+        ) : resetMode ? (
+          <form onSubmit={handleResetPassword} className="space-y-4">
+            <div>
+              <label htmlFor="email" className="block text-sm text-[#E1E1E1]/60 mb-1.5">
+                E-poštni naslov
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#E1E1E1] text-sm placeholder:text-[#E1E1E1]/20 focus:outline-none focus:border-[#FEB089]/50 transition-colors duration-200"
+                placeholder="ime@podjetje.si"
+              />
+            </div>
+
+            {error && <p className="text-sm text-red-400/90">{error}</p>}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full cta-button py-3 rounded-xl font-semibold text-sm disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+              Pošlji povezavo za ponastavitev
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setResetMode(false); setError(""); }}
+              className="w-full text-sm text-[#E1E1E1]/40 hover:text-[#E1E1E1]/60 transition-colors duration-200"
+            >
+              Nazaj na prijavo
+            </button>
+          </form>
+        ) : (
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label
@@ -162,12 +235,21 @@ function PrijavaForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm text-[#E1E1E1]/60 mb-1.5"
-            >
-              Geslo
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label
+                htmlFor="password"
+                className="block text-sm text-[#E1E1E1]/60"
+              >
+                Geslo
+              </label>
+              <button
+                type="button"
+                onClick={() => { setResetMode(true); setError(""); }}
+                className="text-xs text-[#FEB089]/70 hover:text-[#FEB089] transition-colors duration-200"
+              >
+                Pozabljeno geslo?
+              </button>
+            </div>
             <input
               id="password"
               type="password"
@@ -192,6 +274,7 @@ function PrijavaForm() {
             Prijava
           </button>
         </form>
+        )}
       </div>
 
       {/* Footer link */}

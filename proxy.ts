@@ -14,6 +14,7 @@ const publicPaths = new Set([
   "/zasebnost",
   "/funkcije",
   "/affiliate",
+  "/impressum",
 ]);
 
 function isPublicPath(pathname: string) {

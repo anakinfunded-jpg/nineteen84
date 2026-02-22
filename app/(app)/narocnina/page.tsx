@@ -205,10 +205,14 @@ export default function NarocninaPage() {
       const refMatch = document.cookie.match(/(?:^|; )__1984_ref=([^;]*)/);
       const ref = refMatch?.[1] || undefined;
 
+      // Read user invite referral cookie
+      const inviteMatch = document.cookie.match(/(?:^|; )__1984_invite=([^;]*)/);
+      const invite = inviteMatch?.[1] || undefined;
+
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId, ref }),
+        body: JSON.stringify({ planId, ref, invite }),
       });
       const data = await res.json();
       if (data.url) {

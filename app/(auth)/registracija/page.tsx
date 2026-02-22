@@ -121,7 +121,7 @@ function RegistracijaForm() {
       } else if (msg.includes("password")) {
         setError("Geslo ne ustreza zahtevam. Uporabite vsaj 6 znakov.");
       } else {
-        setError(`Registracija ni uspela: ${error.message}`);
+        setError("Registracija ni uspela. Poskusite znova.");
       }
       setLoading(false);
       return;

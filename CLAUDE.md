@@ -39,8 +39,11 @@
 - Implemented via IntersectionObserver
 
 ## AI Routing
-- Default: Claude Haiku 4.5 (cost-effective)
-- Premium users: Sonnet 4.5
+- Chat: Claude Haiku 4.5 (`claude-haiku-4-5-20251001`) — fast and cheap
+- Free + Osnovno: Claude Sonnet 4.5 (`claude-sonnet-4-5-20250929`)
+- Profesionalno + Poslovno: Claude Opus 4.6 (`claude-opus-4-6`)
+- Auto-routing: premium users get Opus for complex queries, Sonnet for simple ones
+- Prompt caching: `cache_control: { type: "ephemeral" }` on system prompts
 
 ## Language
 - All user-facing text must be in **Slovenian**
